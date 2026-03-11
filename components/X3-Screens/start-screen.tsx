@@ -1,13 +1,30 @@
+import { useNavigation } from '@react-navigation/native';
 import { Text, View } from 'react-native';
 
 const StartScreen = () => {
-    return (
+    const navigation : any = useNavigation();
+
+    const test = true;
+
+    if (test){
+        return (
+            <View>
+                <Text>
+                    //Todo add login and register page navigation
+                </Text>
+            </View>
+        );
+    }else{
+       navigation.navigate('AdminHome');
+       return (
         <View>
             <Text>
-                //Todo add login and register page navigation
+                Administrators only!!!
             </Text>
         </View>
-    );
+       )
+    }
+    
 }
 
 export default StartScreen;
