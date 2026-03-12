@@ -22,8 +22,14 @@ import {
   usernameContext
 } from '@/RA_user-Auth-context.js';
 
+import { migrateDbIfNeeded } from '@/Database/DatabaseCreation';
+import {
+  SQLiteProvider
+} from 'expo-sqlite';
 
 
+
+const databaseName = "RAX3BarData";
 export default function App() {
   
   const [isTrainee, setIsTrainee] = useState(false);
@@ -37,7 +43,9 @@ export default function App() {
           <isAdminContext.Provider value={{isAdmin, setIsAdmin}}>
           <isTraineeContext.Provider value={{isTrainee, setIsTrainee}}>
           <usernameContext.Provider value={{username, setUsername}}>
-              <Navigation/>
+              <SQLiteProvider databaseName={databaseName} onInit={migrateDbIfNeeded}>{/*toplevel SQLite data*/}
+                  <Navigation/>
+              </SQLiteProvider>
           </usernameContext.Provider>
           </isTraineeContext.Provider>
           </isAdminContext.Provider>
@@ -56,7 +64,8 @@ const Drawer = createDrawerNavigator({
     AdminHome: AdminHomeScreen
     
     /**
-     * TODO implement screens
+     * TODO: implement all screens
+     * TODO: customize all screens
      */
 
   }
