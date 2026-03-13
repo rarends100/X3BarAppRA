@@ -33,7 +33,7 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
                  Role TEXT NOT NULL
                 ,UserID INTEGER NOT NULL
                 ,PRIMARY KEY(Role, UserID)
-                ,FOREIGN KEY(UserID) REFERENCES Users(UserID)
+                ,FOREIGN KEY(UserID) REFERENCES User(UserID)
               );
               
               /*Workout tables*/
@@ -51,10 +51,10 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
 
               CREATE TABLE IF NOT EXISTS Exercise(
                 ExerciseName TEXT 
-               ,WorkoutBelongingTo TEXT 
+               ,WorkoutID TEXT 
                ,ExerciseVideoLink TEXT
-               ,PRIMARY KEY(ExerciseName, WorkoutBelongingTo)
-               ,FOREIGN KEY(WorkoutBelongingTo) REFERENCES Workout(WorkoutID)
+               ,PRIMARY KEY(ExerciseName)
+               ,FOREIGN KEY(WorkoutID) REFERENCES Workout(WorkoutID)
               );
 
               /*records*/
@@ -119,7 +119,7 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               VALUES
               ('white', 10, 50, 100),
               ('light grey', 25, 80, 160),
-              ('dark grey', 50, 120, 240),
+              ('grey', 50, 120, 240),
               ('black', 60, 150, 300),
               ('Orange Elite', 110, 300, 600); /*the max single resistance is the min doubled resistance*/
 
@@ -130,7 +130,7 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               ('B', 'Pull Day');
 
               INSERT INTO Exercise
-              (ExerciseName, workoutbelongingto)
+              (ExerciseName, WorkoutID)
               VALUES
               ('chest press', 'A'),
               ('over head press', 'A'),
@@ -186,7 +186,7 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
 
           // To Glenn: All preloaded users have a Plain text Password of: Password_1 
           currentDbVersion = 1;
-          console.log('Database tables Users and Transactions created successfully');
+          console.log('Database tables created successfully');
       }catch(ex){
           console.log('Database creation failure: ' + ex);
         }

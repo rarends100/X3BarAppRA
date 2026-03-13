@@ -24,10 +24,11 @@ class Validation {
     static isEmail(text){
         let isEmail = false;
 
-        const emailRegex = /^[^.@]+[@][^.@]+[.]com|gov|info|org|edu|mil|biz|co|me|net$/;
-
-        if(emailRegex.test(text)){
-            this.isEmail = true;
+        const emailRegex = /^[^.@]+[@][^.@]+[.](com|gov|info|org|edu|mil|biz|co|me|net|io|uk|ca)$/;
+        
+        console.log('email regex check returns -> ' + emailRegex.test(text.trim().toLowerCase()));
+        if(emailRegex.test(text.trim().toLowerCase())){
+            isEmail = true;
         }
 
         return isEmail;
@@ -54,7 +55,7 @@ class Validation {
      * @param {String} text 
      * @returns {boolean} 
      */
-    static passwordRuleCheck(text){
+    static passwordRulesFollowed(text){
         let passGood = false;
         const passwordRegex = /^[A-Z]{1}[\W\w]+$/; //ensures password starts with uppercase letter
 
