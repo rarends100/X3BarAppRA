@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { createStaticNavigation, NavigationIndependentTree } from '@react-navigation/native';
   //screens
 import { default as AdminHomeScreen } from './../../components/X3-Screens/admin/admin-home';
+import { default as RegistrationScreen } from './../../components/X3-Screens/registration-screen';
 import { default as StartScreen } from './../../components/X3-Screens/start-screen';
 
 //app context import
@@ -22,6 +23,7 @@ import {
   usernameContext
 } from '@/RA_user-Auth-context.js';
 
+//DATABASE Imports
 import { migrateDbIfNeeded } from '@/Database/DatabaseCreation';
 import {
   SQLiteProvider
@@ -44,7 +46,7 @@ export default function App() {
           <isTraineeContext.Provider value={{isTrainee, setIsTrainee}}>
           <usernameContext.Provider value={{username, setUsername}}>
               <SQLiteProvider databaseName={databaseName} onInit={migrateDbIfNeeded}>{/*toplevel SQLite data*/}
-                  <Navigation/>
+                  <DrawerNavigation/>
               </SQLiteProvider>
           </usernameContext.Provider>
           </isTraineeContext.Provider>
@@ -55,13 +57,12 @@ export default function App() {
 }
 
 
-
-
 const Drawer = createDrawerNavigator({
   initialRouteName: 'Start',
   screens: {
     Start: StartScreen,
-    AdminHome: AdminHomeScreen
+    AdminHome: AdminHomeScreen,
+    Register: RegistrationScreen
     
     /**
      * TODO: implement all screens
@@ -71,5 +72,14 @@ const Drawer = createDrawerNavigator({
   }
 });
 
-const Navigation = createStaticNavigation(Drawer);
+/*
+//Screens I don't want to appear in the drawer.
+const rootStack = createNativeStackNavigator({
+  screens: {
+    Register: RegistrationScreen
+  }
+})
+  */
 
+const DrawerNavigation = createStaticNavigation(Drawer);
+//const BaseNavigation = createStaticNavigation(rootStack);

@@ -1,5 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+
+import Button from '../Button/button';
 
 const StartScreen = () => {
     const navigation : any = useNavigation();
@@ -7,9 +9,13 @@ const StartScreen = () => {
 
     return (
         <View>
-            <Text>
-                //Todo add login and register page navigation
-            </Text>
+            <Button
+                text='Register'
+                onPress={() => {
+                    console.log('Registration button pressed');
+                    navigation.navigate('Register');
+                }}
+            />
         </View>
     );
 
