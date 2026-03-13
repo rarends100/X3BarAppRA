@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Validation from './../../Validation';
 
   
-//Error Messages
+//Error Messages 
 const blankField = (fieldName: String) => {
    return `The ${fieldName} must not be blank.`;
 } 
