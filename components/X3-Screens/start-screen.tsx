@@ -16,6 +16,13 @@ const StartScreen = () => {
                     navigation.navigate('Register');
                 }}
             />
+            <Button
+                text='Login'
+                onPress={() => {
+                    console.log('Login button pressed');
+                    navigation.navigate('Login');
+                }}
+            />
         </View>
     );
 
