@@ -11,8 +11,9 @@ import { useState } from 'react';
   //navigation
 import { createStaticNavigation, NavigationIndependentTree } from '@react-navigation/native';
   //screens
+import { default as RegistrationScreen } from '../../components/X3-Screens/admin/registration-screen';
+import { default as Testing } from '../../components/X3-Screens/Testing/testing';
 import { default as AdminHomeScreen } from './../../components/X3-Screens/admin/admin-home';
-import { default as RegistrationScreen } from './../../components/X3-Screens/registration-screen';
 import { default as StartScreen } from './../../components/X3-Screens/start-screen';
 
 //app context import
@@ -62,7 +63,8 @@ const Drawer = createDrawerNavigator({
   screens: {
     Start: StartScreen,
     AdminHome: AdminHomeScreen,
-    Register: RegistrationScreen
+    Register: RegistrationScreen,
+    Testing: Testing
     
     /**
      * TODO: implement all screens
