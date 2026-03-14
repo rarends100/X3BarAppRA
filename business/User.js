@@ -9,6 +9,7 @@ class User{
     #password;
     #hashPass;
     #role;
+    #salt;
 
     constructor(){
         this.#userID = null;
@@ -19,6 +20,7 @@ class User{
         this.#password = null;
         this.#hashPass = null;
         this.#role = null;
+        this.#salt = null;
     }
 
     //Getters
@@ -54,6 +56,10 @@ class User{
         return this.#role;
     }
 
+    getSalt(){
+        return this.#salt;
+    }
+
     //Setters
     setUserID(userID){
         this.#userID = userID;
@@ -85,6 +91,10 @@ class User{
 
     setRole(role){
         this.#role = role;
+    }
+
+    setSalt(salt){
+        this.#salt = salt;
     }
 }
 

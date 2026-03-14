@@ -9,13 +9,19 @@ import { SQLiteDatabase } from "expo-sqlite";
 //alerts
 import { Alert } from 'react-native';
 
+import Auth from './../Auth';
 //business
 import User from "@/business/User";
 
 export function addUserSync(db: SQLiteDatabase, user: User){
     let userAdded = false;
+
+
     if (user !== null){
         //if(checkUsernameNotExist(db, user.getUsername())){
+            console.log('hit add user fn');
+            Auth.generateHash(user);
+
             try{
                 db.runSync(
                     `INSERT INTO User
@@ -24,7 +30,7 @@ export function addUserSync(db: SQLiteDatabase, user: User){
                     (?,?,?,?,?);`,
                     [user.getUsername(), //in case a white space added to end or start inadvertently
                     user.getEmail(),
-                    user.getPassword(),
+                    user.getHashPass(),
                     user.getFirstname(),
                     user.getLastname(),]
                     

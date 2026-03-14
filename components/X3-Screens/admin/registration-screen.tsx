@@ -1,3 +1,5 @@
+"use strict"
+
 import { useState } from 'react';
 import { Animated, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,7 +13,6 @@ import { Dropdown } from 'react-native-element-dropdown'; // -> https://www.npmj
     import AntDesign from '@expo/vector-icons/AntDesign';
 
 //Encryption
-import bcrypt from "bcryptjs";
 
 //business imports
 import User from './../../../business/User';
@@ -26,6 +27,7 @@ import { useNavigation } from "expo-router";
 
 //import db functions
 import { addUserSync } from '@/Database/UserDB';
+
 
 
 const data = [ //Note: I can make this better by compiling it with objects using a for loop and the database role values, though I may or may not depending on time constraints
@@ -148,56 +150,45 @@ const RegistrationScreen = () => {
                         buttonColor='#eec972'
                         buttonTextColor='black'
                         onPress={() => {
-                                setRegisterButtonPressed(true);
-                                
-                                let hashedPassword: string = ''; //https://github.com/ranisalt/node-argon2#usage
+                            setRegisterButtonPressed(true);
+                            
+                            let hashedPassword: string = ''; //https://github.com/ranisalt/node-argon2#usage
 
-                                if(!Validation.isBlank(usernameText) && !Validation.isBlank(firstnameText) && !Validation.isBlank(lastnameText) 
-                                                    &&   Validation.isEmail(emailText) && Validation.passwordRulesFollowed(passwordText)
-                                                    &&   Validation.passwordsMatch(passwordText, confPasswordText)  ){
-                                        let user = new User();
-                                        try{ //hasher
-                                                hashedPassword = bcrypt.hashSync(passwordText, 10); //TODO: Resolve Error in password hasher, reference documentation
-                                                console.log('registration.tsx -> onPress -> user entered into db and' 
-                                                + ' password successfully salted and hashed RCA')
+                            if(!Validation.isBlank(usernameText) && !Validation.isBlank(firstnameText) && !Validation.isBlank(lastnameText) 
+                                                &&   Validation.isEmail(emailText) && Validation.passwordRulesFollowed(passwordText)
+                                                &&   Validation.passwordsMatch(passwordText, confPasswordText)  ){
+                                                    
+                                let user = new User();
 
-                                                user.setUsername(usernameText.trim());
-                                                user.setFirstname(firstnameText.trim());
-                                                user.setLastname(lastnameText.trim());
-                                                user.setEmail(emailText.trim());
-                                                user.setPassword(hashedPassword);
+                                user.setUsername(usernameText.trim());
+                                user.setFirstname(firstnameText.trim());
+                                user.setLastname(lastnameText.trim());
+                                user.setEmail(emailText.trim());
+                                user.setPassword(passwordText);
 
-                                                if(addUserSync(db, user)){
-                                                    try{
-                                                        setRegisterButtonPressed(false);
-                                                        navigation.navigate('Start');
-                                                    }catch(ex){
-                                                        console.log('navigation issue at .addUserSync() attempt conditional statement');
-                                                    }
-                                            
-                                                }else{
-                                                    console.log("user not inserted -> No user added")
-                                                }
-
-
-                                                
-                                        }catch(ex){
-                                                console.log("registration.tsx -> New users Password failed to Hash." 
-                                                    + 'Error RCA -> ' + ex
-                                                );
-                                       }   
-                                        
+                                if(addUserSync(db, user)){
+                                    try{
+                                        setRegisterButtonPressed(false);
+                                        navigation.navigate('Start');
+                                    }catch(ex){
+                                        console.log('navigation issue at .addUserSync() attempt conditional statement');
+                                    }
+                            
                                 }else{
-                                    console.log("user not inserted -> data not valid at registration");
-                                } 
-                                
+                                    console.log("user not inserted -> No user added")
+                                }
+                                    
+                            }else{
+                                console.log("user not inserted -> data not valid at registration");
+                            } 
                             
-                                
+                        
+                            
 
-                                //TODO: If user registered and inserted into DB, then 
-                                //output an Alert to user stating registration is successful
-                                //then log them back to the login page -> Defined in database_functions.tsx
-                            
+                            //TODO: If user registered and inserted into DB, then 
+                            //output an Alert to user stating registration is successful
+                            //then log them back to the login page -> Defined in database_functions.tsx
+                        
                         }}
                     />
                 </Animated.ScrollView>

@@ -27,6 +27,8 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
                 ,Password TEXT NOT NULL
                 ,FirstName TEXT NOT NULL
                 ,LastName TEXT NOT NULL
+                ,EmployeeID Text
+                ,Points INTEGER --plan is to add the ability for trainees to get points to purchase things, if I get that far...
               );
 
               CREATE TABLE IF NOT EXISTS UserRole(
