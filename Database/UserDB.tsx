@@ -13,6 +13,12 @@ import Auth from './../Auth';
 //business
 import User from "@/business/User";
 
+/**
+ * This function adds a user to the database.
+ * @param db 
+ * @param user 
+ * @returns {boolean} If user added to db returns true, else false
+ */
 export function addUserSync(db: SQLiteDatabase, user: User){
     let userAdded = false;
 

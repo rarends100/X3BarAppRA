@@ -120,6 +120,8 @@ const RegistrationScreen = () => {
                             placeholder='confirm password'
                         />
                         <Text>{registerButtonPressed? Validation.passwordsMatch(passwordText, confPasswordText)? '' : passwordsNotMatch : ''}  </Text>
+                        <Text style={styles.errors}
+                        >{registerButtonPressed? Validation.isBlank(role)? blankField('role')  : '' : ''}  </Text>
                     </View>
                     <Dropdown
                         style={styles.dropdown}
@@ -144,6 +146,7 @@ const RegistrationScreen = () => {
                         <AntDesign style={styles.icon} color="gold" name="thunderbolt" size={30} />
                     )}
                     />
+                    
                     <Button
                         style={styles.registerButton}
                         text='Register'
@@ -156,15 +159,18 @@ const RegistrationScreen = () => {
 
                             if(!Validation.isBlank(usernameText) && !Validation.isBlank(firstnameText) && !Validation.isBlank(lastnameText) 
                                                 &&   Validation.isEmail(emailText) && Validation.passwordRulesFollowed(passwordText)
-                                                &&   Validation.passwordsMatch(passwordText, confPasswordText)  ){
-                                                    
+                                                &&   Validation.passwordsMatch(passwordText, confPasswordText) &&
+                                            (role == 'Admin' || role == 'Trainee')  ){
+                                
+                                // Part where the User is registered
                                 let user = new User();
 
                                 user.setUsername(usernameText.trim());
                                 user.setFirstname(firstnameText.trim());
                                 user.setLastname(lastnameText.trim());
                                 user.setEmail(emailText.trim());
-                                user.setPassword(passwordText);
+                                user.setPassword(passwordText.trim());
+                                user.setRole(role);
 
                                 if(addUserSync(db, user)){
                                     try{
