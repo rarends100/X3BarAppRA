@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
         marginLeft: 2,
         marginRight: 2,
         fontWeight: 'condensedBold',
-        fontSize: 30
+        fontSize: 25
     },
     //General Text Styling
     errors: {

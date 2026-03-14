@@ -10,6 +10,8 @@ class User{
     #hashPass;
     #role;
     #salt;
+    #employeeID;
+    #points;
 
     constructor(){
         this.#userID = null;
@@ -21,6 +23,8 @@ class User{
         this.#hashPass = null;
         this.#role = null;
         this.#salt = null;
+        this.#employeeID = null;
+        this.#points = null;
     }
 
     //Getters
@@ -60,6 +64,14 @@ class User{
         return this.#salt;
     }
 
+    getEmployeeID(){
+        return this.#employeeID;
+    }
+
+    getPoints(){
+        return this.#points;
+    }
+
     //Setters
     setUserID(userID){
         this.#userID = userID;
@@ -95,6 +107,14 @@ class User{
 
     setSalt(salt){
         this.#salt = salt;
+    }
+    
+    setEmployeeID(employeeID){
+        this.#employeeID = employeeID;
+    }
+
+    setPoints(points){
+        this.#points = points;
     }
 }
 
