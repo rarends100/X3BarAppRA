@@ -22,7 +22,7 @@ import {
   isLoggedInContext,
   isTraineeContext,
   usernameContext
-} from '@/RA_user-Auth-context.js';
+} from '@/context/RA_user-Auth-context.js';
 
 //DATABASE Imports
 import { migrateDbIfNeeded } from '@/Database/DatabaseCreation';
