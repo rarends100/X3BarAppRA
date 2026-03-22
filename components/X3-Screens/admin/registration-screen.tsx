@@ -9,7 +9,7 @@
  */
 
 import { useState } from 'react';
-import { Animated, KeyboardAvoidingView, Text, TextInput, View } from 'react-native';
+import { Alert, Animated, KeyboardAvoidingView, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Button from '@/components/Button/button';
@@ -186,6 +186,9 @@ const RegistrationScreen = () => {
                                 if (insertUserSync(db, user)) {
                                     try {
                                         setRegisterButtonPressed(false);
+                                        Alert.alert("message", "Registration successful,\nUsername: " + user.getUsername() 
+                                            + "\nPassword: " + user.getPassword()
+                                        );
                                         navigation.navigate('Start');
                                     } catch (ex) {
                                         console.log('navigation issue at .addUserSync() attempt conditional statement');
@@ -194,9 +197,9 @@ const RegistrationScreen = () => {
                                 } else {
                                     console.log("user not inserted -> No user added")
                                 }
-
+                                console.log("registration screen -> ");
                             } else {
-                                console.log("user not inserted -> data not valid at registration");
+                                console.log("registration screen -> user not inserted -> data not valid at registration");
                             }
 
 

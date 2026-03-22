@@ -106,10 +106,11 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               INSERT INTO User
               (UserName, Email, Credential, FirstName, LastName)
               VALUES
-              ('Geralt', 'remail1234@email.com', '$2b$10$8t5DiypbVpEvWvs9cX/SCu911ftJ59ZRVT/zD26LOorDJIhabiHG2', 'WitcherGaralt', 'Witcher'),
-              ('Orange', 'remail1234@email.com', '$2b$10$8t5DiypbVpEvWvs9cX/SCu911ftJ59ZRVT/zD26LOorDJIhabiHG2', 'Orange', 'Winter'),
-              ('Samurai', 'remail1234@email.com', '$2b$10$8t5DiypbVpEvWvs9cX/SCu911ftJ59ZRVT/zD26LOorDJIhabiHG2', 'Johny', 'Silverhand');
-
+              ('Geralt', 'remail1234@email.com', '$2b$10$Z/19zNy6nmmB6F990p3PCuVRGWMDtv3..U2lGZOxqqXJdiUB7fxVC', 'WitcherGaralt', 'Witcher'),
+              ('Orange', 'remail1234@email.com', '$2b$10$Z/19zNy6nmmB6F990p3PCuVRGWMDtv3..U2lGZOxqqXJdiUB7fxVC', 'Orange', 'Winter'),
+              ('Samurai', 'remail1234@email.com', '$2b$10$Z/19zNy6nmmB6F990p3PCuVRGWMDtv3..U2lGZOxqqXJdiUB7fxVC', 'Johny', 'Silverhand');
+              /* Credential -> Password = Password_1 */
+              
               INSERT INTO UserRole
               (UserID, Role)
               VALUES

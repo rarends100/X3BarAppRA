@@ -25,7 +25,8 @@ export default class Auth {
     /**
      * Generates a password hash, stores it in the referenced User object,
      * then by reference the calling object now has the data, like an 
-     * array would, passing the object back to the calling code
+     * array would, passing the object back to the calling code -> Safe in RN since it respects state and is not
+     * using a hook, so it should execute entirely before re-render
      * @param user 
      */
     static generateHash(user: User) {

@@ -21,7 +21,7 @@ import { Role } from '@/utilities/Role';
  * This function adds a user to the database.
  * @param db 
  * @param user 
- * @returns {boolean} If user added to db returns true, else false
+ * @returns (boolean) If user added to db returns true, else false
  */
 export function insertUserSync(db: SQLiteDatabase, user: User) {
     let userAdded = false;
@@ -39,9 +39,10 @@ export function insertUserSync(db: SQLiteDatabase, user: User) {
             const firstName: string = user.getFirstname();
             const lastname: string = user.getLastname();
             const role: string = user.getRole();
+            const password: string = user.getPassword();
 
             if (!username || !email || !hashPass || !firstName || !lastname) {
-                console.error("userDB -> addUserSync() -> Error: One or more required user fields are missing.");
+                console.error("UserDB -> insertUserSync() -> Error: One or more required user fields are missing.");
             }
 
             if (user.getRole() === `${Role.ADMIN}`) {
@@ -49,15 +50,15 @@ export function insertUserSync(db: SQLiteDatabase, user: User) {
                 //user.setEmployeeID(empID);
                 //const employeeID = user.getEmployeeID();
                 if (!empID) {
-                    console.error("Gen Admin -> Error: One or more required user fields are missing.");
+                    console.error("UserDB -> insertUserSync() -> Gen Admin -> Error: Employee ID failed to populate for ADMIN");
                 }
 
                 db.runSync(
                     `INSERT INTO User
-                    (Username, Credential, password, firstname, lastname, EmployeeID)
+                    (Username, Email, Credential, firstname, lastname, EmployeeID)
                     VALUES
-                    (?,?,?,?,?,?);`,
-                    [   username,
+                    (?, ?, ?, ?, ?, ?);`, //6 values
+                    [username,
                         email,
                         hashPass,
                         firstName,
@@ -65,13 +66,13 @@ export function insertUserSync(db: SQLiteDatabase, user: User) {
                         empID]
                 );
 
-                console.log('admin added to database');
+                console.log('UserDB -> insertUserSync() -> admin added to database');
             } else if (user.getRole() === `${Role.TRAINEE}`) {
                 db.runSync(
                     `INSERT INTO User
                     (Username, email, Credential, firstname, lastname)
                     VALUES
-                    (?,?,?,?,?);`,
+                    (?, ?, ?, ?, ?);`, //5 values
                     [username,
                         email,
                         hashPass,
@@ -79,19 +80,19 @@ export function insertUserSync(db: SQLiteDatabase, user: User) {
                         lastname,]
                 );
 
-                console.log('Trainee added to database');
+                console.log('UserDB -> insertUserSync() -> Trainee added to database');
             } else {
-                console.error('Some issue in the registration screen role, near line 80');
+                console.error('UserDB -> insertUserSync() ->Some issue in the registration screen role, near line 80');
             }
 
 
 
 
-            console.log(`user added to db: ` + user.getUsername() + ' ' + user.getPassword() +
-                ' ' + user.getFirstname() + ' ' + user.getLastname() + ' ' + user.getEmail()
+            console.log(`UserDB -> insertUserSync() -> user added to db: ` + username + ' ' + password +
+                ' ' + firstName + ' ' + lastname + ' ' + email
             );
 
-            const newCreatedUsersID = getUsername(db, username); //TODO -> Debug this getUserID() 3/14/26 
+            const newCreatedUsersID = getUserID(db, username); //TODO -> Debug this getUserID() 3/14/26 
             db.runSync(
                 `
                 INSERT INTO UserRole
@@ -105,13 +106,15 @@ export function insertUserSync(db: SQLiteDatabase, user: User) {
             )
 
 
-            Alert.alert('Success!', 'Registration Successful: \n' +
-                'Username: ' + user.getUsername() + "\nrole: " + user.getRole());
+            Alert.alert('UserDB -> insertUserSync() -> Success!', 'Registration Successful: \n' +
+                'Username: ' + username + "\nrole: " + role); //At this point, registration succeeded if it didn't already throw an exception
 
             userAdded = true; //if true then registration is successful
-            console.log('HashPassword: ' + user.getUsername() + 'Password(plain text): ' + user.getPassword());
+            console.log('UserDB -> insertUserSync() -> HashPassword: ' + hashPass + 'Password(plain text): ' + password +
+                " username: " + username
+            );
         } catch (ex) {
-            console.log('\n\nError entering information into database: \n' + ex + '\n\n');
+            console.log('\n\nUserDB -> insertUserSync() -> Error entering information into database: \n' + ex + '\n\n');
 
             if (ex = `Error: Call to function NativeStatement.finalizeSync' has been rejected.
                 → Caused by: Error code : UNIQUE constraint failed: User.UserName`) {
@@ -128,17 +131,15 @@ export function insertUserSync(db: SQLiteDatabase, user: User) {
 }
 
 /**
- * 
+ * Re
  * @param db 
  * @param username 
- * @returns 
+ * @returns value userame or null
  */
-export function getUsername(db: SQLiteDatabase, username: string) {
+export function getUserID(db: SQLiteDatabase, username: string) {
     let retreivedUserIDRow;
 
     try {
-        //1 get the userID
-
         retreivedUserIDRow =
             db.getAllSync<iUser>(
                 `SELECT *
@@ -149,16 +150,16 @@ export function getUsername(db: SQLiteDatabase, username: string) {
             )
 
         //possibly null
-        retreivedUserIDRow !== null ? console.log('db fn helperGetUserID: userid val: ' + retreivedUserIDRow.forEach((elem) => elem.Username)) : console.log('fn db helperGetUserID: userid is null');
+        retreivedUserIDRow !== null ? console.log('db fn getUserID: userid val: ' + retreivedUserIDRow.forEach((elem) => elem.Username)) : console.log('fn db getUserID: userid is null');
 
 
     } catch (ex) {
-        console.log('helperGetUserID() ->  ' + ex);
+        console.log('getUserID() ->  ' + ex);
 
     }
 
-    if (retreivedUserIDRow) {
-        return retreivedUserIDRow[0].UserID; //can be null
+    if (retreivedUserIDRow !== undefined && retreivedUserIDRow !== null) {//can be undefined
+        return retreivedUserIDRow[0].UserID; 
     } else {
         return null;
     }
@@ -199,7 +200,7 @@ export async function getAllUsers(db: SQLiteDatabase): Promise<iUser[] | null> {
         const allRows = await db.getAllAsync<iUser>(`SELECT * 
                                                     FROM User AS u JOIN UserRole AS r
                                                         ON u.UserID = r.UserID;`);
-                                                        
+
         console.log('.getAllUsers() -> ' + allRows.map((elem) => (elem.Username)));
         return allRows;
     } catch (ex) {
