@@ -1,11 +1,12 @@
-export interface UserInterface {
+export interface iUser {
     UserID: number,
     Username: String,
     Email: string,
-    Password: string,
+    Credential: string,
     FirstName: string,
+    MiddleName: string,
     LastName: string,
     EmployeeID: string,
-    Points: string
-    role: string
+    Points: number,
+    Role: string
 }

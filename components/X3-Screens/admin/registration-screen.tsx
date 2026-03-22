@@ -1,5 +1,13 @@
 "use strict"
 
+/**
+ * Ok, yeah I made this component overly complicated, it works, but I should have broken up some of the logic
+ * better, what is done is done, I just won't repeat the same mistake in others. If I get time I will
+ * come back and manually separate the 3 concerns this component is covering. Sure in React Native this 
+ * pattern is fine, but I don't like things being all crammed together, it makes it harder to understand 
+ * in my opinion.
+ */
+
 import { useState } from 'react';
 import { Animated, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,7 +18,7 @@ import Validation from '../../../Validation';
 //External import 
 import { Dropdown } from 'react-native-element-dropdown'; // -> https://www.npmjs.com/package/react-native-element-dropdown
 //External import dependency
-    import AntDesign from '@expo/vector-icons/AntDesign';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 //Encryption
 
@@ -26,20 +34,21 @@ import {
 import { useNavigation } from "expo-router";
 
 //import db functions
-import { addUserSync } from '@/Database/UserDB';
+import { insertUserSync } from '@/database/UserDB';
 
-
+import { Role } from '@/utilities/Role';
 
 const data = [ //Note: I can make this better by compiling it with objects using a for loop and the database role values, though I may or may not depending on time constraints
-    { label: 'Admin', value: '1' },
-    { label: 'Trainee', value: '2' },
-  ];
-const dataArr = ['null', 'Admin', 'Trainee'];
-  
+    { label: `${Role.ADMIN}`, value: '1' },
+    { label: `${Role.TRAINEE}`, value: '2' }, //this is the actual label you see in the selector and it passes a value, 1 or 2 depending on role selected
+    //enum Role ensures no one can get too confused if they ever look at my code, including me
+];
+const dataArr = ['null', `${Role.ADMIN}`, `${Role.TRAINEE}`];
+
 //Error Messages
 const blankField = (fieldName: String) => {
-   return `The ${fieldName} must not be blank.`;
-} 
+    return `The ${fieldName} must not be blank.`;
+}
 const notEmail = blankField('email') + '\nThe value entered must be a valid email.'
 const badPassword = blankField('password') + '\nThe password must start with an uppercase letter.\nThe password must have a special character.\nThe pasword must not be less than 8 characters in length.'
 const passwordsNotMatch = 'The password and confirm password boxes must match.'
@@ -65,10 +74,10 @@ const RegistrationScreen = () => {
 
     console.log("registration submission button value -> " + registerButtonPressed);
     console.log("before dropdown selected again value is " + role);
-    
-    return(
+
+    return (
         <SafeAreaView style={styles.SafeMainView}>
-            <KeyboardAvoidingView  behavior='position' keyboardVerticalOffset={20}>
+            <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20}>
                 <Animated.ScrollView>
                     <Text style={styles.banner}
                     >X3 Registration</Text>
@@ -80,7 +89,7 @@ const RegistrationScreen = () => {
                             placeholder='Username'
                         />
                         <Text style={styles.errors}
-                        >{registerButtonPressed? Validation.isBlank(usernameText)? blankField('username') : '' : '' }</Text>
+                        >{registerButtonPressed ? Validation.isBlank(usernameText) ? blankField('username') : '' : ''}</Text>
                         <Text>first Name</Text>
                         <TextInput style={styles.inputs}
                             onChangeText={onChangeFirstnameText}
@@ -88,7 +97,7 @@ const RegistrationScreen = () => {
                             placeholder='first name'
                         />
                         <Text style={styles.errors}
-                        >{registerButtonPressed? Validation.isBlank(firstnameText)? blankField('firstname') : '' : '' }</Text>
+                        >{registerButtonPressed ? Validation.isBlank(firstnameText) ? blankField('firstname') : '' : ''}</Text>
                         <Text>Last Name</Text>
                         <TextInput style={styles.inputs}
                             onChangeText={onChangeLastnameText}
@@ -96,7 +105,7 @@ const RegistrationScreen = () => {
                             placeholder='last name'
                         />
                         <Text style={styles.errors}
-                        >{registerButtonPressed? Validation.isBlank(lastnameText)? blankField('lastname') : '' : '' }</Text>
+                        >{registerButtonPressed ? Validation.isBlank(lastnameText) ? blankField('lastname') : '' : ''}</Text>
                         <Text>Email</Text>
                         <TextInput style={styles.inputs}
                             onChangeText={onChangeEmailText}
@@ -104,7 +113,7 @@ const RegistrationScreen = () => {
                             placeholder='email'
                         />
                         <Text style={styles.errors}
-                        >{registerButtonPressed? Validation.isEmail(emailText)? '' : notEmail : '' }</Text>
+                        >{registerButtonPressed ? Validation.isEmail(emailText) ? '' : notEmail : ''}</Text>
                         <Text>Password</Text>
                         <TextInput style={styles.inputs}
                             onChangeText={onChangePasswordText}
@@ -112,16 +121,16 @@ const RegistrationScreen = () => {
                             placeholder='password'
                         />
                         <Text style={styles.errors}
-                        >{registerButtonPressed? Validation.passwordRulesFollowed(passwordText)? '' : badPassword : ''}</Text>
+                        >{registerButtonPressed ? Validation.passwordRulesFollowed(passwordText) ? '' : badPassword : ''}</Text>
                         <Text>Confirm Password</Text>
                         <TextInput style={styles.inputs}
                             onChangeText={onChangeConfPasswordText}
                             value={confPasswordText}
                             placeholder='confirm password'
                         />
-                        <Text>{registerButtonPressed? Validation.passwordsMatch(passwordText, confPasswordText)? '' : passwordsNotMatch : ''}  </Text>
+                        <Text>{registerButtonPressed ? Validation.passwordsMatch(passwordText, confPasswordText) ? '' : passwordsNotMatch : ''}  </Text>
                         <Text style={styles.errors}
-                        >{registerButtonPressed? Validation.isBlank(role)? blankField('role')  : '' : ''}  </Text>
+                        >{registerButtonPressed ? Validation.isBlank(role) ? blankField('role') : '' : ''}  </Text>
                     </View>
                     <Dropdown
                         style={styles.dropdown}
@@ -138,15 +147,15 @@ const RegistrationScreen = () => {
                         searchPlaceholder="Search..."
                         value={value}
                         onChange={item => {
-                        setValue(item.value);
-                        setRole(dataArr[item.value]);
-                        console.log('at select dropdown delayed value is ' + role);
+                            setValue(item.value);
+                            setRole(dataArr[item.value]);
+                            console.log('at select dropdown delayed value is ' + role);
                         }}
                         renderLeftIcon={() => (
-                        <AntDesign style={styles.icon} color="gold" name="thunderbolt" size={30} />
-                    )}
+                            <AntDesign style={styles.icon} color="gold" name="thunderbolt" size={30} />
+                        )}
                     />
-                    
+
                     <Button
                         style={styles.registerButton}
                         text='Register'
@@ -154,14 +163,14 @@ const RegistrationScreen = () => {
                         buttonTextColor='black'
                         onPress={() => {
                             setRegisterButtonPressed(true);
-                            
+
                             let hashedPassword: string = ''; //https://github.com/ranisalt/node-argon2#usage
 
-                            if(!Validation.isBlank(usernameText) && !Validation.isBlank(firstnameText) && !Validation.isBlank(lastnameText) 
-                                                &&   Validation.isEmail(emailText) && Validation.passwordRulesFollowed(passwordText)
-                                                &&   Validation.passwordsMatch(passwordText, confPasswordText) &&
-                                            (role == 'Admin' || role == 'Trainee')  ){
-                                
+                            if (!Validation.isBlank(usernameText) && !Validation.isBlank(firstnameText) && !Validation.isBlank(lastnameText)
+                                && Validation.isEmail(emailText) && Validation.passwordRulesFollowed(passwordText)
+                                && Validation.passwordsMatch(passwordText, confPasswordText) &&
+                                (role == `${Role.ADMIN}` || role == `${Role.TRAINEE}`)) {
+
                                 // Part where the User is registered
                                 let user = new User();
 
@@ -172,36 +181,36 @@ const RegistrationScreen = () => {
                                 user.setPassword(passwordText.trim());
                                 user.setRole(role);
 
-                                if(addUserSync(db, user)){
-                                    try{
+                                if (insertUserSync(db, user)) {
+                                    try {
                                         setRegisterButtonPressed(false);
                                         navigation.navigate('Start');
-                                    }catch(ex){
+                                    } catch (ex) {
                                         console.log('navigation issue at .addUserSync() attempt conditional statement');
                                     }
-                            
-                                }else{
+
+                                } else {
                                     console.log("user not inserted -> No user added")
                                 }
-                                    
-                            }else{
+
+                            } else {
                                 console.log("user not inserted -> data not valid at registration");
-                            } 
-                            
-                        
-                            
+                            }
+
+
+
 
                             //TODO: If user registered and inserted into DB, then 
                             //output an Alert to user stating registration is successful
                             //then log them back to the login page -> Defined in database_functions.tsx
-                        
+
                         }}
                     />
                 </Animated.ScrollView>
             </KeyboardAvoidingView>
 
-        
-    </SafeAreaView>
+
+        </SafeAreaView>
     )
     //https://3x.ant.design/components/icon/ -> icons RA
 }
@@ -211,36 +220,36 @@ export default RegistrationScreen;
 const styles = StyleSheet.create({
     //Dropdown styling
     dropdown: {
-      marginRight: 82,
-      marginLeft: 50,
-      height: 50,
-      borderBottomColor: 'black',
-      borderBottomWidth: 1,
-      backgroundColor: 'orange'
+        marginRight: 82,
+        marginLeft: 50,
+        height: 50,
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+        backgroundColor: 'orange'
     },
     icon: {
-      marginRight: 5,
+        marginRight: 5,
     },
     placeholderStyle: {
-      fontSize: 16,
+        fontSize: 16,
     },
     selectedTextStyle: {
-      fontSize: 16,
+        fontSize: 16,
     },
     iconStyle: {
-      width: 20,
-      height: 20,
+        width: 20,
+        height: 20,
     },
     inputSearchStyle: {
-      height: 40,
-      fontSize: 16,
+        height: 40,
+        fontSize: 16,
     },
     //View styling
     topView: {
         fontSize: 12,
         marginLeft: 50,
         marginTop: 10
-        
+
     },
     SafeMainView: {
         flex: 1,
@@ -256,10 +265,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
 
     },
-    registerButton: { 
-       marginLeft: 150,
-       marginTop: 30,
-       marginRight: 0
+    registerButton: {
+        marginLeft: 150,
+        marginTop: 30,
+        marginRight: 0
     },
     //Banner Styling
     banner: {
@@ -282,6 +291,6 @@ const styles = StyleSheet.create({
     Text: {
         color: 'black',
         fontSize: 16,
-    } 
+    }
 
-  });
+});

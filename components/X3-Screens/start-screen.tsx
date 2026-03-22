@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 import Button from '../Button/button';
 
-import { deleteDatabase } from '@/Database/DeleteDB';
+import { deleteDatabase } from '@/database/DeleteDB';
 import { useSQLiteContext } from 'expo-sqlite';
 
 const StartScreen = () => {

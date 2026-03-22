@@ -22,10 +22,11 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               /*User tables*/
               CREATE TABLE IF NOT EXISTS User(
                  UserID INTEGER PRIMARY KEY AUTOINCREMENT
-                ,Username TEXT NOT NULL UNIQUE
+                ,UserName TEXT NOT NULL UNIQUE
                 ,Email TEXT NOT NULL
-                ,Password TEXT NOT NULL
+                ,Credential TEXT NOT NULL
                 ,FirstName TEXT NOT NULL
+                ,MiddleName TEXT
                 ,LastName TEXT NOT NULL
                 ,EmployeeID Text
                 ,Points INTEGER --plan is to add the ability for trainees to get points to purchase things, if I get that far...
@@ -103,7 +104,7 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               /*SAMPLE DATA INSERTS*/
 
               INSERT INTO User
-              (UserName, Email, Password, FirstName, LastName)
+              (UserName, Email, Credential, FirstName, LastName)
               VALUES
               ('Geralt', 'remail1234@email.com', '$2b$10$8t5DiypbVpEvWvs9cX/SCu911ftJ59ZRVT/zD26LOorDJIhabiHG2', 'WitcherGaralt', 'Witcher'),
               ('Orange', 'remail1234@email.com', '$2b$10$8t5DiypbVpEvWvs9cX/SCu911ftJ59ZRVT/zD26LOorDJIhabiHG2', 'Orange', 'Winter'),
@@ -113,8 +114,8 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               (UserID, Role)
               VALUES
               (1, 'ADMIN'),
-              (2, 'Trainee'),
-              (3, 'Trainee');  
+              (2, 'TRAINEE'),
+              (3, 'TRAINEE');  
 
               INSERT INTO BandLevel
               (BandColor, BandSingledMinResistanceInLbs, BandSingledMaxResistanceInLbs, BandDoubledResistanceInLbs)

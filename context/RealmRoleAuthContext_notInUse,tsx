@@ -1,0 +1,74 @@
+/* import { createContext, useContext, useState } from 'react';
+
+
+//https://galaxies.dev/react-native-role-based-navigation -> customized it for my needs
+// Nope don't get it, screw it.
+export enum Role {
+    ADMIN = 'ADMIN',
+    TRAINEE = 'TRAINEE'
+}
+
+interface AuthProps {
+    authState: {authenicated: boolean | null; username: string | null; role: Role | null 
+
+    };
+    onLogin: (username: string, password: string) => void; 
+    onLogout: () => void;
+}
+
+const RealmRoleAuthContext = createContext<Partial<AuthProps>>({}); //AuthContext
+
+export const useRealmRoleAuth = () => {
+    return useContext(RealmRoleAuthContext);
+};
+
+export const AuthProvider = ({ children }: any) => {
+    const [authState, setAuthState] = useState<{
+        authenticated: boolean | null;
+        username: string | null;
+        role: Role | null;
+    }>({
+        authenticated: null,
+        username: null,
+        role: null
+    });
+
+    const login = (username: string, password: string) => {
+        if (username === 'ADMIN' && password === 'ADMIN') {
+            setAuthState({
+                authenticated: true,
+                username: username,
+                role: Role.ADMIN
+            });
+        }else if (username === 'TRAINEE' && password === 'TRAINEE') {
+            setAuthState ({
+                authenticated: true,
+                username: username,
+                role: Role.TRAINEE
+            });
+        }else{
+            alert('Ivalid username or password!');
+        }
+    };
+
+    const logout = async () => {
+        setAuthState({
+            authenticated: false,
+            username: null,
+            role: null
+        });
+    }
+
+    const value = {
+        onLogin: login,
+        onLogout: logout,
+        authState
+    };
+
+    return <RealmRoleAuthContext.Provider value={value}>{children}</RealmRoleAuthContext.Provider>;
+
+
+};
+
+*/
+
