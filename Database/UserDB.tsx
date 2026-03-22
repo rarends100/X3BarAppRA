@@ -123,14 +123,16 @@ export function insertUserSync(db: SQLiteDatabase, user: User) {
     } else {
         console.log('User is null');
     }
-    //}else{
-    //console.log('User Object null when attempting to insert into db, adding new user failed.');
-    //}
 
     return userAdded;
 }
 
-
+/**
+ * 
+ * @param db 
+ * @param username 
+ * @returns 
+ */
 export function getUsername(db: SQLiteDatabase, username: string) {
     let retreivedUserIDRow;
 

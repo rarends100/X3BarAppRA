@@ -44,16 +44,15 @@ export default class Auth {
 
     /**
      * Checks if the pasword passed is the same as the passsword in the database.
-     * @param user 
-     * @returns {boolean} 
+     * @param password plain text password
+     * @param hash hashed password retrieved from db
+     * @returns {boolean} //true if matching, otherwise false
      */
-    static checkPassword(user: User) {
+    static checkIfPasswordMatch(password: string, hash: string) {
         let isCorrect = false;
 
-        const password = user.getPassword();
-        const hashPass = user.getHashPass();
         try {
-            isCorrect = bcrypt.compareSync(password, hashPass);
+            isCorrect = bcrypt.compareSync(password, hash);
         } catch (ex) {
             console.log("Utility class ->  fn .checkPassword() -> error -> " + ex);
         }

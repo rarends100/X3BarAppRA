@@ -9,7 +9,7 @@
  */
 
 import { useState } from 'react';
-import { Animated, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Animated, KeyboardAvoidingView, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Button from '@/components/Button/button';
@@ -37,6 +37,8 @@ import { useNavigation } from "expo-router";
 import { insertUserSync } from '@/database/UserDB';
 
 import { Role } from '@/utilities/Role';
+
+import { registerPageStyles } from '@/styles';
 
 const data = [ //Note: I can make this better by compiling it with objects using a for loop and the database role values, though I may or may not depending on time constraints
     { label: `${Role.ADMIN}`, value: '1' },
@@ -76,68 +78,68 @@ const RegistrationScreen = () => {
     console.log("before dropdown selected again value is " + role);
 
     return (
-        <SafeAreaView style={styles.SafeMainView}>
+        <SafeAreaView style={registerPageStyles.SafeMainView}>
             <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20}>
                 <Animated.ScrollView>
-                    <Text style={styles.banner}
+                    <Text style={registerPageStyles.banner}
                     >X3 Registration</Text>
-                    <View style={styles.topView}>
+                    <View style={registerPageStyles.topView}>
                         <Text>Username</Text>
-                        <TextInput style={styles.inputs}
+                        <TextInput style={registerPageStyles.inputs}
                             onChangeText={onChangeUsernameText}
                             value={usernameText}
                             placeholder='Username'
                         />
-                        <Text style={styles.errors}
+                        <Text style={registerPageStyles.errors}
                         >{registerButtonPressed ? Validation.isBlank(usernameText) ? blankField('username') : '' : ''}</Text>
                         <Text>first Name</Text>
-                        <TextInput style={styles.inputs}
+                        <TextInput style={registerPageStyles.inputs}
                             onChangeText={onChangeFirstnameText}
                             value={firstnameText}
                             placeholder='first name'
                         />
-                        <Text style={styles.errors}
+                        <Text style={registerPageStyles.errors}
                         >{registerButtonPressed ? Validation.isBlank(firstnameText) ? blankField('firstname') : '' : ''}</Text>
                         <Text>Last Name</Text>
-                        <TextInput style={styles.inputs}
+                        <TextInput style={registerPageStyles.inputs}
                             onChangeText={onChangeLastnameText}
                             value={lastnameText}
                             placeholder='last name'
                         />
-                        <Text style={styles.errors}
+                        <Text style={registerPageStyles.errors}
                         >{registerButtonPressed ? Validation.isBlank(lastnameText) ? blankField('lastname') : '' : ''}</Text>
                         <Text>Email</Text>
-                        <TextInput style={styles.inputs}
+                        <TextInput style={registerPageStyles.inputs}
                             onChangeText={onChangeEmailText}
                             value={emailText}
                             placeholder='email'
                         />
-                        <Text style={styles.errors}
+                        <Text style={registerPageStyles.errors}
                         >{registerButtonPressed ? Validation.isEmail(emailText) ? '' : notEmail : ''}</Text>
                         <Text>Password</Text>
-                        <TextInput style={styles.inputs}
+                        <TextInput style={registerPageStyles.inputs}
                             onChangeText={onChangePasswordText}
                             value={passwordText}
                             placeholder='password'
                         />
-                        <Text style={styles.errors}
+                        <Text style={registerPageStyles.errors}
                         >{registerButtonPressed ? Validation.passwordRulesFollowed(passwordText) ? '' : badPassword : ''}</Text>
                         <Text>Confirm Password</Text>
-                        <TextInput style={styles.inputs}
+                        <TextInput style={registerPageStyles.inputs}
                             onChangeText={onChangeConfPasswordText}
                             value={confPasswordText}
                             placeholder='confirm password'
                         />
                         <Text>{registerButtonPressed ? Validation.passwordsMatch(passwordText, confPasswordText) ? '' : passwordsNotMatch : ''}  </Text>
-                        <Text style={styles.errors}
+                        <Text style={registerPageStyles.errors}
                         >{registerButtonPressed ? Validation.isBlank(role) ? blankField('role') : '' : ''}  </Text>
                     </View>
                     <Dropdown
-                        style={styles.dropdown}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        inputSearchStyle={styles.inputSearchStyle}
-                        iconStyle={styles.iconStyle}
+                        style={registerPageStyles.dropdown}
+                        placeholderStyle={registerPageStyles.placeholderStyle}
+                        selectedTextStyle={registerPageStyles.selectedTextStyle}
+                        inputSearchStyle={registerPageStyles.inputSearchStyle}
+                        iconStyle={registerPageStyles.iconStyle}
                         data={data}
                         search
                         maxHeight={300}
@@ -152,12 +154,12 @@ const RegistrationScreen = () => {
                             console.log('at select dropdown delayed value is ' + role);
                         }}
                         renderLeftIcon={() => (
-                            <AntDesign style={styles.icon} color="gold" name="thunderbolt" size={30} />
+                            <AntDesign style={registerPageStyles.icon} color="gold" name="thunderbolt" size={30} />
                         )}
                     />
 
                     <Button
-                        style={styles.registerButton}
+                        style={registerPageStyles.registerButton}
                         text='Register'
                         buttonColor='#eec972'
                         buttonTextColor='black'
@@ -216,81 +218,3 @@ const RegistrationScreen = () => {
 }
 
 export default RegistrationScreen;
-
-const styles = StyleSheet.create({
-    //Dropdown styling
-    dropdown: {
-        marginRight: 82,
-        marginLeft: 50,
-        height: 50,
-        borderBottomColor: 'black',
-        borderBottomWidth: 1,
-        backgroundColor: 'orange'
-    },
-    icon: {
-        marginRight: 5,
-    },
-    placeholderStyle: {
-        fontSize: 16,
-    },
-    selectedTextStyle: {
-        fontSize: 16,
-    },
-    iconStyle: {
-        width: 20,
-        height: 20,
-    },
-    inputSearchStyle: {
-        height: 40,
-        fontSize: 16,
-    },
-    //View styling
-    topView: {
-        fontSize: 12,
-        marginLeft: 50,
-        marginTop: 10
-
-    },
-    SafeMainView: {
-        flex: 1,
-        backgroundColor: '#f5bd6a'
-    },
-    //TextInput styling
-    inputs: {
-        borderColor: 'black',
-        borderWidth: 0.75,
-        fontSize: 12,
-        width: 300,
-        color: 'black',
-        backgroundColor: 'white'
-
-    },
-    registerButton: {
-        marginLeft: 150,
-        marginTop: 30,
-        marginRight: 0
-    },
-    //Banner Styling
-    banner: {
-        color: 'black',
-        backgroundColor: 'orange',
-        borderColor: 'black',
-        borderWidth: 2,
-        paddingVertical: 50,
-        paddingHorizontal: 100,
-        marginLeft: 2,
-        marginRight: 2,
-        fontWeight: 'condensedBold',
-        fontSize: 25
-    },
-    //General Text Styling
-    errors: {
-        color: 'red',
-        fontWeight: 'bold'
-    },
-    Text: {
-        color: 'black',
-        fontSize: 16,
-    }
-
-});

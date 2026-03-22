@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Animated, KeyboardAvoidingView, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -14,28 +14,43 @@ import { useNavigation } from "expo-router";
 //custom validation
 import Validation from '@/Validation';
 
-import { useLogin } from '@/hooks/use-login';
+import { login } from '@/utilities/LoginHelper';
 
+import { isAdminContext, isLoggedInContext, isTraineeContext } from '@/context/RA_user-Auth-context';
 import { globalStyles } from '@/styles';
- 
+import { Role } from '@/utilities/Role';
+import { useSQLiteContext } from 'expo-sqlite';
+
 const LoginScreen = (props: any) => {
-    const navigation: ReactNavigation.RootParamList = useNavigation();
+    const navigation: any = useNavigation();
+
+    const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
+    const { setIsAdmin } = useContext(isAdminContext);
+    const { setIsTrainee } = useContext(isTraineeContext);
+
+    const db = useSQLiteContext();
 
     const [username, OnChangeUsernameText] = useState<string>("");
     const [password, onChangePasswordText] = useState<string>("");
     const [loginButtonPressed, setLoginButtonPressed] = useState<boolean>(false);
 
-    const doLogin = useLogin();
-
     const handleLoginPress = async () => {
         try {
             OnChangeUsernameText(username.trim());
             onChangePasswordText(password.trim());
-            
-            const success = await doLogin(username, password);
-            if (success) {
-                //navigate or whatever
+
+            const user = await login(username, password, db);
+
+            if (user !== null) {
                 setLoginButtonPressed(false);
+                //navigation.navigate("AdminHome");
+                switch (user.getRole()) {
+                    case `${Role.ADMIN}`:
+                        setIsAdmin(true);
+                        break;
+                    case `${Role.TRAINEE}`:
+                        setIsTrainee(true);
+                }
             }
         } catch (ex) {
             console.error(ex);
@@ -44,6 +59,8 @@ const LoginScreen = (props: any) => {
     }
 
     AntDesign //remove this when ready
+
+    //################################################View##########################################################################
 
     return (
         <SafeAreaView>

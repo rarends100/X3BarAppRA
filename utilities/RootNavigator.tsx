@@ -17,6 +17,6 @@ export const RootDrawerNavigatorStackSwitcher_RA = (AuthStack: any, AdminStack: 
     const isAdmin = useContext(isAdminContext);
     const isTrainee = useContext(isTraineeContext);
 
-    if(!isLoggedIn) return AuthStack;
-    if(isLoggedIn && isAdmin) return AdminStack;
+    if(isLoggedIn) return AuthStack;
+    if(!isLoggedIn && !isAdmin) return AdminStack;
 }
