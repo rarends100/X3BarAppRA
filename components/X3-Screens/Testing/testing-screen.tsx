@@ -52,7 +52,7 @@ async function loadUserToArray(db: SQLiteDatabase, func: any) { //1 //callback f
             user.setUserID(users[i].UserID);
             user.setUsername(users[i].Username);
             user.setEmail(users[i].Email);
-            user.setRole(users[i].role);
+            user.setRole(users[i].Role);
 
             userObjArr.push(user);
         }

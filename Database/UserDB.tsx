@@ -54,10 +54,10 @@ export function insertUserSync(db: SQLiteDatabase, user: User) {
 
                 db.runSync(
                     `INSERT INTO User
-                    (Username, email, password, firstname, lastname, EmployeeID)
+                    (Username, Credential, password, firstname, lastname, EmployeeID)
                     VALUES
                     (?,?,?,?,?,?);`,
-                    [username,
+                    [   username,
                         email,
                         hashPass,
                         firstName,
@@ -69,7 +69,7 @@ export function insertUserSync(db: SQLiteDatabase, user: User) {
             } else if (user.getRole() === `${Role.TRAINEE}`) {
                 db.runSync(
                     `INSERT INTO User
-                    (Username, email, password, firstname, lastname)
+                    (Username, email, Credential, firstname, lastname)
                     VALUES
                     (?,?,?,?,?);`,
                     [username,
@@ -147,7 +147,7 @@ export function getUsername(db: SQLiteDatabase, username: string) {
             )
 
         //possibly null
-        retreivedUserIDRow !== null ? console.log('db fn helperGetUserID: userid val: ' + retreivedUserIDRow) : console.log('fn db helperGetUserID: userid is null');
+        retreivedUserIDRow !== null ? console.log('db fn helperGetUserID: userid val: ' + retreivedUserIDRow.forEach((elem) => elem.Username)) : console.log('fn db helperGetUserID: userid is null');
 
 
     } catch (ex) {

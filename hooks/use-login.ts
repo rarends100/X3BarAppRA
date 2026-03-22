@@ -17,11 +17,11 @@ import { Alert } from 'react-native';
  * @returns login() function
  */
 export function useLogin() {
-    const {isLoggedIn, setIsLoggedIn} = useContext(isLoggedInContext);
-    const {setIsAdmin} = useContext(isAdminContext);
-    const {setIsTrainee} = useContext(isTraineeContext);
-    
-    const [user, setUser] = useState<User>(new User);
+    const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
+    const { setIsAdmin } = useContext(isAdminContext);
+    const { setIsTrainee } = useContext(isTraineeContext);
+
+    const [user, setUser] = useState<User | null>(new User);
 
     const db = useSQLiteContext();
 
@@ -48,35 +48,40 @@ export function useLogin() {
             const lastname = retrievedUserRecord.LastName;
             const email = retrievedUserRecord.Email;
             const employeeID = retrievedUserRecord.EmployeeID;
-            
+
             //const user = new User();
             setUser(user);
 
+            if (user !== null) {
+                user.setUserID(userID);
+                user.setUsername(username);
+                user.setRole(role);
+                user.setPassword(password);
+                user.setHashedPassword(credential);
+                user.setEmail(email);
+                user.setFirstname(firstname);
+                user.setMiddlename(middlename);
+                user.setLastname(lastname);
 
-            user.setUserID(userID);
-            user.setUsername(username);
-            user.setRole(role);
-            user.setPassword(password);
-            user.setHashedPassword(credential);
-            user.setEmail(email);
-            user.setFirstname(firstname);
-            user.setMiddlename(middlename);
-            user.setLastname(lastname);
-            
-            console.log(user.getUsername() +
-                "hook -> useLogin Has been retrieved from the database and set on the user in .login()");
 
-            if(Auth.checkPassword(user)){
-                setIsLoggedIn(true);
 
-                switch (user.getRole()){
-                    case `${Role.ADMIN}`:
-                        setIsAdmin(true);
-                        break;
-                    case `${Role.TRAINEE}`:
-                        setIsTrainee(true);
+                console.log(username +
+                    "hook -> useLogin Has been retrieved from the database and set on the user in .login()");
+
+                if (Auth.checkPassword(user)) {
+                    setIsLoggedIn(true);
+
+                    switch (user.getRole()) {
+                        case `${Role.ADMIN}`:
+                            setIsAdmin(true);
+                            break;
+                        case `${Role.TRAINEE}`:
+                            setIsTrainee(true);
+                    }
+                    //setUser(null);
+                } else {
+                    Alert.alert("Message", "wrong password");
                 }
-                
             }
 
         } else {
