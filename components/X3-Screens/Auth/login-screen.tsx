@@ -36,21 +36,26 @@ const LoginScreen = (props: any) => {
 
     const handleLoginPress = async () => {
         try {
-            OnChangeUsernameText(username.trim());
-            onChangePasswordText(password.trim());
-
-            const user = await login(username, password, db);
+            let user = null; 
+            user = await login(username.trim(), password.trim(), db);
 
             if (user !== null) {
                 setLoginButtonPressed(false);
                 //navigation.navigate("AdminHome");
-                switch (user.getRole()) {
+                const role = user.getRole();
+                switch (role) {
                     case `${Role.ADMIN}`:
                         setIsAdmin(true);
+                        setIsLoggedIn(true);
+                        navigation.navigate("AdminHome");
                         break;
                     case `${Role.TRAINEE}`:
                         setIsTrainee(true);
+                        setIsLoggedIn(true);
+                      
+                        break;
                 }
+                
             }
         } catch (ex) {
             console.error(ex);

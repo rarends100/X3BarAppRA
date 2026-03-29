@@ -195,9 +195,9 @@ const RegistrationScreen = () => {
                                     }
 
                                 } else {
-                                    console.log("user not inserted -> No user added")
+                                    console.log("registration screen -> user not inserted -> No user added")
                                 }
-                                console.log("registration screen -> ");
+                                console.log("registration screen -> Validation successful.");
                             } else {
                                 console.log("registration screen -> user not inserted -> data not valid at registration");
                             }

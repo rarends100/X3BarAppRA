@@ -1,6 +1,7 @@
+
 export interface iUser {
     UserID: number,
-    Username: String,
+    UserName: String,
     Email: string,
     Credential: string,
     FirstName: string,
@@ -8,5 +9,10 @@ export interface iUser {
     LastName: string,
     EmployeeID: string,
     Points: number,
-    Role: string
+    Role: string,
+    //getUsername: () => User["getUsername"]; //Indexed access type -> tells the ts the return type of this function is whatever the type of getUsername is in the user class
+    //getUserID: () => User["getUserID"];
+    //getEmail: () => User["getEmail"];
 }
+
+//typed to the same names as the db columns

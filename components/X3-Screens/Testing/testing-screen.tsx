@@ -41,18 +41,18 @@ const TestingScreen = () => {
 export default TestingScreen;
 
 async function loadUserToArray(db: SQLiteDatabase, func: any) { //1 //callback fn p1
-    const users = await getAllUsers(db);
+    const usersJSON = await getAllUsers(db);
 
     let userObjArr = [];
 
-    if (users !== null) {
-        for (let i = 0; i < users.length; i++) {
+    if (usersJSON !== null) {
+        for (let i = 0; i < usersJSON.length; i++) {
             const user = new User();
 
-            user.setUserID(users[i].UserID);
-            user.setUsername(users[i].Username);
-            user.setEmail(users[i].Email);
-            user.setRole(users[i].Role);
+            user.setUserID(usersJSON[i].UserID);
+            user.setUsername(usersJSON[i].UserName);
+            user.setEmail(usersJSON[i].Email);
+            user.setRole(usersJSON[i].Role);
 
             userObjArr.push(user);
         }

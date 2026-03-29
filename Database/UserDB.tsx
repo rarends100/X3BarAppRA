@@ -150,7 +150,7 @@ export function getUserID(db: SQLiteDatabase, username: string) {
             )
 
         //possibly null
-        retreivedUserIDRow !== null ? console.log('db fn getUserID: userid val: ' + retreivedUserIDRow.forEach((elem) => elem.Username)) : console.log('fn db getUserID: userid is null');
+        retreivedUserIDRow !== null ? console.log('db fn getUserID: userid val: ' + retreivedUserIDRow.forEach((elem) => elem.UserName)) : console.log('fn db getUserID: userid is null');
 
 
     } catch (ex) {
@@ -159,7 +159,7 @@ export function getUserID(db: SQLiteDatabase, username: string) {
     }
 
     if (retreivedUserIDRow !== undefined && retreivedUserIDRow !== null) {//can be undefined
-        return retreivedUserIDRow[0].UserID; 
+        return retreivedUserIDRow[0].UserID;
     } else {
         return null;
     }
@@ -171,7 +171,7 @@ export function getUserID(db: SQLiteDatabase, username: string) {
  * This function gets 1 user from the database.
  * @param db 
  * @param username 
- * @returns a Promise repersented as a User Object.
+ * @returns a Promise repersented as a JSON object of User Object data.
  * Values retrieved from db -> UserID, Username, Email, 
  * Credential (this the hash), FirstName, LastName,
  * EmployeeID, Points, Role (role then controls which screens render and can be accessed) 
@@ -185,24 +185,33 @@ export async function getUser(db: SQLiteDatabase, username: string): Promise<iUs
              WHERE UserName = ?;`,
             [username]
         );
-        console.log('.getUser() -> ' + oneRow?.Username + 'User information retrieved from db.');
-        return oneRow;
+        if (oneRow !== null && oneRow !== undefined) {
+            console.log('UserDB -> .getUser() -> ' + oneRow.UserName + 'User information retrieved from db.');
+            console.log('UserDB -> .getUser() -> ' + oneRow);
+        }
+
+        return oneRow; //JSON object
     } catch (ex) {
         console.log('Failed to retrieve user ' + username + ' from the database.');
         throw ex;
     }
 }
-
-
-export async function getAllUsers(db: SQLiteDatabase): Promise<iUser[] | null> { //typed by my defined user interface 
+/**
+ * Returns a JSON object representing an array of User objects data
+ * @param db 
+ * @returns a Promise repersented as a array of JSON objects representing the data of a User Object.
+ */
+export async function getAllUsers(db: SQLiteDatabase): Promise<iUser[] | null>  { //1. typed by my defined user interface 
 
     try {
         const allRows = await db.getAllAsync<iUser>(`SELECT * 
                                                     FROM User AS u JOIN UserRole AS r
-                                                        ON u.UserID = r.UserID;`);
+                                                        ON u.UserID = r.UserID;`); //2. So that each JSON object returned here follows
+                                                        //  the structure of the iUser interface i.e. {"userID: 1, Username: "Geralt", role: "ADMIN"}
+        //3. Now I should be able to call .map, filter(), or .forEach without any extra parsing since it is returning an array of JSON objects in the calling code
+        console.log('.getAllUsers() -> ' + allRows.map((elem) => elem.UserName));
 
-        console.log('.getAllUsers() -> ' + allRows.map((elem) => (elem.Username)));
-        return allRows;
+        return allRows; //Array of JSON objects containing user values or null
     } catch (ex) {
         console.log('Failed to get users from the database', ex);
         throw ex; //rethrown out to calling program so it knows it failed

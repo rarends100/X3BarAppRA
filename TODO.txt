@@ -1,0 +1,2 @@
+- figure out what is going on in login to cause 
+    it to fail. First load a manual Sqlite db and then run queries, then input that query into my db functions

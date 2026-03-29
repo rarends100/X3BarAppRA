@@ -85,9 +85,9 @@ const AdminStack = createDrawerNavigator({
 });
 
 const AuthStack = createDrawerNavigator({
-  initialRouteName: 'Start',
+  initialRouteName: 'Login',
   screens: {
-    Start: LoginScreen
+    Login: LoginScreen
 
   }
 });
