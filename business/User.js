@@ -1,9 +1,10 @@
 "use strict"
 
-class User{
+class User {
     #userID;
     #username;
     #firstname;
+    #middlename;
     #lastname;
     #email;
     #password;
@@ -13,10 +14,12 @@ class User{
     #employeeID;
     #points;
 
-    constructor(){
+    
+    constructor() {
         this.#userID = null;
         this.#username = null;
         this.#firstname = null;
+        this.#middlename = null;
         this.#lastname = null;
         this.#email = null;
         this.#password = null;
@@ -25,96 +28,105 @@ class User{
         this.#salt = null;
         this.#employeeID = null;
         this.#points = null;
+        
     }
 
     //Getters
-    getUserID(){
+    getUserID() {
         return this.#userID;
     }
 
-    getUsername(){
+    getUsername() {
         return this.#username;
     }
 
-    getFirstname(){
+    getFirstname() {
         return this.#firstname;
     }
 
-    getLastname(){
+    getLastname() {
         return this.#lastname;
     }
 
-    getEmail(){
+    getEmail() {
         return this.#email;
     }
 
-    getPassword(){
+    getPassword() {
         return this.#password;
     }
 
-    getHashPass(){
+    getHashPass() {
         return this.#hashPass;
     }
 
-    getRole(){
+    getRole() {
         return this.#role;
     }
 
-    getSalt(){
+    getSalt() {
         return this.#salt;
     }
 
-    getEmployeeID(){
+    getEmployeeID() {
         return this.#employeeID;
     }
 
-    getPoints(){
+    getPoints() {
         return this.#points;
     }
 
+    getMiddlename(){
+        return this.#middlename;
+    }
+
     //Setters
-    setUserID(userID){
+    setUserID(userID) {
         this.#userID = userID;
     }
 
-    setUsername(username){
+    setUsername(username) {
         this.#username = username;
     }
 
-    setFirstname(firstname){
+    setFirstname(firstname) {
         this.#firstname = firstname;
     }
 
-    setLastname(lastname){
+    setLastname(lastname) {
         this.#lastname = lastname;
     }
 
-    setEmail(email){
+    setEmail(email) {
         this.#email = email;
     }
 
-    setPassword(password){
+    setPassword(password) {
         this.#password = password;
     }
 
-    setHashedPassword(hashPass){
+    setHashedPassword(hashPass) {
         this.#hashPass = hashPass;
     }
 
-    setRole(role){
+    setRole(role) {
         this.#role = role;
     }
 
-    setSalt(salt){
+    setSalt(salt) {
         this.#salt = salt;
     }
-    
-    setEmployeeID(employeeID){
+
+    setEmployeeID(employeeID) {
         this.#employeeID = employeeID;
     }
 
-    setPoints(points){
+    setPoints(points) {
         this.#points = points;
+    }
+
+    setMiddlename(middlename){
+        this.middlename = middlename;
     }
 }
 

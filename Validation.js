@@ -97,6 +97,15 @@ class Validation {
 
         return passGood;
     }
+
+    /**
+     * This is designed for conveinence to return a string that states a message saying the <field name> must not be blank. -> that is all it does
+     * @param {string} fieldName 
+     * @returns 
+     */
+    static blankField = (fieldName) => {
+        return `The ${fieldName} must not be blank.`;
+    } 
 //site used for deveoping regex -> https://regex101.com/
 
 }
