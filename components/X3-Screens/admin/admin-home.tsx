@@ -1,39 +1,21 @@
 "use strict";
 
-import { isAdminContext, isLoggedInContext } from '@/context/RA_user-Auth-context';
+
 import { useNavigation } from '@react-navigation/native';
-import { useContext } from 'react';
 import { Text, View } from 'react-native';
 
 
 const AdminHomeScreen = () => {
-    const navigation : any = useNavigation();
-    const isAdminContextObj = useContext(isAdminContext);
-    const isLoggedInContextObj = useContext(isLoggedInContext);
+    const navigation: any = useNavigation();
 
-    console.log("AdminHomeScreen -> " + isAdminContextObj.isAdmin );
-    const test = true;
-    if (isAdminContextObj.isAdmin && isLoggedInContextObj.isLoggedIn){
-        return(
+    return (
         <   View>
-                <Text>
-                    This is the admin home page
-                    TODO: Add details to home page to reflect user stories
-                </Text>
-            </View>
-        );
-    }else{
-       //navigation.navigate('Start'); causes a recursion issue used this way 
-       //   before a return statement, interesting
-       return (
-        <View>
             <Text>
-                Administrators only!!!
+                This is the admin home page
+                TODO: Add details to home page to reflect user stories
             </Text>
         </View>
-       )
-    }
-
+    );
 }
 
-export default AdminHomeScreen;
+    export default AdminHomeScreen;
