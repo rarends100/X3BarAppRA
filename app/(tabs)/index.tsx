@@ -1,118 +1,59 @@
 "use strict"
 
-//navigation imports
-//import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-//https://www.dhiwise.com/post/mastering-the-art-of-separating-ui-and-logic-in-react -> custom hooks
-import { createDrawerNavigator } from '@react-navigation/drawer';
-
-//utility imports
-import { useState } from 'react';
-
-//screen imports
 //navigation
-import { createStaticNavigation, NavigationIndependentTree } from '@react-navigation/native';
-//screens
-import { default as AdminHomeScreen } from '@/components/X3-Screens/admin/admin-home';
-import { default as RegistrationScreen } from '@/components/X3-Screens/admin/registration-screen';
-import { default as LoginScreen } from '@/components/X3-Screens/Auth/login-screen';
-import { default as StartScreen } from '@/components/X3-Screens/start-screen';
-import { default as TestingScreen } from '@/components/X3-Screens/Testing/testing-screen';
+import { NavigationIndependentTree } from '@react-navigation/native';
 
-//app context import
-import {
-  isAdminContext,
-  isLoggedInContext,
-  isTraineeContext,
-  usernameContext
-} from '@/context/RA_user-Auth-context.js';
-
+//Authorization
+import { AdminStack, AuthStack } from '@/utilities/Navigation';
+import { Role } from '@/utilities/Role';
+import { RootState, store } from '@/utilities/store';
+import { Provider, useSelector } from 'react-redux';
 //DATABASE Imports
 import { migrateDbIfNeeded } from '@/database/DatabaseCreation';
 import {
   SQLiteProvider
 } from 'expo-sqlite';
+import { useEffect, useState } from 'react';
 
-//custom stack switcher import
-import { RootDrawerNavigatorStackSwitcher_RA } from '@/utilities/RootNavigator';
 
 
 const databaseName = "RAX3BarData";
-export default function App() {
-
-  const [isTrainee, setIsTrainee] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
-  //const [role, setRole] = useState("");
-
-  const RootNavigator = RootDrawerNavigatorStackSwitcher_RA(AuthStack, AdminStack);
-
-  const DrawerNavigation = createStaticNavigation(RootNavigator);
-
-
-  return ( //TODO:this is a mess, I need to fix it
-    <NavigationIndependentTree>
-      <isLoggedInContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
-        <isAdminContext.Provider value={{ isAdmin, setIsAdmin }}>
-          <isTraineeContext.Provider value={{ isTrainee, setIsTrainee }}>
-            <usernameContext.Provider value={{ username, setUsername }}>
-              <SQLiteProvider databaseName={databaseName} onInit={migrateDbIfNeeded}>{/*toplevel SQLite data*/}
-                <DrawerNavigation />
-              </SQLiteProvider>
-            </usernameContext.Provider>
-          </isTraineeContext.Provider>
-        </isAdminContext.Provider>
-      </isLoggedInContext.Provider>
+function App() {
+  //Authentication step 3 ->  Root navigator switches stacks based on auth state
+  const { userID, role, username } = useSelector((state: RootState) => state.auth);
+  const [authKey, setAuthKey] = useState(0);
+  
+  //force re-render anytime the auth state changes. - What a nightmare, since recalling App() breaks it all
+  useEffect(() => {
+    //when auth state changes, increment the key
+    if(authKey === 0){
+      setAuthKey(prevKey => prevKey + 1);
+    }else{
+      setAuthKey(prevKey => prevKey - 1);
+    }
+    
+  }, [userID, role, username]); //Depedencies -> if any of these change, trigger the authKey to change -> triggers the NavigationIndepenetTree container to re-render and thus switch stacks
+  
+  return (
+    <NavigationIndependentTree key={authKey}>
+        <SQLiteProvider databaseName={databaseName} onInit={migrateDbIfNeeded}>{/*toplevel SQLite data*/}
+          {!userID && <AuthStack />}
+          {userID && role === Role.ADMIN && <AdminStack />}
+          {userID && role === Role.TRAINEE && <AuthStack /> /*TODO: Change this to TraineeStack once I make it*/}
+        </SQLiteProvider>
     </NavigationIndependentTree>
   );
 }
 
 
+const AppWrapper = () => {   //https://stackoverflow.com/questions/60329421/usedispatch-error-could-not-find-react-redux-context-value-please-ensure-the
+  return (
+    <Provider store={store}>
+      <App />{/**Now app has access to context */}
+    </Provider>
+  )
+}
+
+export default AppWrapper;
 
 
-
-const AdminStack = createDrawerNavigator({
-  initialRouteName: 'Start',
-  screens: {
-    Start: {
-      screen: StartScreen
-    },
-    AdminHome: AdminHomeScreen,
-    Register: RegistrationScreen,
-    Testing: TestingScreen,
-    Login: LoginScreen
-  }
-});
-
-const AuthStack = createDrawerNavigator({
-  initialRouteName: 'Login',
-  screens: {
-    Login: LoginScreen
-
-  }
-});
-
-const DrawerNavigation = createStaticNavigation(AuthStack);
-
-/* uncomment once I start making trainee screens
-const TraineeStack = createDrawerNavigator({
-    initialRouteName: 'TraineeHome',
-    screens: {
-      TraineeHome: TraineeHomeScreen,
-    }
-}); */
-
-//const DrawerNavigation = createStaticNavigation(Drawer);
-
-
-
-/**
-    * TODO: implement all screens
-    * TODO: customize all screens
-    */
-
-
-
-
-//const BaseNavigation = createStaticNavigation(rootStack);
