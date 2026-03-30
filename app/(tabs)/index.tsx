@@ -80,7 +80,8 @@ const AdminStack = createDrawerNavigator({
     },
     AdminHome: AdminHomeScreen,
     Register: RegistrationScreen,
-    Testing: TestingScreen
+    Testing: TestingScreen,
+    Login: LoginScreen
   }
 });
 

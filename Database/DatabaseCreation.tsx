@@ -108,9 +108,9 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               INSERT INTO User
               (UserName, Email, Credential, FirstName, LastName)
               VALUES
-              ('Geralt', 'remail1234@email.com', '$2b$10$Z19zNy6nmmB6F990p3PCuVRGWMDtv3..U2lGZOxqqXJdiUB7fxVC', 'WitcherGaralt', 'Witcher'),
-              ('Orange', 'remail1234@email.com', '$2b$10$Z19zNy6nmmB6F990p3PCuVRGWMDtv3..U2lGZOxqqXJdiUB7fxVC', 'Orange', 'Winter'),
-              ('Samurai', 'remail1234@email.com', '$2b$10$Z19zNy6nmmB6F990p3PCuVRGWMDtv3..U2lGZOxqqXJdiUB7fxVC', 'Johny', 'Silverhand');
+              ('Geralt', 'remail1234@email.com', '$2b$10$4z5v/y9I8wYgM0LIJB2UgunvI00SlUD.bWTJhJokMcCxPeRNQVQm6', 'WitcherGaralt', 'Witcher'),
+              ('Orange', 'remail1234@email.com', '$2b$10$4z5v/y9I8wYgM0LIJB2UgunvI00SlUD.bWTJhJokMcCxPeRNQVQm6', 'Orange', 'Winter'),
+              ('Samurai', 'remail1234@email.com', '$2b$10$4z5v/y9I8wYgM0LIJB2UgunvI00SlUD.bWTJhJokMcCxPeRNQVQm6', 'Johny', 'Silverhand');
                /* Credential - Password = Password_1 */
               
               INSERT INTO UserRole

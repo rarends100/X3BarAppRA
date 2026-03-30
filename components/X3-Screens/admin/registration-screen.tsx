@@ -183,11 +183,13 @@ const RegistrationScreen = () => {
                                 user.setPassword(passwordText.trim());
                                 user.setRole(role);
 
+                                console.log(role);
+
                                 if (insertUserSync(db, user)) {
                                     try {
                                         setRegisterButtonPressed(false);
                                         Alert.alert("message", "Registration successful,\nUsername: " + user.getUsername() 
-                                            + "\nPassword: " + user.getPassword()
+                                            + "\nPassword: " + user.getPassword() + "\nRole: " + user.getRole()
                                         );
                                         navigation.navigate('Start');
                                     } catch (ex) {
