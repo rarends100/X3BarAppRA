@@ -19,14 +19,24 @@ export const AuthStack = createStaticNavigation(
   })
 );
 
-export const AdminStack = createStaticNavigation(
+export const TesterStack = createStaticNavigation(
   createDrawerNavigator({
     initialRouteName: 'Home',
     screens: {
-      Home: StartScreen,
+       Home: StartScreen,
+       
+    }
+  })
+)
+
+export const AdminStack = createStaticNavigation(
+  createDrawerNavigator({
+    initialRouteName: 'AdminHome',
+    screens: {
       AdminHome: AdminHomeScreen,
       Register: RegistrationScreen,
       Testing: TestingScreen,
+      
     },
   })
 );

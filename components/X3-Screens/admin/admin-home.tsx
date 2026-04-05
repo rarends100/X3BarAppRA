@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Text, View } from 'react-native';
 
 //Auth REDUX logout
-import { logout } from '@/utilities/AuthSlice';
+import Logout from '@/components/logout';
 import { useDispatch } from 'react-redux';
 
 const AdminHomeScreen = () => {
@@ -19,7 +19,6 @@ const AdminHomeScreen = () => {
         <View>
             <Text>
                 This is the admin home page
-                TODO: Add details to home page to reflect user stories
             </Text>
         <View>
             <Button
@@ -30,15 +29,18 @@ const AdminHomeScreen = () => {
                 }}
             />
             <Button
-                text='Logout'
+                text='Testing'
                 onPress={() => {
-                    console.log('Logout button pressed');
-                    dispatch(logout());
+                    console.log('Registration button pressed');
+                    navigation.navigate('Testing');
                 }}
             />
+            <Logout/>
         </View>
         </View>
     );
 }
 
     export default AdminHomeScreen;
+
+    //test git

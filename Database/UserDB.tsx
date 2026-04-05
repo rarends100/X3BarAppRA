@@ -46,9 +46,10 @@ export function insertUserSync(db: SQLiteDatabase, user: User) {
             }
 
             if (user.getRole() === `${Role.ADMIN}`) {
-                const empID = 'empl' + Math.random() * (100000 - 100) + 10;
-                //user.setEmployeeID(empID);
-                //const employeeID = user.getEmployeeID();
+                const timestamp = Date.now();
+                const random = Math.floor(Math.random() * 10000);
+                const empID : string = `empl${timestamp}${random}`.toString();
+
                 if (!empID) {
                     console.error("UserDB -> insertUserSync() -> Gen Admin -> Error: Employee ID failed to populate for ADMIN");
                 }
@@ -58,7 +59,7 @@ export function insertUserSync(db: SQLiteDatabase, user: User) {
                     (Username, Email, Credential, firstname, lastname, EmployeeID)
                     VALUES
                     (?, ?, ?, ?, ?, ?);`, //6 values
-                    [username,
+                    [   username,
                         email,
                         hashPass,
                         firstName,
@@ -73,7 +74,7 @@ export function insertUserSync(db: SQLiteDatabase, user: User) {
                     (Username, email, Credential, firstname, lastname)
                     VALUES
                     (?, ?, ?, ?, ?);`, //5 values
-                    [username,
+                    [   username,
                         email,
                         hashPass,
                         firstName,
@@ -113,13 +114,13 @@ export function insertUserSync(db: SQLiteDatabase, user: User) {
             console.log('UserDB -> insertUserSync() -> HashPassword: ' + hashPass + 'Password(plain text): ' + password +
                 " username: " + username
             );
-        } catch (ex) {
+        } catch (ex : any) { //returns Error obj
             console.log('\n\nUserDB -> insertUserSync() -> Error entering information into database: \n' + ex + '\n\n');
 
-            if (ex = `Error: Call to function NativeStatement.finalizeSync' has been rejected.
-                → Caused by: Error code : UNIQUE constraint failed: User.UserName`) {
+            if (ex.message.includes(`UNIQUE constraint failed: User.UserName`)) {
 
                 Alert.alert('Alert', 'username already exists, please choose another username.');
+                
 
             }
         }

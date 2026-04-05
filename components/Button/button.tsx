@@ -4,6 +4,11 @@ import { Animated, Pressable, StyleSheet, Text, View } from "react-native";
 
 //https://reactnative.dev/docs/animated#example
 
+/**
+ * 
+ * @param props 
+ * @returns 
+ */
 const Button = (props: any) => {
     const { style = {}, text, onPress, buttonColor = 'orange', fontSize = 24, buttonSideSize = 50, buttonRadius = 0,
         buttonTextColor = 'black', borderColor = 'black', fontWeight = 'normal' } = props;

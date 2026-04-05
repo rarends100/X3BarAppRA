@@ -191,13 +191,13 @@ const RegistrationScreen = () => {
                                         Alert.alert("message", "Registration successful,\nUsername: " + user.getUsername() 
                                             + "\nPassword: " + user.getPassword() + "\nRole: " + user.getRole()
                                         );
-                                        navigation.navigate('Start');
+                                        navigation.navigate('Home');
                                     } catch (ex) {
                                         console.log('navigation issue at .addUserSync() attempt conditional statement');
                                     }
 
                                 } else {
-                                    console.log("registration screen -> user not inserted -> No user added")
+                                    console.log("registration screen -> user not inserted -> No user added");
                                 }
                                 console.log("registration screen -> Validation successful.");
                             } else {
