@@ -21,7 +21,9 @@ const TestingScreen = () => {
             <View>
                 <ScrollView>
                     <Text>{userObjArr.map((elem) => (
-                        "\n" + elem.getUsername()
+                        "\n" + "Username: " + elem.getUsername()
+                       +"\n" + "Role: "     + elem.getRole()
+                       +"\n" + "Email "     + elem.getEmail()
                     ))}</Text>
                 </ScrollView>
                 <Button

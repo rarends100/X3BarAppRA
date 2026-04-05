@@ -33,9 +33,9 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               );
 
               CREATE TABLE IF NOT EXISTS UserRole(
-                 Role TEXT NOT NULL
+                 RoleID INTEGER PRIMARY KEY AUTOINCREMENT
+                ,Role TEXT NOT NULL
                 ,UserID INTEGER NOT NULL
-                ,PRIMARY KEY(Role, UserID)
                 ,FOREIGN KEY(UserID) REFERENCES User(UserID)
               );
               
