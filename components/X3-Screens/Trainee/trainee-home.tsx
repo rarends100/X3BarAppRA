@@ -3,8 +3,11 @@
 import Button from '@/components/Button/button';
 import { Text, View } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
+
 const TraineeHome = () =>{
 
+    const navigation: any = useNavigation();
     return (
         <View>
             <Text>
@@ -15,9 +18,11 @@ const TraineeHome = () =>{
             </Text>
             <Button
                 text="Workout A"
+                 onPress={() => {navigation.navigate("WorkoutA")}}
             />
             <Button
                 text="Workout B"
+                onPress={() => {navigation.navigate("WorkoutB")}}
             />
         </View>
     )
