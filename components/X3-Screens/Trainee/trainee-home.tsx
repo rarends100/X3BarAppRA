@@ -18,11 +18,11 @@ const TraineeHome = () =>{
             </Text>
             <Button
                 text="Workout A"
-                 onPress={() => {navigation.navigate("WorkoutA")}}
+                 onPress={() => {navigation.navigate("WorkoutA");}}
             />
             <Button
                 text="Workout B"
-                onPress={() => {navigation.navigate("WorkoutB")}}
+                onPress={() => {navigation.navigate("WorkoutB");}}
             />
         </View>
     )
