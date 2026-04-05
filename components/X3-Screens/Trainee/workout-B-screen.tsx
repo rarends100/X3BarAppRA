@@ -148,7 +148,8 @@ const WorkoutBScreen = () => {
                     <Button
                         text="Submit"
                         onPress={() => {
-
+                             //TODO ensure validation is processed
+                             //TODO start working on logic to enter a workout, will need to reference db diagram
                         }}
                     />
                 </Animated.ScrollView>

@@ -55,27 +55,4 @@ export const AdminStack = createStaticNavigation(
     },
   })
 );
-      //TODO: add trainee pages to flow once I have made some and as I make them
-
-
-/* uncomment once I start making trainee screens
-const TraineeStack = createDrawerNavigator({
-    initialRouteName: 'TraineeHome',
-    screens: {
-      TraineeHome: TraineeHomeScreen,
-    }
-}); */
-
-//const DrawerNavigation = createStaticNavigation(Drawer);
-
-
-
-/**
-    * TODO: implement all screens
-    * TODO: customize all screens
-    */
-
-
-
-
-//const BaseNavigation = createStaticNavigation(rootStack);
+//TODO - toward the end add screen customization

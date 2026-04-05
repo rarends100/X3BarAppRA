@@ -124,10 +124,10 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               (BandColor, BandSingledMinResistanceInLbs, BandSingledMaxResistanceInLbs, BandDoubledResistanceInLbs)
               VALUES
               ('white', 10, 50, 100),
-              ('light grey', 25, 80, 160),
+              ('lightgrey', 25, 80, 160),
               ('grey', 50, 120, 240),
               ('black', 60, 150, 300),
-              ('Orange Elite', 110, 300, 600); /* the max single resistance is the min doubled resistance*/
+              ('Orange', 110, 300, 600); /* the max single resistance is the min doubled resistance*/
 
               INSERT INTO Workout
               (WorkoutID, workoutDescription)
@@ -185,7 +185,7 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               (1, 'BACKUP_CREATED', '2026-03-12 164500', 'Workout DATABASE Data backed up successfully');
 
 
-              /*TODO: if any 1.indexes, 2.views, or 3.stored procedures are needed designate them here in
+              /*TODO: database creation -> if any 1.indexes, 2.views, or 3.stored procedures are needed designate them here in
                       the order listed. */
           `);
           // link to query db fast and easy https://sqliteonline.com/
