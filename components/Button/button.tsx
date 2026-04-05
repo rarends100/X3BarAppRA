@@ -6,7 +6,16 @@ import { Animated, Pressable, StyleSheet, Text, View } from "react-native";
 
 /**
  * 
- * @param props 
+ * @param props -> options ->
+ * @param text
+ * @param onPress
+ * @param buttonColor
+ * @param fontSize
+ * @param buttonSideSize
+ * @param buttonRadius
+ * @param buttonTextColor
+ * @param borderColor
+ * @param fontWeight
  * @returns 
  */
 const Button = (props: any) => {

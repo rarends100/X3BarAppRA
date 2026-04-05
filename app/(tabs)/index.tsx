@@ -4,7 +4,7 @@
 import { NavigationIndependentTree } from '@react-navigation/native';
 
 //Authorization
-import { AdminStack, AuthStack } from '@/utilities/Navigation';
+import { AdminStack, AuthStack, TraineeStack } from '@/utilities/Navigation';
 import { Role } from '@/utilities/Role';
 import { RootState, store } from '@/utilities/store';
 import { Provider, useSelector } from 'react-redux';
@@ -37,9 +37,9 @@ function App() {
   return (
     <NavigationIndependentTree key={authKey}>
         <SQLiteProvider databaseName={databaseName} onInit={migrateDbIfNeeded}>{/*toplevel SQLite data*/}
-          {!userID && <AuthStack />}
-          {userID && role === Role.ADMIN && <AdminStack />}
-          {userID && role === Role.TRAINEE && <AuthStack /> /*TODO: Change this to TraineeStack once I make it*/}
+          { !userID && <AuthStack /> }
+          { userID && role === Role.ADMIN && <AdminStack /> }
+          { userID && role === Role.TRAINEE && <TraineeStack /> }
         </SQLiteProvider>
     </NavigationIndependentTree>
   );

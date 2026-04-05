@@ -3,6 +3,7 @@ import RegistrationScreen from "@/components/X3-Screens/admin/registration-scree
 import LoginScreen from "@/components/X3-Screens/Auth/login-screen";
 import StartScreen from "@/components/X3-Screens/start-screen";
 import TestingScreen from "@/components/X3-Screens/Testing/testing-screen";
+import TraineeHome from "@/components/X3-Screens/Trainee/trainee-home";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStaticNavigation } from "@react-navigation/native";
 
@@ -25,9 +26,19 @@ export const TesterStack = createStaticNavigation(
     screens: {
        Home: StartScreen,
        
-    }
+    },
   })
-)
+);
+
+export const TraineeStack = createStaticNavigation(
+  createDrawerNavigator({
+    initialRouteName: 'TraineeHome',
+    screens: {
+       TraineeHome: TraineeHome,
+       
+    },
+  })
+);
 
 export const AdminStack = createStaticNavigation(
   createDrawerNavigator({
