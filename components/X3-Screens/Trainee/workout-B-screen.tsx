@@ -17,22 +17,45 @@ const data = [
 ]
 
 const WorkoutBScreen = () => {
-    const [deadLiftreps, setDeadLiftReps] = useState("");
-    const [deadLiftPartialReps, setDeadLiftPartialReps] = useState("");
-    const [deadLiftBandColor, setDeadLiftBandColor] = useState("");
+  
+    //Values state
+    const [ex1Reps, setEx1Reps] = useState("");
+    const [ex1PartialReps, setEx1PartialReps] = useState("");
+    const [ex1BandColor, setEx1BandColor] = useState("");
 
-    const [bentOverRowReps, setBentOverRowReps] = useState("");
-    const [BentOverRowPartialReps, setBentOverRowPartialReps] = useState("");
-    const [bentOverRowBandColor, setBentOverRowBandColor] = useState("");
+    const [ex2Reps, setEx2Reps] = useState("");
+    const [ex2PartialReps, setEx2PartialReps] = useState("");
+    const [ex2BandColor, setEx2BandColor] = useState("");
 
-    const [bicepCurlReps, setBicepCurlReps] = useState("");
-    const [BicepCurlPartialReps, setBicepCurlPartialReps] = useState("");
-    const [bicepCurlBandColor, setBicepCurlBandColor] = useState("");
+    const [ex3Reps, setEx3Reps] = useState("");
+    const [ex3PartialReps, setEx3PartialReps] = useState("");
+    const [ex3BandColor, setEx3BandColor] = useState("");
 
-    const [calfRaiseReps, setCalfRaiseReps] = useState("");
-    const [CalfRaisePartialReps, setCalfRaisePartialReps] = useState("");
-    const [calfRaiseBandColor, setCalfRaiseBandColor] = useState("");
+    const [ex4Reps, setEx4Reps] = useState("");
+    const [ex4PartialReps, setEx4PartialReps] = useState("");
+    const [ex4BandColor, setEx4BandColor] = useState("");
 
+    //Validation state
+    const [ex1RepsGood, setEx1RespsGood ] = useState(true);
+    const [ex1PartialRepsGood,setEx1PartialRepsGood ] = useState(true);
+    const [ex1BandColorSelectedGood,setEx1BandColorSelectedGood ] = useState(true);
+
+    const [ex2RepsGood, setEx2RespsGood ] = useState(true);
+    const [ex2PartialRepsGood,setEx2PartialRepsGood ] = useState(true);
+    const [ex2BandColorSelectedGood,setEx2BandColorSelectedGood ] = useState(true);
+
+    const [ex3RepsGood, setEx3RespsGood ] = useState(true);
+    const [ex3PartialRepsGood,setEx3PartialRepsGood ] = useState(true);
+    const [ex3BandColorSelectedGood,setEx3BandColorSelectedGood ] = useState(true);
+
+    const [ex4RepsGood, setEx4RespsGood ] = useState(true);
+    const [ex4PartialRepsGood,setEx4PartialRepsGood ] = useState(true);
+    const [ex4BandColorSelectedGood,setEx4BandColorSelectedGood ] = useState(true);
+
+    //errors messages for 3 possibilties
+    const repsBad = "You must enter reps as a number.";
+    const partialRepsBad = "You must enter partial reps as a number.";
+    const bandColorBad = "You select a band color.";
 
     return (
         <SafeAreaView>
@@ -46,14 +69,14 @@ const WorkoutBScreen = () => {
                         <View>
                             <Text>reps</Text>
                             <TextInput
-                                onChangeText={setDeadLiftReps}
-                                value={deadLiftreps}
+                                onChangeText={setEx1Reps}
+                                value={ex1Reps}
                                 placeholder="0"
                             />
                             <Text>partial reps</Text>
                             <TextInput
-                                onChangeText={setDeadLiftPartialReps}
-                                value={deadLiftPartialReps}
+                                onChangeText={setEx1PartialReps}
+                                value={ex1PartialReps}
                                 placeholder="0"
                             />
                             <Dropdown
@@ -62,23 +85,26 @@ const WorkoutBScreen = () => {
                                 labelField="label"
                                 valueField="value"
                                 placeholder="Select Band Color"
-                                value={deadLiftBandColor}
+                                value={setEx1BandColor}
                                 onChange={item => {
-                                    setDeadLiftBandColor(item.value);
+                                    setEx1BandColor(item.value);
                                 }}
                             />
                         </View>
+                        {ex1RepsGood? "" : <Text>{repsBad}</Text>}
+                        {ex1PartialRepsGood? "" : <Text>{partialRepsBad}</Text>}
+                        {ex1BandColorSelectedGood? "" : <Text>{bandColorBad}</Text>}
                         <Text>Bentover Row</Text>
                         <View>
                             <Text>reps</Text>
                             <TextInput
-                                onChangeText={setBentOverRowReps}
-                                value={bentOverRowReps}
+                                onChangeText={setEx2Reps}
+                                value={ex2Reps}
                                 placeholder="0"
                             />
                             <TextInput
-                                onChangeText={setBentOverRowPartialReps}
-                                value={BentOverRowPartialReps}
+                                onChangeText={setEx2PartialReps}
+                                value={ex2PartialReps}
                                 placeholder="0"
                             />
                               <Dropdown
@@ -87,23 +113,26 @@ const WorkoutBScreen = () => {
                                 labelField="label"
                                 valueField="value"
                                 placeholder="Select Band Color"
-                                value={bentOverRowBandColor}
+                                value={ex2BandColor}
                                 onChange={item => {
-                                    setBentOverRowBandColor(item.value);
+                                    setEx2BandColor(item.value);
                                 }}
                             />
                         </View>
+                        {ex2RepsGood? "" : <Text>{repsBad}</Text>}
+                        {ex2PartialRepsGood? "" : <Text>{partialRepsBad}</Text>}
+                        {ex2BandColorSelectedGood? "" : <Text>{bandColorBad}</Text>}
                         <Text>Bicep curl</Text>
                         <View>
                             <Text>reps</Text>
                             <TextInput
-                                onChangeText={setBicepCurlReps}
-                                value={bicepCurlReps}
+                                onChangeText={setEx3Reps}
+                                value={ex3Reps}
                                 placeholder="0"
                             />
                             <TextInput
-                                onChangeText={setBicepCurlPartialReps}
-                                value={BicepCurlPartialReps}
+                                onChangeText={setEx3PartialReps}
+                                value={ex3PartialReps}
                                 placeholder="0"
                             />
                               <Dropdown
@@ -112,23 +141,26 @@ const WorkoutBScreen = () => {
                                 labelField="label"
                                 valueField="value"
                                 placeholder="Select Band Color"
-                                value={bicepCurlBandColor}
+                                value={ex3BandColor}
                                 onChange={item => {
-                                    setBicepCurlBandColor(item.value);
+                                    setEx3BandColor(item.value);
                                 }}
                             />
                         </View>
+                        {ex3RepsGood? "" : <Text>{repsBad}</Text>}
+                        {ex3PartialRepsGood? "" : <Text>{partialRepsBad}</Text>}
+                        {ex3BandColorSelectedGood? "" : <Text>{bandColorBad}</Text>}
                         <Text>Calf Raise</Text>
                         <View>
                             <Text>reps</Text>
                             <TextInput
-                                onChangeText={setCalfRaiseReps}
-                                value={calfRaiseReps}
+                                onChangeText={setEx4Reps}
+                                value={ex4Reps}
                                 placeholder="0"
                             />
                             <TextInput
-                                onChangeText={setCalfRaisePartialReps}
-                                value={CalfRaisePartialReps}
+                                onChangeText={setEx4PartialReps}
+                                value={ex4PartialReps}
                                 placeholder="0"
                             />
                               <Dropdown
@@ -137,18 +169,22 @@ const WorkoutBScreen = () => {
                                 labelField="label"
                                 valueField="value"
                                 placeholder="Select Band Color"
-                                value={calfRaiseBandColor}
+                                value={ex4BandColor}
                                 onChange={item => {
-                                    setCalfRaiseBandColor(item.value);
+                                    setEx4BandColor(item.value);
                                 }}
                             />
                         </View>
-
                     </View>
+                    {ex4RepsGood? "" : <Text>{repsBad}</Text>}
+                    {ex4PartialRepsGood? "" : <Text>{partialRepsBad}</Text>}
+                    {ex4BandColorSelectedGood? "" : <Text>{bandColorBad}</Text>}
                     <Button
                         text="Submit"
                         onPress={() => {
                              //TODO ensure validation is processed
+
+
                              //TODO start working on logic to enter a workout, will need to reference db diagram
                         }}
                     />

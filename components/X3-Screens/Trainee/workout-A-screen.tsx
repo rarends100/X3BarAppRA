@@ -8,6 +8,7 @@ import { useState } from 'react';
 
 import { Dropdown } from 'react-native-element-dropdown';
 
+
 const data = [
     { label: 'white', value: 'white' },
     { label: 'light grey', value: 'lightgrey' },
@@ -17,22 +18,44 @@ const data = [
 ]
 
 const WorkoutBScreen = () => {
-    const [chestPressReps, setChestPressReps] = useState("");
-    const [chestPressPartialReps, setChestPressPartialReps] = useState("");
-    const [chestPressBandColor, setChestPressBandColor] = useState("");
+    //Values state
+    const [ex1Reps, setEx1Reps] = useState("");
+    const [ex1PartialReps, setEx1PartialReps] = useState("");
+    const [ex1BandColor, setEx1BandColor] = useState("");
 
-    const [tricepPressReps, setTricepPressReps] = useState("");
-    const [tricepPressPatialReps, setTricepPressPatialReps] = useState("");
-    const [tricepPressBandColor, setTricepPressBandColor] = useState("");
+    const [ex2Reps, setEx2Reps] = useState("");
+    const [ex2PartialReps, setEx2PartialReps] = useState("");
+    const [ex2BandColor, setEx2BandColor] = useState("");
 
-    const [overHeadPressReps, setOverHeadPressReps] = useState("");
-    const [overHeadPressPartialReps, setOverHeadPressPartialReps] = useState("");
-    const [overHeadPressBandColor, setOverHeadPressBandColor] = useState("");
+    const [ex3Reps, setEx3Reps] = useState("");
+    const [ex3PartialReps, setEx3PartialReps] = useState("");
+    const [ex3BandColor, setEx3BandColor] = useState("");
 
-    const [frontsquatReps, setFrontsquatReps] = useState("");
-    const [frontsquatPartialReps, setFrontsquatPartialReps] = useState("");
-    const [frontsquatBandColor, setFrontsquatBandColor] = useState("");
+    const [ex4Reps, setEx4Reps] = useState("");
+    const [ex4PartialReps, setEx4PartialReps] = useState("");
+    const [ex4BandColor, setEx4BandColor] = useState("");
 
+    //Validation state
+    const [ex1RepsGood, setEx1RespsGood ] = useState(true);
+    const [ex1PartialRepsGood,setEx1PartialRepsGood ] = useState(true);
+    const [ex1BandColorSelectedGood,setEx1BandColorSelectedGood ] = useState(true);
+
+    const [ex2RepsGood, setEx2RespsGood ] = useState(true);
+    const [ex2PartialRepsGood,setEx2PartialRepsGood ] = useState(true);
+    const [ex2BandColorSelectedGood,setEx2BandColorSelectedGood ] = useState(true);
+
+    const [ex3RepsGood, setEx3RespsGood ] = useState(true);
+    const [ex3PartialRepsGood,setEx3PartialRepsGood ] = useState(true);
+    const [ex3BandColorSelectedGood,setEx3BandColorSelectedGood ] = useState(true);
+
+    const [ex4RepsGood, setEx4RespsGood ] = useState(true);
+    const [ex4PartialRepsGood,setEx4PartialRepsGood ] = useState(true);
+    const [ex4BandColorSelectedGood,setEx4BandColorSelectedGood ] = useState(true);
+    
+    //errors messages for 3 possibilties
+    const repsBad = "You must enter reps as a number.";
+    const partialRepsBad = "You must enter partial reps as a number.";
+    const bandColorBad = "You select a band color.";
 
     return (
         <SafeAreaView>
@@ -46,14 +69,15 @@ const WorkoutBScreen = () => {
                         <View>
                             <Text>reps</Text>
                             <TextInput
-                                onChangeText={setChestPressReps}
-                                value={chestPressReps}
+                                onChangeText={setEx1Reps}
+                                value={ex1Reps}
                                 placeholder="0"
                             />
+                            
                             <Text>partial reps</Text>
                             <TextInput
-                                onChangeText={setChestPressPartialReps}
-                                value={chestPressPartialReps}
+                                onChangeText={setEx1PartialReps}
+                                value={ex1PartialReps}
                                 placeholder="0"
                             />
                             <Dropdown
@@ -62,23 +86,26 @@ const WorkoutBScreen = () => {
                                 labelField="label"
                                 valueField="value"
                                 placeholder="Select Band Color"
-                                value={chestPressBandColor}
+                                value={setEx1BandColor}
                                 onChange={item => {
-                                    setChestPressBandColor(item.value);
+                                    setEx1BandColor(item.value);
                                 }}
                             />
                         </View>
+                        {ex1RepsGood? "" : <Text>{repsBad}</Text>}
+                        {ex1PartialRepsGood? "" : <Text>{partialRepsBad}</Text>}
+                        {ex1BandColorSelectedGood? "" : <Text>{bandColorBad}</Text>}
                         <Text>Tricep Press</Text>
                         <View>
                             <Text>reps</Text>
                             <TextInput
-                                onChangeText={setTricepPressReps}
-                                value={tricepPressReps}
+                                onChangeText={setEx2Reps}
+                                value={ex2Reps}
                                 placeholder="0"
                             />
                             <TextInput
-                                onChangeText={setTricepPressPatialReps}
-                                value={tricepPressPatialReps}
+                                onChangeText={setEx2PartialReps}
+                                value={ex2PartialReps}
                                 placeholder="0"
                             />
                               <Dropdown
@@ -87,23 +114,26 @@ const WorkoutBScreen = () => {
                                 labelField="label"
                                 valueField="value"
                                 placeholder="Select Band Color"
-                                value={tricepPressBandColor}
+                                value={ex2BandColor}
                                 onChange={item => {
-                                    setTricepPressBandColor(item.value);
+                                    setEx2BandColor(item.value);
                                 }}
                             />
                         </View>
+                        {ex2RepsGood? "" : <Text>{repsBad}</Text>}
+                        {ex2PartialRepsGood? "" : <Text>{partialRepsBad}</Text>}
+                        {ex2BandColorSelectedGood? "" : <Text>{bandColorBad}</Text>}
                         <Text>Overhead Press</Text>
                         <View>
                             <Text>reps</Text>
                             <TextInput
-                                onChangeText={setOverHeadPressReps}
-                                value={overHeadPressReps}
+                                onChangeText={setEx3Reps}
+                                value={ex3Reps}
                                 placeholder="0"
                             />
                             <TextInput
-                                onChangeText={setOverHeadPressPartialReps}
-                                value={overHeadPressPartialReps}
+                                onChangeText={setEx3PartialReps}
+                                value={ex3PartialReps}
                                 placeholder="0"
                             />
                               <Dropdown
@@ -112,23 +142,26 @@ const WorkoutBScreen = () => {
                                 labelField="label"
                                 valueField="value"
                                 placeholder="Select Band Color"
-                                value={overHeadPressBandColor}
+                                value={ex3BandColor}
                                 onChange={item => {
-                                    setOverHeadPressBandColor(item.value);
+                                    setEx3BandColor(item.value);
                                 }}
                             />
                         </View>
+                        {ex3RepsGood? "" : <Text>{repsBad}</Text>}
+                        {ex3PartialRepsGood? "" : <Text>{partialRepsBad}</Text>}
+                        {ex3BandColorSelectedGood? "" : <Text>{bandColorBad}</Text>}
                         <Text>Front Squat</Text>
                         <View>
                             <Text>reps</Text>
                             <TextInput
-                                onChangeText={setFrontsquatReps}
-                                value={frontsquatReps}
+                                onChangeText={setEx4Reps}
+                                value={ex4Reps}
                                 placeholder="0"
                             />
                             <TextInput
-                                onChangeText={setFrontsquatPartialReps}
-                                value={frontsquatPartialReps}
+                                onChangeText={setEx4PartialReps}
+                                value={ex4PartialReps}
                                 placeholder="0"
                             />
                               <Dropdown
@@ -137,18 +170,23 @@ const WorkoutBScreen = () => {
                                 labelField="label"
                                 valueField="value"
                                 placeholder="Select Band Color"
-                                value={frontsquatBandColor}
+                                value={ex4BandColor}
                                 onChange={item => {
-                                    setFrontsquatBandColor(item.value);
+                                    setEx4BandColor(item.value);
                                 }}
                             />
-                        </View>
-
+                        </View>         
                     </View>
+                    {ex4RepsGood? "" : <Text>{repsBad}</Text>}
+                    {ex4PartialRepsGood? "" : <Text>{partialRepsBad}</Text>}
+                    {ex4BandColorSelectedGood? "" : <Text>{bandColorBad}</Text>}
                     <Button
                         text="Submit"
                         onPress={() => { 
                             //TODO ensure validation is processed
+                            
+
+
                             //TODO start working on logic to enter a workout, will need to reference db diagram
                            
                         }}
