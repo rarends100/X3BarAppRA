@@ -1,2 +1,2 @@
-- figure out what is going on in login to cause 
-    it to fail. First load a manual Sqlite db and then run queries, then input that query into my db functions
+- Write functions to pull needed data from the database for exercises
+- write a function to insert the correct data into the db for a logged workout
