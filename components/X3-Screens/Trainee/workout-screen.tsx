@@ -9,7 +9,13 @@ import { useEffect, useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 
 import { fetchJSONArrAvailableWorkoutTypes } from '@/database/WorkoutDB';
+
 import { useSQLiteContext } from 'expo-sqlite';
+
+import Validation from '@/Validation';
+import { fetchArrOfExercises } from '@/database/ExerciseDB';
+import { RootState } from '@/utilities/store';
+import { useSelector } from 'react-redux';
 
 const data = [
     { label: 'white', value: 'white' },
@@ -23,7 +29,13 @@ const WorkoutScreen = () => {
     //hooks
     const db = useSQLiteContext();
     const [workoutOptionArrData, setWorkoutOptionArrData] = useState([]);
-    const [workoutSelected, setWorkoutSelected] = useState();
+    const [workoutSelected, setWorkoutSelected] = useState("");
+    const [workoutSelectedGood, setWorkoutSelectedGood] = useState();
+
+    const [enterWorkoutClicked, setEnterWorkoutClicked] = useState(false);
+
+    //user values stored in the redux store
+    const { userID, role, username } = useSelector((state: RootState) => state.auth);
 
     useEffect(() => {
         /*
@@ -42,45 +54,41 @@ const WorkoutScreen = () => {
             .catch(error => console.log("Error retrieving workout options. \nError: " + error));
     }, []);
 
+    useEffect(() => {
+        console.log("workoutSelectedEffect fired");
+        let arr: string[] = [];
+        fetchArrOfExercises(db, workoutSelected)
+            .then(data => data?.map((value, index, row) => {
+                console.log(row[index].ExerciseName);
+                arr.push(row[index].ExerciseName); //populate array
+                arr.map(value => console.log("value: " + value)); //show array
+                setExNamesArr(arr); //set array to state obj
+            }))
+            .catch(err => console.error("Issue retrieving exercises. \nError: " + err));
+    }, [workoutSelected]); // anytime this value changes, the effect will fire
 
     //Values state
-    const [ex1Reps, setEx1Reps] = useState("");
-    const [ex1PartialReps, setEx1PartialReps] = useState("");
+    const [exNamesArr, setExNamesArr] = useState([""]); //stores all of the exercise names populated from the useEffect() exercise data fetch so that they display on the form and can be used for data entry.
+    
+    const [ex1Reps, setEx1Reps] = useState("0");
+    const [ex1PartialReps, setEx1PartialReps] = useState("0");
     const [ex1BandColor, setEx1BandColor] = useState("");
 
-    const [ex2Reps, setEx2Reps] = useState("");
-    const [ex2PartialReps, setEx2PartialReps] = useState("");
+    const [ex2Reps, setEx2Reps] = useState("0");
+    const [ex2PartialReps, setEx2PartialReps] = useState("0");
     const [ex2BandColor, setEx2BandColor] = useState("");
 
-    const [ex3Reps, setEx3Reps] = useState("");
-    const [ex3PartialReps, setEx3PartialReps] = useState("");
+    const [ex3Reps, setEx3Reps] = useState("0");
+    const [ex3PartialReps, setEx3PartialReps] = useState("0");
     const [ex3BandColor, setEx3BandColor] = useState("");
 
-    const [ex4Reps, setEx4Reps] = useState("");
-    const [ex4PartialReps, setEx4PartialReps] = useState("");
+    const [ex4Reps, setEx4Reps] = useState("0");
+    const [ex4PartialReps, setEx4PartialReps] = useState("0");
     const [ex4BandColor, setEx4BandColor] = useState("");
 
-    //Validation state
-    const [ex1RepsGood, setEx1RespsGood] = useState(true);
-    const [ex1PartialRepsGood, setEx1PartialRepsGood] = useState(true);
-    const [ex1BandColorSelectedGood, setEx1BandColorSelectedGood] = useState(true);
-
-    const [ex2RepsGood, setEx2RespsGood] = useState(true);
-    const [ex2PartialRepsGood, setEx2PartialRepsGood] = useState(true);
-    const [ex2BandColorSelectedGood, setEx2BandColorSelectedGood] = useState(true);
-
-    const [ex3RepsGood, setEx3RespsGood] = useState(true);
-    const [ex3PartialRepsGood, setEx3PartialRepsGood] = useState(true);
-    const [ex3BandColorSelectedGood, setEx3BandColorSelectedGood] = useState(true);
-
-    const [ex4RepsGood, setEx4RespsGood] = useState(true);
-    const [ex4PartialRepsGood, setEx4PartialRepsGood] = useState(true);
-    const [ex4BandColorSelectedGood, setEx4BandColorSelectedGood] = useState(true);
-
-    //errors messages for 3 possibilties
-    const repsBad = "You must enter reps as a number.";
-    const partialRepsBad = "You must enter partial reps as a number.";
+    //errors messages for 2 possibilties
     const bandColorBad = "You must select a band color.";
+    const workoutNotSelected = "You must select a workout.";
 
     return (
         <SafeAreaView>
@@ -94,16 +102,15 @@ const WorkoutScreen = () => {
                             valueField="value"
                             placeholder="Select Workout Type"
                             value={workoutSelected}
-                            onChange={item => {
-                                setWorkoutSelected(item);
-                            }}
+                            onChange={item => setWorkoutSelected(item.value)}
                         />
+                        {enterWorkoutClicked? Validation.isBlank(workoutSelected)? <Text>{workoutNotSelected}</Text> : "": ""}
                     </View>
                     <View>
-                        <Text>Workout A - Push Day</Text>
+                        <Text>Workout {workoutSelected}</Text>
                     </View>
                     <View>
-                        <Text>Chest Press</Text>
+                        <Text>{exNamesArr != null? exNamesArr[0] : ""}</Text>
                         <View>
                             <Text>reps</Text>
                             <TextInput
@@ -130,10 +137,8 @@ const WorkoutScreen = () => {
                                 }}
                             />
                         </View>
-                        {ex1RepsGood ? "" : <Text>{repsBad}</Text>}
-                        {ex1PartialRepsGood ? "" : <Text>{partialRepsBad}</Text>}
-                        {ex1BandColorSelectedGood ? "" : <Text>{bandColorBad}</Text>}
-                        <Text>Tricep Press</Text>
+                        {enterWorkoutClicked? Validation.isBlank(ex1BandColor) ? <Text>{bandColorBad}</Text>: ""  : ""}
+                        <Text>{exNamesArr != null? exNamesArr[1] : ""}</Text>
                         <View>
                             <Text>reps</Text>
                             <TextInput
@@ -158,10 +163,8 @@ const WorkoutScreen = () => {
                                 }}
                             />
                         </View>
-                        {ex2RepsGood ? "" : <Text>{repsBad}</Text>}
-                        {ex2PartialRepsGood ? "" : <Text>{partialRepsBad}</Text>}
-                        {ex2BandColorSelectedGood ? "" : <Text>{bandColorBad}</Text>}
-                        <Text>Overhead Press</Text>
+                        {enterWorkoutClicked? Validation.isBlank(ex2BandColor) ? <Text>{bandColorBad}</Text>: ""  : ""}
+                        <Text>{exNamesArr != null? exNamesArr[2] : ""}</Text>
                         <View>
                             <Text>reps</Text>
                             <TextInput
@@ -186,10 +189,8 @@ const WorkoutScreen = () => {
                                 }}
                             />
                         </View>
-                        {ex3RepsGood ? "" : <Text>{repsBad}</Text>}
-                        {ex3PartialRepsGood ? "" : <Text>{partialRepsBad}</Text>}
-                        {ex3BandColorSelectedGood ? "" : <Text>{bandColorBad}</Text>}
-                        <Text>Front Squat</Text>
+                        {enterWorkoutClicked? Validation.isBlank(ex3BandColor) ? <Text>{bandColorBad}</Text>: ""  : ""}
+                        <Text>{exNamesArr != null? exNamesArr[3] : ""}</Text>
                         <View>
                             <Text>reps</Text>
                             <TextInput
@@ -215,13 +216,13 @@ const WorkoutScreen = () => {
                             />
                         </View>
                     </View>
-                    {ex4RepsGood ? "" : <Text>{repsBad}</Text>}
-                    {ex4PartialRepsGood ? "" : <Text>{partialRepsBad}</Text>}
-                    {ex4BandColorSelectedGood ? "" : <Text>{bandColorBad}</Text>}
+                    {enterWorkoutClicked? Validation.isBlank(ex4BandColor) ? <Text>{bandColorBad}</Text>: ""  : ""}
                     <Button
                         text="Submit"
                         onPress={() => {
                             //TODO ensure validation is processed
+                            setEnterWorkoutClicked(true);
+
 
 
 
