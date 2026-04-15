@@ -8,7 +8,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { RootState } from '@/utilities/store';
 import { useSelector } from 'react-redux';
 
-const workoutInfoScreen = () => {
+const WorkoutInfoScreen = () => {
     const db = useSQLiteContext();
     
     const [loggedWorkoutsArr, setLoggedWorkoutsArr] = useState();
@@ -35,4 +35,4 @@ const workoutInfoScreen = () => {
     )
 }
 
-export default workoutInfoScreen;
+export default WorkoutInfoScreen;

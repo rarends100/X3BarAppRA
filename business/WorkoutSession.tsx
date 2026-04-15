@@ -4,39 +4,41 @@ import LoggedExercisePerWorkout from "./LoggedExercisePerWorkout";
 
 class WorkoutSession {
     #workoutSessionID: number;
-    #workoutID: string = "";
-    #userID: string = "";
-    #Date: Date | null = null;
+    #workoutID: string | null;
+    #userID: number | null;
+    #Date: Date | null;
     #ExercisesForWorkout: LoggedExercisePerWorkout[] | null;
 
-    constructor(workoutSessionID: any, workoutID: any, userID: any) {
+    constructor(workoutSessionID: number = -1, //default constructor
+        workoutID: string | null = null, userID: number | null = null, Date : Date | null = null) {
         this.#workoutSessionID = workoutSessionID;
         this.#workoutID = workoutID;
         this.#userID = userID;
+        this.#Date = Date;
         this.#ExercisesForWorkout = null;
     }
 
-    get workoutSessionID() {
+    getworkoutSessionID() {
         return this.#workoutSessionID;
     }
-    set workoutSessionID(workoutSessionID) {
+    setworkoutSessionID(workoutSessionID: number) {
         this.#workoutSessionID = workoutSessionID;
     }
 
     // Getter and Setter for #workoutID
-    get workoutID() {
+    getWorkoutID() {
         return this.#workoutID;
     }
-    set workoutID(workoutSessionID) {
-        this.#workoutID = workoutSessionID;
+    setworkoutID(workoutID: string) {
+        this.#workoutID = workoutID;
     }
 
     // Getter and Setter for #userID
-    get userID() {
+    getUserID() {
         return this.#userID;
     }
-    set userID(workoutSessionID) {
-        this.#userID = workoutSessionID;
+    setUserID(userID: number) {
+        this.#userID = userID;
     }
 
     getExercisesForWorkout(){
@@ -62,3 +64,5 @@ class WorkoutSession {
     }
 
 }
+
+export default WorkoutSession;
