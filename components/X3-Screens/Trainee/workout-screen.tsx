@@ -94,6 +94,7 @@ const WorkoutScreen = () => {
     //errors messages for 2 possibilties
     const bandColorBad = "You must select a band color.";
     const workoutNotSelected = "You must select a workout.";
+    const repsAndPartialRepsbad = "The value entered for reps and partial reps must be a number.";
 
     return (
         <SafeAreaView>
@@ -144,6 +145,7 @@ const WorkoutScreen = () => {
                             />
                         </View>
                         {enterWorkoutClicked ? Validation.isBlank(ex1BandColor) ? <Text>{bandColorBad}</Text> : "" : ""}
+                        {enterWorkoutClicked ? Validation.isNum(ex1Reps) && Validation.isNum(ex1PartialReps) ? "" : <Text>{repsAndPartialRepsbad}</Text> : ""}
                         <Text>{exNamesArr != null ? exNamesArr[1] : ""}</Text>
                         <View>
                             <Text>reps</Text>
@@ -170,6 +172,7 @@ const WorkoutScreen = () => {
                             />
                         </View>
                         {enterWorkoutClicked ? Validation.isBlank(ex2BandColor) ? <Text>{bandColorBad}</Text> : "" : ""}
+                         {enterWorkoutClicked ? Validation.isNum(ex2Reps) && Validation.isNum(ex2PartialReps) ?  "" : <Text>{repsAndPartialRepsbad}</Text> : ""}
                         <Text>{exNamesArr != null ? exNamesArr[2] : ""}</Text>
                         <View>
                             <Text>reps</Text>
@@ -196,6 +199,7 @@ const WorkoutScreen = () => {
                             />
                         </View>
                         {enterWorkoutClicked ? Validation.isBlank(ex3BandColor) ? <Text>{bandColorBad}</Text> : "" : ""}
+                        {enterWorkoutClicked ? Validation.isNum(ex3Reps) && Validation.isNum(ex3PartialReps) ? "" : <Text>{repsAndPartialRepsbad}</Text> : ""}
                         <Text>{exNamesArr != null ? exNamesArr[3] : ""}</Text>
                         <View>
                             <Text>reps</Text>
@@ -223,6 +227,7 @@ const WorkoutScreen = () => {
                         </View>
                     </View>
                     {enterWorkoutClicked ? Validation.isBlank(ex4BandColor) ? <Text>{bandColorBad}</Text> : "" : ""}
+                    {enterWorkoutClicked ? Validation.isNum(ex4Reps) && Validation.isNum(ex4PartialReps) ? "" : <Text>{repsAndPartialRepsbad}</Text> : ""}
                     <Button
                         text="Submit"
                         onPress={() => {
@@ -230,7 +235,12 @@ const WorkoutScreen = () => {
                             setEnterWorkoutClicked(true);
                             if (!Validation.isBlank(ex1BandColor) && !Validation.isBlank(ex2BandColor)
                                 && !Validation.isBlank(ex3BandColor) && !Validation.isBlank(ex4BandColor)
-                                && !Validation.isBlank(workoutSelected)) {
+                                && !Validation.isBlank(workoutSelected)
+                                
+                                && Validation.isNum(ex1Reps) && Validation.isNum(ex1PartialReps)
+                                && Validation.isNum(ex2Reps) && Validation.isNum(ex2PartialReps)
+                                && Validation.isNum(ex3Reps) && Validation.isNum(ex3PartialReps)
+                                && Validation.isNum(ex4Reps) && Validation.isNum(ex4PartialReps)) {
                                 try {
                                     console.log("chack me:2011-10-05T14:48:00.000Z " + exNamesArr[1]);
                                     const workoutLog1 = new LoggedExercisePerWorkout();

@@ -55,9 +55,9 @@ export const helperInsertWorkoutExercisesAsync = async (db: SQLiteDatabase, ...P
         //console.log("helperInserWorkoutExercisesAsync " + value.LoggedExerciseName);
         const LoggedExerciseName = value.getLoggedExerciseName();
         const LoggedBandColor = value.getLoggedBandcolor();
-        const reps = value.getReps();
-        const partialReps = value.getPartialReps();
-        const LoggedWorkoutSessionID = value.getLoggedWorkoutSessionID();
+        const reps = parseInt(value.getReps());
+        const partialReps = parseInt(value.getPartialReps());
+        const LoggedWorkoutSessionID = parseInt(value.getLoggedWorkoutSessionID());
 
         console.log(`LoggedWorkoutSessionID: ${LoggedWorkoutSessionID}\nLoggedExerciseName: ${LoggedExerciseName}\n
                     LoggedBandColor: ${LoggedBandColor} \nreps: ${reps} \npartialReps: ${partialReps}`);
