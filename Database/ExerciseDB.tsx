@@ -4,6 +4,7 @@ import { SQLiteDatabase } from "expo-sqlite";
 import { Alert } from "react-native";
 
 import { iExercise } from "@/Interfaces/iExerciseInterface";
+import { iLoggedExercisePerWorkout } from "@/Interfaces/iLoggedExercisePerWorkout";
 
 const insertExercise = (db: SQLiteDatabase,) => {
     Alert
@@ -35,6 +36,35 @@ export const fetchArrOfExercises = async (db: SQLiteDatabase, workout: string) =
     }
 }
 
-export const fetchExercisesByWorkoutSessionIDAsync = async (db: SQLiteDatabase, workoutType: string) => {
+/**
+ * Gets all exercises for a workout session.
+ * @param db 
+ * @param WorkoutSessionID 
+ * @returns allRows: {
+        LoggedWorkoutSessionID: string;
+        loggedExerciseName: string;
+        loggedBandColor: string;
+        reps: Int32Array<ArrayBufferLike>;
+        partialReps: Int32Array;
+    }[]
+ */
+export const fetchExercisesByWorkoutSessionIDAsync = async (db: SQLiteDatabase, WorkoutSessionID: string) => {
     //TODO: fill in functionalty
+    
+    try {
+        const allRows = await db.getAllAsync<iLoggedExercisePerWorkout>(
+            `SELECT LoggedWorkoutSessionID, LoggedExerciseName, LoggedBandColor, reps, partialReps 
+             FROM LoggedExercisesPerWorkout
+             WHERE LoggedWorkoutSessionID = 2;`,
+             WorkoutSessionID
+        );
+
+        allRows.map((value) => {
+            console.log(".fetchExercisesByWorkoutSessionIDAsync() -> \n\texercise: " 
+                + value.loggedExerciseName)
+        });
+        return allRows;
+    } catch (ex) {
+        console.error("Exercise DB -> .fetchArrOfExercises() -> \nException: " + ex);
+    }
 }

@@ -15,7 +15,11 @@ const TraineeHome = () =>{
             </Text>
             <Button
                 text="Enter Workout"
-                 onPress={() => {navigation.navigate("Workout");}}
+                 onPress={() => {navigation.navigate("WorkoutEntry");}}
+            />
+            <Button
+                text="View Workouts"
+                 onPress={() => {navigation.navigate("workoutList");}}
             />
         </View>
     )

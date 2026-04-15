@@ -36,7 +36,7 @@ const data = [
 
 
 
-const WorkoutScreen = () => {
+const WorkoutEntryScreen = () => {
     //hooks
     const db = useSQLiteContext();
     const [workoutOptionArrData, setWorkoutOptionArrData] = useState([]);
@@ -353,4 +353,4 @@ const WorkoutScreen = () => {
     );
 }
 
-export default WorkoutScreen;
+export default WorkoutEntryScreen;

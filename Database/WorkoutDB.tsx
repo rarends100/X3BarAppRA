@@ -3,6 +3,7 @@
 import { SQLiteDatabase } from "expo-sqlite";
 
 import LoggedExercisePerWorkout from '@/business/LoggedExercisePerWorkout';
+import { iWorkoutSession } from "@/Interfaces/iWorkoutSession";
 
 /**
  * Inserts a workout and exercises associated to it for parameters provided from the workout screen. 
@@ -97,6 +98,36 @@ export const fetchJSONArrAvailableWorkoutTypes = async (db: SQLiteDatabase) => {
 
         allRows.map((value) => {
             console.log("exercise: " + value)
+        });
+        return allRows;
+    } catch (ex) {
+        console.error("Exercise DB -> .fetchArrOfExercises() -> \nException: " + ex);
+    }
+}
+
+/**
+ * Gets all workout Sessions for a given user by userID.
+ * @param db 
+ * @returns allRows: {
+        LoggedWorkoutSessionID: number;
+        WorkoutID: string;
+        UserID: number;
+    }[]
+ */
+export const fetchWorkoutSessionsByUserIDAsync = async (db: SQLiteDatabase, userID: any) => {
+    //TODO: fill in functionalty
+    
+    try {
+        const allRows = await db.getAllAsync<iWorkoutSession>(
+            `SELECT LoggedWorkoutSessionID , WorkoutID, UserID, WorkoutDate 
+             FROM WorkoutSessionLog 
+             WHERE userID = 2;`,
+             userID
+        );
+
+        allRows.map((value) => {
+            console.log(".fetchWorkoutSessionsAsync() -> \nworkoutSessionID: " 
+                + value.LoggedWorkoutSessionID + " workout date: " + value.WorkoutDate);
         });
         return allRows;
     } catch (ex) {

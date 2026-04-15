@@ -4,7 +4,10 @@ import LoginScreen from "@/components/X3-Screens/Auth/login-screen";
 import StartScreen from "@/components/X3-Screens/start-screen";
 import TestingScreen from "@/components/X3-Screens/Testing/testing-screen";
 import TraineeHome from "@/components/X3-Screens/Trainee/trainee-home";
-import WorkoutScreen from "@/components/X3-Screens/Trainee/workout-screen";
+import WorkoutEntryScreen from "@/components/X3-Screens/Trainee/workout-entry-screen";
+import workoutInfoScreen from "@/components/X3-Screens/Trainee/workout-info-screen";
+import workoutListScreen from "@/components/X3-Screens/Trainee/workout-list-screen";
+
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStaticNavigation } from "@react-navigation/native";
 
@@ -25,8 +28,8 @@ export const TesterStack = createStaticNavigation(
   createDrawerNavigator({
     initialRouteName: 'Home',
     screens: {
-       Home: StartScreen,
-       
+      Home: StartScreen,
+
     },
   })
 );
@@ -35,11 +38,18 @@ export const TraineeStack = createStaticNavigation(
   createDrawerNavigator({
     initialRouteName: 'TraineeHome',
     screens: {
-       TraineeHome: TraineeHome,
-       Workout: WorkoutScreen
-       
-       
+      TraineeHome: TraineeHome,
+      WorkoutEntry: WorkoutEntryScreen,
+      workoutList: workoutListScreen,
+      WorkoutInfo: {
+        screen: workoutInfoScreen, //https://reactnavigation.org/docs/nesting-navigators
+        options: {
+          headerShown: false,
+        }
+      }
+
     },
+
   })
 );
 
@@ -50,8 +60,8 @@ export const AdminStack = createStaticNavigation(
       AdminHome: AdminHomeScreen,
       Register: RegistrationScreen,
       Testing: TestingScreen,
-      
+
     },
   })
 );
-//TODO - toward the end add screen customization
+//TODO - toward the end add screen Navigation appearance customization

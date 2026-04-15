@@ -3,9 +3,10 @@
 import LoggedExercisePerWorkout from "./LoggedExercisePerWorkout";
 
 class WorkoutSession {
-    #workoutSessionID: any;
+    #workoutSessionID: number;
     #workoutID: string = "";
     #userID: string = "";
+    #Date: Date | null = null;
     #ExercisesForWorkout: LoggedExercisePerWorkout[] | null;
 
     constructor(workoutSessionID: any, workoutID: any, userID: any) {
@@ -45,6 +46,16 @@ class WorkoutSession {
     setExercisesForWorkout(ExercisesForWorkout : LoggedExercisePerWorkout[]){
         this.#ExercisesForWorkout = ExercisesForWorkout
     }
+
+    getSessionDate(){
+        return this.#Date;
+    }
+
+    setSessionDate(Date: Date){ //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse
+        this.#Date = Date;
+    }
+
+    
 
     addExerciseFromWorkout(ExercisesForWorkout: LoggedExercisePerWorkout){
         this.#ExercisesForWorkout?.push(ExercisesForWorkout);

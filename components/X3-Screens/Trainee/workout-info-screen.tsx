@@ -8,32 +8,17 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { RootState } from '@/utilities/store';
 import { useSelector } from 'react-redux';
 
-
-import { fetchWorkoutSessionsByUserIDAsync } from "@/database/WorkoutDB";
-
-const workoutListScreen = () => {
+const workoutInfoScreen = () => {
     const db = useSQLiteContext();
     
-    const [loggedWorkoutsArr, setLoggedWorkoutsArr] = useState(null);
+    const [loggedWorkoutsArr, setLoggedWorkoutsArr] = useState();
 
     const { userID, role, username } = useSelector((state: RootState) => state.auth);
 
     useEffect(() => {
-         try{
-            fetchWorkoutSessionsByUserIDAsync(db, userID)
-                .then(data => {
-                    data?.map(value => {
-                        console.log("workouts retrieved -> \n\tWorkoutSessionID: " + value.LoggedWorkoutSessionID
-                            + " Date: " + value.WorkoutDate
-                        );
-                    })
-                })
-                .catch(ex => console.log("issue retrieving workouts by userID in workoutListScreen -> \n\terror: " + ex))
-        }catch(ex){
-            console.error(ex);
-        }
+       
     });
-
+    
     return(
         <SafeAreaView>
             <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20}>
@@ -50,4 +35,4 @@ const workoutListScreen = () => {
     )
 }
 
-export default workoutListScreen;
+export default workoutInfoScreen;
