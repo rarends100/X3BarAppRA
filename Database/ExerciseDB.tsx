@@ -34,3 +34,7 @@ export const fetchArrOfExercises = async (db: SQLiteDatabase, workout: string) =
         console.error("Exercise DB -> .fetchArrOfExercises() -> \nException: " + ex);
     }
 }
+
+export const fetchExercisesByWorkoutSessionIDAsync = async (db: SQLiteDatabase, workoutType: string) => {
+    //TODO: fill in functionalty
+}
