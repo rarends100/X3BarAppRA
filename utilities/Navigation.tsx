@@ -3,11 +3,13 @@ import RegistrationScreen from "@/components/X3-Screens/admin/registration-scree
 import LoginScreen from "@/components/X3-Screens/Auth/login-screen";
 import StartScreen from "@/components/X3-Screens/start-screen";
 import TestingScreen from "@/components/X3-Screens/Testing/testing-screen";
+import TraineeHome from "@/components/X3-Screens/Trainee/trainee-home";
+import WorkoutScreen from "@/components/X3-Screens/Trainee/workout-screen";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStaticNavigation } from "@react-navigation/native";
 
 
-
+const notHideScreens = false;
 
 //Authentication step 1 using redux -> create the navigators
 export const AuthStack = createStaticNavigation(
@@ -19,38 +21,37 @@ export const AuthStack = createStaticNavigation(
   })
 );
 
-export const AdminStack = createStaticNavigation(
+export const TesterStack = createStaticNavigation(
   createDrawerNavigator({
     initialRouteName: 'Home',
     screens: {
-      Home: StartScreen,
-      AdminHome: AdminHomeScreen,
-      Register: RegistrationScreen,
-      Testing: TestingScreen,
+       Home: StartScreen,
+       
     },
   })
 );
-      //TODO: add trainee pages to flow once I have made some and as I make them
 
-
-/* uncomment once I start making trainee screens
-const TraineeStack = createDrawerNavigator({
+export const TraineeStack = createStaticNavigation(
+  createDrawerNavigator({
     initialRouteName: 'TraineeHome',
     screens: {
-      TraineeHome: TraineeHomeScreen,
-    }
-}); */
+       TraineeHome: TraineeHome,
+       Workout: WorkoutScreen
+       
+       
+    },
+  })
+);
 
-//const DrawerNavigation = createStaticNavigation(Drawer);
-
-
-
-/**
-    * TODO: implement all screens
-    * TODO: customize all screens
-    */
-
-
-
-
-//const BaseNavigation = createStaticNavigation(rootStack);
+export const AdminStack = createStaticNavigation(
+  createDrawerNavigator({
+    initialRouteName: 'AdminHome',
+    screens: {
+      AdminHome: AdminHomeScreen,
+      Register: RegistrationScreen,
+      Testing: TestingScreen,
+      
+    },
+  })
+);
+//TODO - toward the end add screen customization

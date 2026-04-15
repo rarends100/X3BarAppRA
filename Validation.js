@@ -9,11 +9,11 @@ class Validation {
     static isNum(value){
         let isNum = false;
         try{
-            !isNaN(value)
-            isNum = true;
+            isNum = !isNaN(parseInt(value));
         }catch(ex){
             console.log('Validation -> .checkIfNum() -> ' + ex);
         }
+        return isNum;
     }
 
     /**

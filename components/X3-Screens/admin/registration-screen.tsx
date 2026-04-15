@@ -9,7 +9,7 @@
  */
 
 import { useState } from 'react';
-import { Alert, Animated, KeyboardAvoidingView, Text, TextInput, View } from 'react-native';
+import { Animated, KeyboardAvoidingView, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Button from '@/components/Button/button';
@@ -23,7 +23,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 //Encryption
 
 //business imports
-import User from './../../../business/User';
+import User from '@/business/User';
 
 //Database Imports
 import {
@@ -45,7 +45,7 @@ const data = [ //Note: I can make this better by compiling it with objects using
     { label: `${Role.TRAINEE}`, value: '2' }, //this is the actual label you see in the selector and it passes a value, 1 or 2 depending on role selected
     //enum Role ensures no one can get too confused if they ever look at my code, including me
 ];
-const dataArr = ['null', `${Role.ADMIN}`, `${Role.TRAINEE}`];
+const dataArr = ['null', Role.ADMIN, Role.TRAINEE];
 
 //Error Messages
 const blankField = (fieldName: String) => {
@@ -58,12 +58,12 @@ const passwordsNotMatch = 'The password and confirm password boxes must match.'
 //let registerButtonPressed = false; //Controls all error messages, if true errors will show.
 
 const RegistrationScreen = () => {
-    const [usernameText, onChangeUsernameText] = useState('');
-    const [firstnameText, onChangeFirstnameText] = useState('');
-    const [lastnameText, onChangeLastnameText] = useState('');
-    const [passwordText, onChangePasswordText] = useState('');
-    const [confPasswordText, onChangeConfPasswordText] = useState('');
-    const [emailText, onChangeEmailText] = useState('');
+    const [usernameText, setUsernameText] = useState('');
+    const [firstnameText, setFirstnameText] = useState('');
+    const [lastnameText, setLastnameText] = useState('');
+    const [passwordText, setPasswordText] = useState('');
+    const [confPasswordText, setConfPasswordText] = useState('');
+    const [emailText, setEmailText] = useState('');
 
     const [registerButtonPressed, setRegisterButtonPressed] = useState(false);
     //const [fieldsCorrect, setFieldsCorrect] = useState(false);
@@ -86,7 +86,7 @@ const RegistrationScreen = () => {
                     <View style={registerPageStyles.topView}>
                         <Text>Username</Text>
                         <TextInput style={registerPageStyles.inputs}
-                            onChangeText={onChangeUsernameText}
+                            onChangeText={setUsernameText}
                             value={usernameText}
                             placeholder='Username'
                         />
@@ -94,7 +94,7 @@ const RegistrationScreen = () => {
                         >{registerButtonPressed ? Validation.isBlank(usernameText) ? blankField('username') : '' : ''}</Text>
                         <Text>first Name</Text>
                         <TextInput style={registerPageStyles.inputs}
-                            onChangeText={onChangeFirstnameText}
+                            onChangeText={setFirstnameText}
                             value={firstnameText}
                             placeholder='first name'
                         />
@@ -102,7 +102,7 @@ const RegistrationScreen = () => {
                         >{registerButtonPressed ? Validation.isBlank(firstnameText) ? blankField('firstname') : '' : ''}</Text>
                         <Text>Last Name</Text>
                         <TextInput style={registerPageStyles.inputs}
-                            onChangeText={onChangeLastnameText}
+                            onChangeText={setLastnameText}
                             value={lastnameText}
                             placeholder='last name'
                         />
@@ -110,7 +110,7 @@ const RegistrationScreen = () => {
                         >{registerButtonPressed ? Validation.isBlank(lastnameText) ? blankField('lastname') : '' : ''}</Text>
                         <Text>Email</Text>
                         <TextInput style={registerPageStyles.inputs}
-                            onChangeText={onChangeEmailText}
+                            onChangeText={setEmailText}
                             value={emailText}
                             placeholder='email'
                         />
@@ -118,7 +118,7 @@ const RegistrationScreen = () => {
                         >{registerButtonPressed ? Validation.isEmail(emailText) ? '' : notEmail : ''}</Text>
                         <Text>Password</Text>
                         <TextInput style={registerPageStyles.inputs}
-                            onChangeText={onChangePasswordText}
+                            onChangeText={setPasswordText}
                             value={passwordText}
                             placeholder='password'
                         />
@@ -126,7 +126,7 @@ const RegistrationScreen = () => {
                         >{registerButtonPressed ? Validation.passwordRulesFollowed(passwordText) ? '' : badPassword : ''}</Text>
                         <Text>Confirm Password</Text>
                         <TextInput style={registerPageStyles.inputs}
-                            onChangeText={onChangeConfPasswordText}
+                            onChangeText={setConfPasswordText}
                             value={confPasswordText}
                             placeholder='confirm password'
                         />
@@ -186,30 +186,24 @@ const RegistrationScreen = () => {
                                 console.log(role);
 
                                 if (insertUserSync(db, user)) {
-                                    try {
-                                        setRegisterButtonPressed(false);
-                                        Alert.alert("message", "Registration successful,\nUsername: " + user.getUsername() 
-                                            + "\nPassword: " + user.getPassword() + "\nRole: " + user.getRole()
-                                        );
-                                        navigation.navigate('Start');
-                                    } catch (ex) {
-                                        console.log('navigation issue at .addUserSync() attempt conditional statement');
-                                    }
-
+                                
+                                    setRegisterButtonPressed(false);
+                                   
+                                    setUsernameText("");
+                                    setPasswordText("");
+                                    setConfPasswordText("");
+                                    setEmailText("");
+                                    setFirstnameText("");
+                                    setLastnameText("");
+                                 
                                 } else {
-                                    console.log("registration screen -> user not inserted -> No user added")
+                                    console.log("registration screen -> user not inserted -> No user added");
                                 }
                                 console.log("registration screen -> Validation successful.");
                             } else {
                                 console.log("registration screen -> user not inserted -> data not valid at registration");
                             }
 
-
-
-
-                            //TODO: If user registered and inserted into DB, then 
-                            //output an Alert to user stating registration is successful
-                            //then log them back to the login page -> Defined in database_functions.tsx
 
                         }}
                     />

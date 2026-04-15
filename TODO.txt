@@ -1,2 +1,5 @@
-- figure out what is going on in login to cause 
-    it to fail. First load a manual Sqlite db and then run queries, then input that query into my db functions
+- Design a function to retrieve the workout and the exercises associated to it.
+- code a class that stores workout values and using an array to store Loggedexercise objects. - Done
+- Customize WorkoutScreen CSS - Done
+- Write functions to pull needed data from the database for exercises -Done
+- write a function to insert the correct data into the db for a logged workout -Done

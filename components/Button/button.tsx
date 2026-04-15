@@ -4,6 +4,20 @@ import { Animated, Pressable, StyleSheet, Text, View } from "react-native";
 
 //https://reactnative.dev/docs/animated#example
 
+/**
+ * 
+ * @param props -> options ->
+ * @param text
+ * @param onPress
+ * @param buttonColor
+ * @param fontSize
+ * @param buttonSideSize
+ * @param buttonRadius
+ * @param buttonTextColor
+ * @param borderColor
+ * @param fontWeight
+ * @returns 
+ */
 const Button = (props: any) => {
     const { style = {}, text, onPress, buttonColor = 'orange', fontSize = 24, buttonSideSize = 50, buttonRadius = 0,
         buttonTextColor = 'black', borderColor = 'black', fontWeight = 'normal' } = props;
@@ -14,7 +28,7 @@ const Button = (props: any) => {
         fadeAnim.setValue(0);
         Animated.timing(fadeAnim, {
             toValue: 1,
-            duration: 60,
+            duration: 160,
             useNativeDriver: false,
         }).start();
     };
