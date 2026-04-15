@@ -23,7 +23,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 //Encryption
 
 //business imports
-import User from './../../../business/User';
+import User from '@/business/User';
 
 //Database Imports
 import {

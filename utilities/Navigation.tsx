@@ -17,6 +17,7 @@ export const AuthStack = createStaticNavigation(
     initialRouteName: 'Login',
     screens: {
       Login: LoginScreen,
+      AdminHome: AdminHomeScreen, //TODO: REMOVE THIS FROM AUTHSTACK WHEN DONE
     },
   })
 );

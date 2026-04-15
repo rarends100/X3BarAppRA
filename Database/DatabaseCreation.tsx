@@ -48,7 +48,6 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               );
 			        /*Note - Workouts work in a succession order or A, B, C, etc*/
               CREATE TABLE IF NOT EXISTS Workout( 
-
                 WorkoutID TEXT PRIMARY KEY
                ,WorkoutDescription TEXT
               );
@@ -63,10 +62,10 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
 
               /*records*/
               CREATE TABLE IF NOT EXISTS WorkoutSessionLog( /*Workout session logger step 1*/
-                LoggedWorkoutSessionID INTEGER
+                LoggedWorkoutSessionID INTEGER PRIMARY KEY AUTOINCREMENT
                ,WorkoutID TEXT 
                ,UserID INTEGER 
-               ,PRIMARY KEY(LoggedWorkoutSessionID)
+               ,WorkoutDate DATETIME
                ,FOREIGN KEY(UserID) REFERENCES User(UserID)
                ,FOREIGN KEY(WorkoutID) REFERENCES Workout(WorkoutID)
                );
@@ -148,10 +147,10 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               ('calf raises', 'B');
 
               INSERT INTO WorkoutSessionLog
-              (loggedworkoutSessionid, userid, workoutid)
+              (userid, workoutid)
               VALUES
-              (1, 2, 'A'),
-              (2, 3, 'B');
+              (2, 'A'),  /*loggedworkoutSessionid = 1*/
+              (3, 'B');  /*loggedworkoutSessionid = 2*/
 
               INSERT INTO LoggedExercisesPerWorkout
               (loggedworkoutSessionid, loggedexercisename, loggedbandcolor, reps, partialreps)
@@ -174,15 +173,15 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               (3, 2, 'Sure, I''ll take a look and critique it.', '2026-03-12 141000');
 
               INSERT INTO Log (UserID, LoggedAction, LogDate, Notes) VALUES
-              (1, 'LOGIN', '2026-03-12 090000', 'Successful login from IP 192.168.1.100'),
-              (1, 'MESSAGE_SENT', '2026-03-12 100000', 'Sent message to user 2'),
-              (2, 'LOGOUT', '2026-03-12 170000', 'Session ended normally'),
-              (3, 'LOGIN', '2026-03-12 091500', 'Successful login from mobile device'),
-              (3, 'MESSAGE_SENT', '2026-03-12 100500', 'Replied to message from user 1'),
-              (2, 'LOGIN', '2026-03-12 140000', 'Successful login from pc'),
-              (1, 'LOGIN', '2026-03-12 103000', 'Admin login with elevated privileges'),
-              (2, 'MESSAGE_SENT', '2026-03-12 113500', 'Replied to message from user 1'),
-              (1, 'BACKUP_CREATED', '2026-03-12 164500', 'Workout DATABASE Data backed up successfully');
+              (1, 'LOGIN', '2011-10-05T14:48:00.000Z', 'Successful login from IP 192.168.1.100'),
+              (1, 'MESSAGE_SENT', '2011-10-05T14:48:00.000Z', 'Sent message to user 2'),
+              (2, 'LOGOUT', '2011-10-05T14:48:00.000Z', 'Session ended normally'),
+              (3, 'LOGIN', '2011-10-05T14:48:00.000Z', 'Successful login from mobile device'),
+              (3, 'MESSAGE_SENT', '2011-10-05T14:48:00.000Z', 'Replied to message from user 1'),
+              (2, 'LOGIN', '2011-10-05T14:48:00.000Z', 'Successful login from pc'),
+              (1, 'LOGIN', '2011-10-05T14:48:00.000Z', 'Admin login with elevated privileges'),
+              (2, 'MESSAGE_SENT', '2011-10-05T14:48:00.000Z', 'Replied to message from user 1'),
+              (1, 'BACKUP_CREATED', '2011-10-05T14:48:00.000Z', 'Workout DATABASE Data backed up successfully');
 
 
               /*TODO: database creation -> if any 1.indexes, 2.views, or 3.stored procedures are needed designate them here in

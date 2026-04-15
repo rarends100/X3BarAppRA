@@ -17,6 +17,11 @@ import { fetchArrOfExercises } from '@/database/ExerciseDB';
 import { RootState } from '@/utilities/store';
 import { useSelector } from 'react-redux';
 
+import { insertWorkoutAsync } from '@/database/WorkoutDB';
+
+
+import LoggedExercisePerWorkout from '@/business/LoggedExercisePerWorkout';
+
 const data = [
     { label: 'white', value: 'white' },
     { label: 'light grey', value: 'lightgrey' },
@@ -47,7 +52,7 @@ const WorkoutScreen = () => {
         const workoutTypes = fetchJSONArrAvailableWorkoutTypes(db);
         workoutTypes
             .then(data => data?.map((value_obj, index, row) => {
-                console.log(value_obj);
+                //console.log(value_obj);
                 optionsData.push({ label: row[index].WorkoutID, value: row[index].WorkoutID }); //finally got my JS object
                 setWorkoutOptionArrData(optionsData);
             }))
@@ -59,7 +64,7 @@ const WorkoutScreen = () => {
         let arr: string[] = [];
         fetchArrOfExercises(db, workoutSelected)
             .then(data => data?.map((value, index, row) => {
-                console.log(row[index].ExerciseName);
+                //console.log(row[index].ExerciseName);
                 arr.push(row[index].ExerciseName); //populate array
                 arr.map(value => console.log("value: " + value)); //show array
                 setExNamesArr(arr); //set array to state obj
@@ -69,7 +74,7 @@ const WorkoutScreen = () => {
 
     //Values state
     const [exNamesArr, setExNamesArr] = useState([""]); //stores all of the exercise names populated from the useEffect() exercise data fetch so that they display on the form and can be used for data entry.
-    
+
     const [ex1Reps, setEx1Reps] = useState("0");
     const [ex1PartialReps, setEx1PartialReps] = useState("0");
     const [ex1BandColor, setEx1BandColor] = useState("");
@@ -95,6 +100,7 @@ const WorkoutScreen = () => {
             <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20}>
                 <Animated.ScrollView>
                     <View>
+                        <Text>{username}</Text>
                         <Dropdown
                             data={workoutOptionArrData}
                             maxHeight={300}
@@ -104,13 +110,13 @@ const WorkoutScreen = () => {
                             value={workoutSelected}
                             onChange={item => setWorkoutSelected(item.value)}
                         />
-                        {enterWorkoutClicked? Validation.isBlank(workoutSelected)? <Text>{workoutNotSelected}</Text> : "": ""}
+                        {enterWorkoutClicked ? Validation.isBlank(workoutSelected) ? <Text>{workoutNotSelected}</Text> : "" : ""}
                     </View>
                     <View>
                         <Text>Workout {workoutSelected}</Text>
                     </View>
                     <View>
-                        <Text>{exNamesArr != null? exNamesArr[0] : ""}</Text>
+                        <Text>{exNamesArr != null ? exNamesArr[0] : ""}</Text>
                         <View>
                             <Text>reps</Text>
                             <TextInput
@@ -137,8 +143,8 @@ const WorkoutScreen = () => {
                                 }}
                             />
                         </View>
-                        {enterWorkoutClicked? Validation.isBlank(ex1BandColor) ? <Text>{bandColorBad}</Text>: ""  : ""}
-                        <Text>{exNamesArr != null? exNamesArr[1] : ""}</Text>
+                        {enterWorkoutClicked ? Validation.isBlank(ex1BandColor) ? <Text>{bandColorBad}</Text> : "" : ""}
+                        <Text>{exNamesArr != null ? exNamesArr[1] : ""}</Text>
                         <View>
                             <Text>reps</Text>
                             <TextInput
@@ -163,8 +169,8 @@ const WorkoutScreen = () => {
                                 }}
                             />
                         </View>
-                        {enterWorkoutClicked? Validation.isBlank(ex2BandColor) ? <Text>{bandColorBad}</Text>: ""  : ""}
-                        <Text>{exNamesArr != null? exNamesArr[2] : ""}</Text>
+                        {enterWorkoutClicked ? Validation.isBlank(ex2BandColor) ? <Text>{bandColorBad}</Text> : "" : ""}
+                        <Text>{exNamesArr != null ? exNamesArr[2] : ""}</Text>
                         <View>
                             <Text>reps</Text>
                             <TextInput
@@ -189,8 +195,8 @@ const WorkoutScreen = () => {
                                 }}
                             />
                         </View>
-                        {enterWorkoutClicked? Validation.isBlank(ex3BandColor) ? <Text>{bandColorBad}</Text>: ""  : ""}
-                        <Text>{exNamesArr != null? exNamesArr[3] : ""}</Text>
+                        {enterWorkoutClicked ? Validation.isBlank(ex3BandColor) ? <Text>{bandColorBad}</Text> : "" : ""}
+                        <Text>{exNamesArr != null ? exNamesArr[3] : ""}</Text>
                         <View>
                             <Text>reps</Text>
                             <TextInput
@@ -216,17 +222,54 @@ const WorkoutScreen = () => {
                             />
                         </View>
                     </View>
-                    {enterWorkoutClicked? Validation.isBlank(ex4BandColor) ? <Text>{bandColorBad}</Text>: ""  : ""}
+                    {enterWorkoutClicked ? Validation.isBlank(ex4BandColor) ? <Text>{bandColorBad}</Text> : "" : ""}
                     <Button
                         text="Submit"
                         onPress={() => {
-                            //TODO ensure validation is processed
+                            //ensure validation is processed - done
                             setEnterWorkoutClicked(true);
+                            if (!Validation.isBlank(ex1BandColor) && !Validation.isBlank(ex2BandColor)
+                                && !Validation.isBlank(ex3BandColor) && !Validation.isBlank(ex4BandColor)
+                                && !Validation.isBlank(workoutSelected)) {
+                                try {
+                                    console.log("chack me:2011-10-05T14:48:00.000Z " + exNamesArr[1]);
+                                    const workoutLog1 = new LoggedExercisePerWorkout();
+                                    workoutLog1.setLoggedExerciseName(exNamesArr[0]);
+                                    workoutLog1.setLoggedBandcolor(ex1BandColor);
+                                    workoutLog1.setReps(ex1Reps);
+                                    workoutLog1.setPartialReps(ex1PartialReps);
+                                    const workoutLog2 = new LoggedExercisePerWorkout();
+                                    workoutLog2.setLoggedExerciseName(exNamesArr[1]);
+                                    workoutLog2.setLoggedBandcolor(ex2BandColor);
+                                    workoutLog2.setReps(ex2Reps);
+                                    workoutLog2.setPartialReps(ex2PartialReps);
+                                    const workoutLog3 = new LoggedExercisePerWorkout();
+                                    workoutLog3.setLoggedExerciseName(exNamesArr[2]);
+                                    workoutLog3.setLoggedBandcolor(ex3BandColor);
+                                    workoutLog3.setReps(ex3Reps);
+                                    workoutLog3.setPartialReps(ex3PartialReps);
+                                    const workoutLog4 = new LoggedExercisePerWorkout();
+                                    workoutLog4.setLoggedExerciseName(exNamesArr[3]);
+                                    workoutLog4.setLoggedBandcolor(ex4BandColor);
+                                    workoutLog4.setReps(ex4Reps);
+                                    workoutLog4.setPartialReps(ex4PartialReps);
+
+                                    try {
+                                        insertWorkoutAsync(db, workoutSelected, userID,
+                                            workoutLog1, workoutLog2, workoutLog3, workoutLog4);
+
+                                        setEnterWorkoutClicked(false); //do this at the end
+                                    } catch (ex) {
+                                        console.error(ex);
+                                    }
+                                } catch (ex) {
+                                    console.error(ex);
+                                }
+                            }
 
 
 
-
-                            //TODO start working on logic to enter a workout, will need to reference db diagram
+                            //start working on logic to enter a workout, will need to reference db diagram - done
 
                         }}
                     />
