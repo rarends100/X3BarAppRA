@@ -22,6 +22,8 @@ import { insertWorkoutAsync } from '@/database/WorkoutDB';
 
 import LoggedExercisePerWorkout from '@/business/LoggedExercisePerWorkout';
 
+import { WorkoutScreenStyles, globalStyles } from '@/styles';
+
 const data = [
     { label: 'white', value: 'white' },
     { label: 'light grey', value: 'lightgrey' },
@@ -97,40 +99,51 @@ const WorkoutScreen = () => {
     const repsAndPartialRepsbad = "The value entered for reps and partial reps must be a number.";
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={WorkoutScreenStyles.container}>
             <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20}>
                 <Animated.ScrollView>
                     <View>
-                        <Text>{username}</Text>
-                        <Dropdown
-                            data={workoutOptionArrData}
-                            maxHeight={300}
-                            labelField="label"
-                            valueField="value"
-                            placeholder="Select Workout Type"
-                            value={workoutSelected}
-                            onChange={item => setWorkoutSelected(item.value)}
-                        />
-                        {enterWorkoutClicked ? Validation.isBlank(workoutSelected) ? <Text>{workoutNotSelected}</Text> : "" : ""}
+                        <Text style={WorkoutScreenStyles.username}>Username: {username}</Text>
+                        <View style={WorkoutScreenStyles.selectWorkoutDropDown}>
+                            <Dropdown
+                                data={workoutOptionArrData}
+                                maxHeight={300}
+                                labelField="label"
+                                valueField="value"
+                                placeholder="Select Workout Type"
+                                value={workoutSelected}
+                                onChange={item => setWorkoutSelected(item.value)}
+                                searchPlaceholderTextColor='orange'
+                                iconColor='orange'
+                                containerStyle={WorkoutScreenStyles.dropDownContainer}
+                                activeColor='#4f240e'
+                                itemTextStyle={WorkoutScreenStyles.dropDownTextColor}
+                                selectedTextStyle={WorkoutScreenStyles.dropDownTextColor}
+                                placeholderStyle={WorkoutScreenStyles.dropDownTextColor}
+                            />
+                        </View>
+                        {enterWorkoutClicked ? Validation.isBlank(workoutSelected) ? <Text style={globalStyles.errors}>{workoutNotSelected}</Text> : "" : ""}
                     </View>
                     <View>
-                        <Text>Workout {workoutSelected}</Text>
+                        <Text style={WorkoutScreenStyles.workoutTypeText}>Workout {workoutSelected}</Text>
                     </View>
                     <View>
-                        <Text>{exNamesArr != null ? exNamesArr[0] : ""}</Text>
+                        <Text style={WorkoutScreenStyles.exerciseName}>{exNamesArr != null ? exNamesArr[0] : ""}</Text>
                         <View>
-                            <Text>reps</Text>
+                            <Text style={[globalStyles.Text, WorkoutScreenStyles.repsText]}>reps</Text>
                             <TextInput
                                 onChangeText={setEx1Reps}
                                 value={ex1Reps}
                                 placeholder="0"
+                                style={WorkoutScreenStyles.input}
                             />
 
-                            <Text>partial reps</Text>
+                            <Text style={[globalStyles.Text, WorkoutScreenStyles.repsText]}>partial reps</Text>
                             <TextInput
                                 onChangeText={setEx1PartialReps}
                                 value={ex1PartialReps}
                                 placeholder="0"
+                                style={WorkoutScreenStyles.input}
                             />
                             <Dropdown
                                 data={data}
@@ -142,22 +155,33 @@ const WorkoutScreen = () => {
                                 onChange={item => {
                                     setEx1BandColor(item.value);
                                 }}
+                                searchPlaceholderTextColor='orange'
+                                iconColor='orange'
+                                containerStyle={WorkoutScreenStyles.dropDownContainer}
+                                activeColor='#4f240e'
+                                itemTextStyle={WorkoutScreenStyles.dropDownTextColor}
+                                selectedTextStyle={WorkoutScreenStyles.dropDownTextColor}
+                                style={WorkoutScreenStyles.selectBandColorDropDown}
+                                placeholderStyle={WorkoutScreenStyles.dropDownTextColor}
                             />
                         </View>
-                        {enterWorkoutClicked ? Validation.isBlank(ex1BandColor) ? <Text>{bandColorBad}</Text> : "" : ""}
-                        {enterWorkoutClicked ? Validation.isNum(ex1Reps) && Validation.isNum(ex1PartialReps) ? "" : <Text>{repsAndPartialRepsbad}</Text> : ""}
-                        <Text>{exNamesArr != null ? exNamesArr[1] : ""}</Text>
+                        {enterWorkoutClicked ? Validation.isBlank(ex1BandColor) ? <Text style={globalStyles.errors}>{bandColorBad}</Text> : "" : ""}
+                        {enterWorkoutClicked ? Validation.isNum(ex1Reps) && Validation.isNum(ex1PartialReps) ? "" : <Text style={globalStyles.errors}>{repsAndPartialRepsbad}</Text> : ""}
+                        <Text style={WorkoutScreenStyles.exerciseName}>{exNamesArr != null ? exNamesArr[1] : ""}</Text>
                         <View>
-                            <Text>reps</Text>
+                            <Text style={[globalStyles.Text, WorkoutScreenStyles.repsText]}>reps</Text>
                             <TextInput
                                 onChangeText={setEx2Reps}
                                 value={ex2Reps}
                                 placeholder="0"
+                                style={WorkoutScreenStyles.input}
                             />
+                            <Text style={[globalStyles.Text, WorkoutScreenStyles.repsText]}>partial reps</Text>
                             <TextInput
                                 onChangeText={setEx2PartialReps}
                                 value={ex2PartialReps}
                                 placeholder="0"
+                                style={WorkoutScreenStyles.input}
                             />
                             <Dropdown
                                 data={data}
@@ -169,22 +193,33 @@ const WorkoutScreen = () => {
                                 onChange={item => {
                                     setEx2BandColor(item.value);
                                 }}
+                                searchPlaceholderTextColor='orange'
+                                iconColor='orange'
+                                containerStyle={WorkoutScreenStyles.dropDownContainer}
+                                activeColor='#4f240e'
+                                itemTextStyle={WorkoutScreenStyles.dropDownTextColor}
+                                selectedTextStyle={WorkoutScreenStyles.dropDownTextColor}
+                                style={WorkoutScreenStyles.selectBandColorDropDown}
+                                placeholderStyle={WorkoutScreenStyles.dropDownTextColor}
                             />
                         </View>
-                        {enterWorkoutClicked ? Validation.isBlank(ex2BandColor) ? <Text>{bandColorBad}</Text> : "" : ""}
-                         {enterWorkoutClicked ? Validation.isNum(ex2Reps) && Validation.isNum(ex2PartialReps) ?  "" : <Text>{repsAndPartialRepsbad}</Text> : ""}
-                        <Text>{exNamesArr != null ? exNamesArr[2] : ""}</Text>
+                        {enterWorkoutClicked ? Validation.isBlank(ex2BandColor) ? <Text style={globalStyles.errors}>{bandColorBad}</Text> : "" : ""}
+                        {enterWorkoutClicked ? Validation.isNum(ex2Reps) && Validation.isNum(ex2PartialReps) ? "" : <Text style={globalStyles.errors}>{repsAndPartialRepsbad}</Text> : ""}
+                        <Text style={WorkoutScreenStyles.exerciseName}>{exNamesArr != null ? exNamesArr[2] : ""}</Text>
                         <View>
-                            <Text>reps</Text>
+                            <Text style={[globalStyles.Text, WorkoutScreenStyles.repsText]}>reps</Text>
                             <TextInput
                                 onChangeText={setEx3Reps}
                                 value={ex3Reps}
                                 placeholder="0"
+                                style={WorkoutScreenStyles.input}
                             />
+                            <Text style={[globalStyles.Text, WorkoutScreenStyles.repsText]}>partial reps</Text>
                             <TextInput
                                 onChangeText={setEx3PartialReps}
                                 value={ex3PartialReps}
                                 placeholder="0"
+                                style={WorkoutScreenStyles.input}
                             />
                             <Dropdown
                                 data={data}
@@ -196,22 +231,33 @@ const WorkoutScreen = () => {
                                 onChange={item => {
                                     setEx3BandColor(item.value);
                                 }}
+                                searchPlaceholderTextColor='orange'
+                                iconColor='orange'
+                                containerStyle={WorkoutScreenStyles.dropDownContainer}
+                                activeColor='#4f240e'
+                                itemTextStyle={WorkoutScreenStyles.dropDownTextColor}
+                                selectedTextStyle={WorkoutScreenStyles.dropDownTextColor}
+                                style={WorkoutScreenStyles.selectBandColorDropDown}
+                                placeholderStyle={WorkoutScreenStyles.dropDownTextColor}
                             />
                         </View>
-                        {enterWorkoutClicked ? Validation.isBlank(ex3BandColor) ? <Text>{bandColorBad}</Text> : "" : ""}
-                        {enterWorkoutClicked ? Validation.isNum(ex3Reps) && Validation.isNum(ex3PartialReps) ? "" : <Text>{repsAndPartialRepsbad}</Text> : ""}
-                        <Text>{exNamesArr != null ? exNamesArr[3] : ""}</Text>
+                        {enterWorkoutClicked ? Validation.isBlank(ex3BandColor) ? <Text style={globalStyles.errors}>{bandColorBad}</Text> : "" : ""}
+                        {enterWorkoutClicked ? Validation.isNum(ex3Reps) && Validation.isNum(ex3PartialReps) ? "" : <Text style={globalStyles.errors}>{repsAndPartialRepsbad}</Text> : ""}
+                        <Text style={WorkoutScreenStyles.exerciseName}>{exNamesArr != null ? exNamesArr[3] : ""}</Text>
                         <View>
-                            <Text>reps</Text>
+                            <Text style={[globalStyles.Text, WorkoutScreenStyles.repsText]}>reps</Text>
                             <TextInput
                                 onChangeText={setEx4Reps}
                                 value={ex4Reps}
                                 placeholder="0"
+                                style={WorkoutScreenStyles.input}
                             />
+                            <Text style={[globalStyles.Text, WorkoutScreenStyles.repsText]}>partial reps</Text>
                             <TextInput
                                 onChangeText={setEx4PartialReps}
                                 value={ex4PartialReps}
                                 placeholder="0"
+                                style={WorkoutScreenStyles.input}
                             />
                             <Dropdown
                                 data={data}
@@ -223,20 +269,34 @@ const WorkoutScreen = () => {
                                 onChange={item => {
                                     setEx4BandColor(item.value);
                                 }}
+                                searchPlaceholderTextColor='orange'
+                                iconColor='orange'
+                                containerStyle={WorkoutScreenStyles.dropDownContainer}
+                                activeColor='#4f240e'
+                                itemTextStyle={WorkoutScreenStyles.dropDownTextColor}
+                                selectedTextStyle={WorkoutScreenStyles.dropDownTextColor}
+                                style={WorkoutScreenStyles.selectBandColorDropDown}
+                                placeholderStyle={WorkoutScreenStyles.dropDownTextColor}
+
                             />
                         </View>
                     </View>
-                    {enterWorkoutClicked ? Validation.isBlank(ex4BandColor) ? <Text>{bandColorBad}</Text> : "" : ""}
-                    {enterWorkoutClicked ? Validation.isNum(ex4Reps) && Validation.isNum(ex4PartialReps) ? "" : <Text>{repsAndPartialRepsbad}</Text> : ""}
+                    {enterWorkoutClicked ? Validation.isBlank(ex4BandColor) ? <Text style={globalStyles.errors}>{bandColorBad}</Text> : "" : ""}
+                    {enterWorkoutClicked ? Validation.isNum(ex4Reps) && Validation.isNum(ex4PartialReps) ? "" : <Text style={globalStyles.errors}>{repsAndPartialRepsbad}</Text> : ""}
                     <Button
-                        text="Submit"
+                        text="Enter Workout"
+                        borderColor="black"
+                        buttonColor="black"
+                        buttonTextColor="orange"
+                        buttonRadius={10}
+                        style={WorkoutScreenStyles.enterWorkoutButton}
                         onPress={() => {
                             //ensure validation is processed - done
                             setEnterWorkoutClicked(true);
                             if (!Validation.isBlank(ex1BandColor) && !Validation.isBlank(ex2BandColor)
                                 && !Validation.isBlank(ex3BandColor) && !Validation.isBlank(ex4BandColor)
                                 && !Validation.isBlank(workoutSelected)
-                                
+
                                 && Validation.isNum(ex1Reps) && Validation.isNum(ex1PartialReps)
                                 && Validation.isNum(ex2Reps) && Validation.isNum(ex2PartialReps)
                                 && Validation.isNum(ex3Reps) && Validation.isNum(ex3PartialReps)
@@ -244,7 +304,7 @@ const WorkoutScreen = () => {
                                 try {
                                     console.log("chack me:2011-10-05T14:48:00.000Z " + exNamesArr[1]);
                                     const workoutLog1 = new LoggedExercisePerWorkout();
-                                    workoutLog1.setLoggedExerciseName(exNamesArr[0]);
+                                    workoutLog1.setLoggedExerciseName(exNamesArr[0]); //Name arr starts at 0 index and WorkoutLogs start at 1, they must be PARELLELL to properly insert correct data into db
                                     workoutLog1.setLoggedBandcolor(ex1BandColor);
                                     workoutLog1.setReps(ex1Reps);
                                     workoutLog1.setPartialReps(ex1PartialReps);

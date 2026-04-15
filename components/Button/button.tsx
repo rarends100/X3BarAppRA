@@ -28,7 +28,7 @@ const Button = (props: any) => {
         fadeAnim.setValue(0);
         Animated.timing(fadeAnim, {
             toValue: 1,
-            duration: 60,
+            duration: 160,
             useNativeDriver: false,
         }).start();
     };

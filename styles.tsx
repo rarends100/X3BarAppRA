@@ -95,3 +95,85 @@ export const registerPageStyles = StyleSheet.create({
     }
 
 });
+
+export const WorkoutScreenStyles = StyleSheet.create({
+    container: {
+        backgroundColor: "orange",
+        padding: 2,
+        flex: 1
+    },
+    input: {
+        margin: 20,
+        borderColor: "#0000",
+        borderWidth: 1,
+        backgroundColor: "black",
+        color: "orange",
+        width: 200
+        
+    },
+    exerciseName: {
+        fontFamily: "sans-serif",
+        fontSize: 20,
+        fontWeight: "bold"
+    },
+    workoutTypeText: {
+        fontFamily: "sans-serif",
+        fontSize: 24,
+        fontWeight: "bold",
+        marginTop: 20,
+        marginBottom: 20,
+        borderTopColor: 'black',
+        borderBottomColor: 'black',
+        borderTopWidth: 2,
+        borderBottomWidth: 2,
+        alignSelf: 'center',
+    },
+    username: {
+        fontFamily: "sans-serif",
+        fontSize: 24,
+        fontWeight: "bold",
+        marginLeft: 75,
+        width: 300,
+        borderBottomWidth: 5,
+        borderBlockColor: "black",
+        backgroundColor: "gold"
+    },
+    dropDownContainer: {
+        padding: 0,
+        backgroundColor: "black",
+        fontSize: 14,
+        fontWeight: 'condensedBold'
+    },
+    selectWorkoutDropDown: {
+        width: 100,
+        marginTop: 20,
+        marginLeft: 165,
+        paddingTop: 10,
+        paddingBottom: 10,
+        backgroundColor: "black",
+        borderColor: 'black',
+        borderWidth: 5,
+        fontSize: 14,
+        fontWeight: 'condensedBold'
+
+    },
+    selectBandColorDropDown: {
+        width: 250,
+        marginTop: 0,
+        marginLeft: 25,
+        padding: 20,
+        backgroundColor: "black",
+        borderColor: 'black',
+        borderWidth: 5,
+    },
+    dropDownTextColor: {
+        color: "orange"
+    },
+    enterWorkoutButton: {
+        marginTop: 20
+    },
+    repsText: { 
+        marginLeft: 20
+    }
+    
+})
