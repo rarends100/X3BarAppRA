@@ -1,9 +1,9 @@
-import { FlatList, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 import { useNavigation, } from "@react-navigation/native";
 
 interface iWorkoutSegmentProps { //props tracking
-    WorkoutSessionID: Number,
+    workoutsessionID: number,
     workoutDate: Date | null,
     WorkoutID: string | null
 }
@@ -20,31 +20,25 @@ const WorkoutSegments = (props: iWorkoutSegmentProps) => {
     const navigation: any = useNavigation();
     return (
         <View>
-            <View>
-                <FlatList data={[
-                    { key: props.WorkoutSessionID }, //required
-                    { workoutDate: props.workoutDate },//required
-                    { WorkoutID: props.WorkoutID}//required
-                ]}
-                    renderItem={({ item }) =>
-                        <Pressable
-                            onPress={() => {
-                                navigation.navigate('', {
-                                    WorkoutSessionID: item.key
-                                });
-                            }}
-                        >
-                            <View>
-                                <Text>
-                                    {item.WorkoutID + " \t\t\t " +
-                                         + "Date: " + item.workoutDate?.getDate() + " " + item.workoutDate?.getTime()}
-                                </Text>
-                            </View>
-                        </Pressable>
-                    }
-                    scrollEnabled={false}
-                />
-            </View>
+            {/* OMG, what was I thinking using a flatlist inside a scroll view and rendering multiple, all I need here is a <Text> component... well there goes 4 hours of my life down the drain solving this annoying bug*/}
+            <Pressable
+                onPress={() => {
+                    navigation.navigate('WorkoutInfo', {
+                        WorkoutSessionID: props.workoutsessionID
+                    });
+                }}
+            >
+                <View>
+                    <Text  key={props.workoutsessionID}>
+                        {props.WorkoutID + "\t\t" + 
+                        "Date: " + props.workoutDate?.getMonth() + "/" + props.workoutDate?.getDay()  + "/" + 
+                            props.workoutDate?.getFullYear() + "\t\t" +
+                        "\t\tTime: " + props.workoutDate?.toLocaleTimeString()}
+                            
+                    </Text>
+                </View>
+            </Pressable>
+
         </View>
     )
 }

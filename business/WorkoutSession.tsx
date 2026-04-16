@@ -18,7 +18,7 @@ class WorkoutSession {
         this.#ExercisesForWorkout = null;
     }
 
-    getworkoutSessionID() {
+    getWorkoutSessionID() {
         return this.#workoutSessionID;
     }
     setworkoutSessionID(workoutSessionID: number) {

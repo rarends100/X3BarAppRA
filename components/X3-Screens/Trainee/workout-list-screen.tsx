@@ -13,10 +13,10 @@ import WorkoutSession from '@/business/WorkoutSession';
 import WorkoutSegments from "@/components/workout-segments";
 import { fetchWorkoutSessionsByUserIDAsync } from "@/database/WorkoutDB";
 
-const workoutListScreen = () => {
+const workoutListScreen = () => { //https://stackoverflow.com/questions/42261505/getting-error-message-li-key-is-not-a-prop -> key  and ref are special props that exist in every React component regardless of if you define them or not
     const db = useSQLiteContext();
 
-    const [loggedWorkoutsMap, setLoggedWorkoutsMap] = useState(new Map<Number, WorkoutSession>()); //
+    const [loggedWorkoutsMap, setLoggedWorkoutsMap] = useState(new Map<number, WorkoutSession>()); //
 
     const { userID, role, username } = useSelector((state: RootState) => state.auth);
 
@@ -24,8 +24,8 @@ const workoutListScreen = () => {
         try {
             fetchWorkoutSessionsByUserIDAsync(db, userID)
                 .then(data => {
-                    const map = new Map<Number, WorkoutSession>(); https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
-                    data?.map(value => {
+                    const map = new Map<number, WorkoutSession>(); https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+                    data?.forEach(value => {
                         /*console.log("workouts retrieved -> \n\tWorkoutSessionID: " + value.LoggedWorkoutSessionID
                             + " Date: " + value.WorkoutDate
                         );*/
@@ -37,20 +37,31 @@ const workoutListScreen = () => {
                         try {
                             const workoutDate : Date = new Date(value.WorkoutDate);
                             const workoutSession = new WorkoutSession(workoutSessionID, workoutID, userID, workoutDate);
-                            map.set(workoutSession.getworkoutSessionID(), workoutSession);
+                            console.log("workout session object -> " + workoutSession.getWorkoutSessionID());
+                            map.set(workoutSession.getWorkoutSessionID(), workoutSession);
                         }catch(ex){
                             console.error("workout-list-screen -> \n\t" + ex)
                         }
 
                         
                     });
-                    setLoggedWorkoutsMap(map);
+                    setLoggedWorkoutsMap(map); //https://www.geeksforgeeks.org/reactjs/how-to-use-es6-map-with-react-state-hooks/
+                    console.log(map.size);
+                    map.forEach((value, key) => {
+                        console.log("workoutListScreen non state map -> Key is: " + key + "Workout is: " + value.getWorkoutID()); //TODO: solve this bug, not printing key and not working
+                    });
                 })
                 .catch(ex => console.log("issue retrieving workouts by userID in workoutListScreen -> \n\terror: " + ex))
         } catch (ex) {
             console.error(ex);
         }
     }, []);
+
+    useEffect(() => {
+        loggedWorkoutsMap.forEach((value, key) => {
+            console.log("state map key: " + key + " " + "workoutSessionID: " + value.getWorkoutSessionID() )
+        },[loggedWorkoutsMap]);
+    });
 
     return (
         <SafeAreaView>
@@ -65,7 +76,8 @@ const workoutListScreen = () => {
                     <View>
                         {Array.from(loggedWorkoutsMap.entries()).map(([key, value]) => (
                             <WorkoutSegments
-                                WorkoutSessionID={key}
+                                key={key}
+                                workoutsessionID={value.getWorkoutSessionID()}
                                 WorkoutID={value.getWorkoutID()}
                                 workoutDate={value.getSessionDate()}
                             />
