@@ -1,4 +1,4 @@
-import { Animated, KeyboardAvoidingView, Text, View } from "react-native";
+import { KeyboardAvoidingView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ import WorkoutSession from '@/business/WorkoutSession';
 
 import WorkoutSegments from "@/components/workout-segments";
 import { fetchWorkoutSessionsByUserIDAsync } from "@/database/WorkoutDB";
+import { FlatList } from "react-native-gesture-handler";
 
 const workoutListScreen = () => { //https://stackoverflow.com/questions/42261505/getting-error-message-li-key-is-not-a-prop -> key  and ref are special props that exist in every React component regardless of if you define them or not
     const db = useSQLiteContext();
@@ -19,7 +20,7 @@ const workoutListScreen = () => { //https://stackoverflow.com/questions/42261505
     const [loggedWorkoutsMap, setLoggedWorkoutsMap] = useState(new Map<number, WorkoutSession>()); //
 
     const { userID, role, username } = useSelector((state: RootState) => state.auth);
-
+    
     useEffect(() => {
         try {
             fetchWorkoutSessionsByUserIDAsync(db, userID)
@@ -35,15 +36,15 @@ const workoutListScreen = () => { //https://stackoverflow.com/questions/42261505
                         const userID = value.UserID;
 
                         try {
-                            const workoutDate : Date = new Date(value.WorkoutDate);
+                            const workoutDate: Date = new Date(value.WorkoutDate);
                             const workoutSession = new WorkoutSession(workoutSessionID, workoutID, userID, workoutDate);
                             console.log("workout session object -> " + workoutSession.getWorkoutSessionID());
                             map.set(workoutSession.getWorkoutSessionID(), workoutSession);
-                        }catch(ex){
+                        } catch (ex) {
                             console.error("workout-list-screen -> \n\t" + ex)
                         }
 
-                        
+
                     });
                     setLoggedWorkoutsMap(map); //https://www.geeksforgeeks.org/reactjs/how-to-use-es6-map-with-react-state-hooks/
                     console.log(map.size);
@@ -59,31 +60,37 @@ const workoutListScreen = () => { //https://stackoverflow.com/questions/42261505
 
     useEffect(() => {
         loggedWorkoutsMap.forEach((value, key) => {
-            console.log("state map key: " + key + " " + "workoutSessionID: " + value.getWorkoutSessionID() )
-        },[loggedWorkoutsMap]);
+            console.log("state map key: " + key + " " + "workoutSessionID: " + value.getWorkoutSessionID())
+        }, [loggedWorkoutsMap]);
     });
-
+    //changed to FlatList component from scroll view so that only the currently in view list items are rendered. 
+    // determined Animated.ScrollView wasn't right here because it renders everything at once and would likely later lead to lagging
     return (
         <SafeAreaView>
             <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20}>
-                <Animated.ScrollView>
-                    <View>
-                        <Text>{"Username: " + username + "\n" + "Role: " + role}</Text>
-                    </View>
-                    <View>
-                        <Text>Workout Sessions</Text>
-                    </View>
-                    <View>
-                        {Array.from(loggedWorkoutsMap.entries()).map(([key, value]) => (
+                <FlatList
+                    data={Array.from(loggedWorkoutsMap.values())}
+                    keyExtractor={(item) => item.getWorkoutSessionID().toString()}
+
+                    ListHeaderComponent={
+                        <View>
+                            <Text>{"Username: " + username + "\n" + "Role: " + role + "\n"}</Text>
+                            <Text>Workout Sessions</Text>
+                        </View>
+                    }
+
+                    renderItem={({ item }) => (
+                        <View>
                             <WorkoutSegments
-                                key={key}
-                                workoutsessionID={value.getWorkoutSessionID()}
-                                WorkoutID={value.getWorkoutID()}
-                                workoutDate={value.getSessionDate()}
+                                key={item.getWorkoutSessionID()}
+                                workoutsessionID={item.getWorkoutSessionID()}
+                                WorkoutID={item.getWorkoutID()}
+                                workoutDate={item.getSessionDate()}
                             />
-                        ))}
-                    </View>
-                </Animated.ScrollView>
+                        </View>
+                    )}
+
+                />
             </KeyboardAvoidingView>
         </SafeAreaView>
     )
