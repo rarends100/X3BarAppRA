@@ -16,8 +16,18 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
     if (currentDbVersion === 0) {
       try{
         await db.execAsync(`
-            				  PRAGMA journal_mode = 'wal';
+            	PRAGMA journal_mode = 'wal';
               PRAGMA foreign_keys = ON;
+              
+              DROP TABLE IF EXISTS LoggedExercisesPerWorkout;
+              DROP TABLE IF EXISTS WorkoutSessionLog;
+              DROP TABLE IF EXISTS Exercise;
+              DROP TABLE IF EXISTS Workout;
+              DROP TABLE IF EXISTS BandColor;
+              DROP TABLE IF EXISTS UserRole;
+              DROP TABLE IF EXISTS Message;
+              DROP TABLE IF EXISTS Log;
+              DROP TABLE IF EXISTS User;
 
               /*User tables*/
               CREATE TABLE IF NOT EXISTS User(
@@ -28,7 +38,7 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
                 ,FirstName TEXT NOT NULL
                 ,MiddleName TEXT
                 ,LastName TEXT NOT NULL
-                ,EmployeeID Text
+                ,EmployeeID Text UNIQUE
                 ,Points INTEGER --plan is to add the ability for trainees to get points to purchase things, if I get that far...
               );
 
@@ -74,8 +84,8 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
                  LoggedWorkoutSessionID INTEGER 
                 ,LoggedExerciseName TEXT
                 ,LoggedBandColor TEXT 
-                ,reps INTEGER
-                ,partialReps INTEGER
+                ,Reps INTEGER
+                ,PartialReps INTEGER
                 ,PRIMARY KEY(LoggedWorkoutSessionID, LoggedExerciseName, LoggedBandColor)
                 ,FOREIGN KEY(LoggedWorkoutSessionID) REFERENCES WorkoutSessionLog(LoggedWorkoutSessionID)
                 ,FOREIGN KEY(LoggedExerciseName) REFERENCES Exercise(ExerciseName)
@@ -83,10 +93,10 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               );
 
               CREATE TABLE IF NOT EXISTS Message(
-                senderUserID INTEGER NOT NULL
-               ,recieverUserID INTEGER NOT NULL
-               ,messageText TEXT 
-               ,messageDate DATETIME NOT NULL
+                SenderUserID INTEGER NOT NULL
+               ,RecieverUserID INTEGER NOT NULL
+               ,MessageText TEXT 
+               ,MessageDate DATETIME NOT NULL
                ,PRIMARY KEY(senderUserID, recieverUserID)
                ,FOREIGN KEY(senderUserID) REFERENCES User(UserID)
                ,FOREIGN KEY(recieverUserID) REFERENCES User(UserID)
@@ -147,24 +157,24 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               ('calf raises', 'B');
 
               INSERT INTO WorkoutSessionLog
-              (userid, workoutid)
+              (Userid, Workoutid)
               VALUES
               (2, 'A'),  /*loggedworkoutSessionid = 1*/
               (3, 'B');  /*loggedworkoutSessionid = 2*/
 
               INSERT INTO LoggedExercisesPerWorkout
-              (loggedworkoutSessionid, loggedexercisename, loggedbandcolor, reps, partialreps)
+              (LoggedworkoutSessionid, Loggedexercisename, Loggedbandcolor, Reps, PartialReps)
               VALUES
               (1, 'chest press', 'black', 20, 3),
-              (1, 'over head press', 'light grey', 20, 5),
+              (1, 'over head press', 'lightgrey', 20, 5),
               (1, 'front squat', 'grey', 20, 5 ),
               (1, 'tricep press', 'black', 20, 5),
               (2, 'dead lift', 'grey', 20, 4),
-              (2, 'bent over row', 'light grey', 20, 10),
-              (2, 'bicep curl', 'light grey', 15, 5),
+              (2, 'bent over row', 'lightgrey', 20, 10),
+              (2, 'bicep curl', 'lightgrey', 15, 5),
               (2, 'calf raises', 'grey', 20, 3);
 
-              INSERT INTO Message (senderUserID, recieverUserID, messageText, messageDate) VALUES
+              INSERT INTO Message (SenderUserID, RecieverUserID, MessageText, MessageDate) VALUES
               (1, 2, 'Hello, how are you doing today', '2026-03-12 100000'),
               (2, 1, 'I am doing great, thanks for asking!', '2026-03-12 100500'),
               (1, 3, 'Reminder Train hard!.', '2026-03-12 113000'),
@@ -197,4 +207,5 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
         }
     }
     await db.execAsync(`PRAGMA user_version = ${DATABASE_VERSION}`);
+    console.log(`Database upgraded to version ${DATABASE_VERSION}`);
 }

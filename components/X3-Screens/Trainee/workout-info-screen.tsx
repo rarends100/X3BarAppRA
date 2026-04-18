@@ -28,12 +28,12 @@ const WorkoutInfoScreen = ({ route }: any) => {
                 .then(data => {
                     if (data != null || data != undefined) {
                         data.forEach((value) => {
-                            console.log(value.loggedExerciseName);
+                            console.log(value.LoggedExerciseName);
                             const exercise = new LoggedExercisePerWorkout();
-                            exercise.setLoggedExerciseName(value.loggedExerciseName);
-                            exercise.setLoggedBandcolor(value.loggedBandColor);
-                            exercise.setReps(value.reps);
-                            exercise.setPartialReps(value.partialReps);
+                            exercise.setLoggedExerciseName(value.LoggedExerciseName);
+                            exercise.setLoggedBandcolor(value.LoggedBandColor);
+                            exercise.setReps(value.Reps);
+                            exercise.setPartialReps(value.PartialReps);
                             console.log(exercise.getLoggedExerciseName());
                             //add item
                             arr.push(exercise);
@@ -46,8 +46,11 @@ const WorkoutInfoScreen = ({ route }: any) => {
             fetchData();
             setLoggedExercisesForWorkoutArr(arr);
             
-        },[WorkoutSessionID]);
+        },[]);
 
+        useEffect(() => {
+            console.log("exercise array length is -> " + loggedExercisesForWorkoutArr.length);
+        },[])
 
     return (
         <SafeAreaView>
@@ -57,7 +60,7 @@ const WorkoutInfoScreen = ({ route }: any) => {
                         <Text>Workout Information for Workout Session: {WorkoutSessionID} Trainee: {username}</Text>
                     </View>
                     <View>
-
+                        
                     </View>
                 </Animated.ScrollView>
             </KeyboardAvoidingView>

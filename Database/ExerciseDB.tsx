@@ -1,14 +1,11 @@
 "use strict";
 
 import { SQLiteDatabase } from "expo-sqlite";
-import { Alert } from "react-native";
 
 import { iExercise } from "@/Interfaces/iExerciseInterface";
 import { iLoggedExercisePerWorkout } from "@/Interfaces/iLoggedExercisePerWorkout";
 
-const insertExercise = (db: SQLiteDatabase,) => {
-    Alert
-}
+
 /**
  * Returns an array JSON db obj rows by their workout ID.
  * A row can then be translated to a Exercise obj.
@@ -58,21 +55,15 @@ export const fetchExercisesByWorkoutSessionIDAsync = async (db: SQLiteDatabase, 
 
     try {
         console.log("in .fetchExercisesByWorkoutSessionIDAsync() try/catch");
-        const allRows = await db.getAllAsync<iLoggedExercisePerWorkout>(
-            `SELECT * 
-             FROM LoggedExercisesPerWorkout
-             WHERE LoggedWorkoutSessionID = ?
-             ORDER BY LoggedExerciseName ${order};`,
-             [WorkoutSessionID]
-        );
-
-        console.log("exiting .fetchExercisesByWorkoutSessionIDAsync() try/catch");
-        console.log("\tRows returned -> " + allRows.length);
-        
-        allRows.forEach((value) => {
-            console.log(".fetchExercisesByWorkoutSessionIDAsync() -> \n\texercise: " 
-                + value.LoggedExerciseName)
-        });
+        const query =  `SELECT LoggedWorkoutSessionID, LoggedExerciseName, LoggedBandColor, reps, partialReps 
+                        FROM LoggedExercisesPerWorkout
+                        WHERE LoggedWorkoutSessionID = ?
+                        ORDER BY LoggedExerciseName ${order};`
+             
+        const allRows = await db.getAllAsync<iLoggedExercisePerWorkout>(query, [WorkoutSessionID]);
+             
+        console.log("data rows fetched -> " + allRows.length)
+  
         return allRows;
     } catch (ex) {
         console.error("Exercise DB -> .fetchArrOfExercises() -> \nException: " + ex);

@@ -19,7 +19,7 @@ const TraineeHome = () =>{
             />
             <Button
                 text="View Workouts"
-                 onPress={() => {navigation.navigate("workoutList");}}
+                 onPress={async () => {navigation.navigate("workoutList");}}
             />
         </View>
     )
