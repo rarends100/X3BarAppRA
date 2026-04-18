@@ -1,7 +1,7 @@
 import { KeyboardAvoidingView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { useSQLiteContext } from 'expo-sqlite';
 
@@ -10,8 +10,11 @@ import { useSelector } from 'react-redux';
 
 import WorkoutSession from '@/business/WorkoutSession';
 
+
+
 import WorkoutSegments from "@/components/workout-segments";
 import { fetchWorkoutSessionsByUserIDAsync } from "@/database/WorkoutDB";
+import { useFocusEffect } from "@react-navigation/native";
 import { FlatList } from "react-native-gesture-handler";
 
 const workoutListScreen = () => { //https://stackoverflow.com/questions/42261505/getting-error-message-li-key-is-not-a-prop -> key  and ref are special props that exist in every React component regardless of if you define them or not
@@ -21,12 +24,13 @@ const workoutListScreen = () => { //https://stackoverflow.com/questions/42261505
 
     const { userID, role, username } = useSelector((state: RootState) => state.auth);
     
-    useEffect(() => {
+    useFocusEffect( //This makes it so whenever the screen is focused the logic inside is called
+        useCallback(() => { //This is necessary to provide or it will continuously call the contained logic while screen is active
         try {
             fetchWorkoutSessionsByUserIDAsync(db, userID)
                 .then(data => {
                     const map = new Map<number, WorkoutSession>(); https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
-                    data?.forEach(value => {
+                    data?.forEach((value) => {
                         /*console.log("workouts retrieved -> \n\tWorkoutSessionID: " + value.LoggedWorkoutSessionID
                             + " Date: " + value.WorkoutDate
                         );*/
@@ -56,7 +60,7 @@ const workoutListScreen = () => { //https://stackoverflow.com/questions/42261505
         } catch (ex) {
             console.error(ex);
         }
-    }, []);
+    }, []));
 
     useEffect(() => {
         loggedWorkoutsMap.forEach((value, key) => {

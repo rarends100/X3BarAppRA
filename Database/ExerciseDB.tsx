@@ -37,31 +37,41 @@ export const fetchArrOfExercises = async (db: SQLiteDatabase, workout: string) =
 }
 
 /**
- * Gets all exercises for a workout session.
+ * Gets all exercises for a workout session. Orders by ExerciseName.
+ *       Supply optional param 'orderBool' with false for ASC, true for DESC.
+ *       Default order is ASC
  * @param db 
- * @param WorkoutSessionID 
+ * @param WorkoutSessionID number
+ * @param orderBool boolean
  * @returns allRows: {
         LoggedWorkoutSessionID: string;
-        loggedExerciseName: string;
         loggedBandColor: string;
         reps: Int32Array<ArrayBufferLike>;
         partialReps: Int32Array;
     }[]
  */
-export const fetchExercisesByWorkoutSessionIDAsync = async (db: SQLiteDatabase, WorkoutSessionID: string) => {
+export const fetchExercisesByWorkoutSessionIDAsync = async (db: SQLiteDatabase, WorkoutSessionID: number, orderBool: boolean = false) => {
     //TODO: fill in functionalty
-    
+    console.log("in .fetchExercisesByWorkoutSessionIDAsync() | sessionID is: " + WorkoutSessionID);
+    let order;
+    orderBool === false? order = "ASC" : order = "DESC";
+
     try {
+        console.log("in .fetchExercisesByWorkoutSessionIDAsync() try/catch");
         const allRows = await db.getAllAsync<iLoggedExercisePerWorkout>(
-            `SELECT LoggedWorkoutSessionID, LoggedExerciseName, LoggedBandColor, reps, partialReps 
+            `SELECT * 
              FROM LoggedExercisesPerWorkout
-             WHERE LoggedWorkoutSessionID = 2;`,
-             WorkoutSessionID
+             WHERE LoggedWorkoutSessionID = ?
+             ORDER BY LoggedExerciseName ${order};`,
+             [WorkoutSessionID]
         );
 
-        allRows.map((value) => {
+        console.log("exiting .fetchExercisesByWorkoutSessionIDAsync() try/catch");
+        console.log("\tRows returned -> " + allRows.length);
+        
+        allRows.forEach((value) => {
             console.log(".fetchExercisesByWorkoutSessionIDAsync() -> \n\texercise: " 
-                + value.loggedExerciseName)
+                + value.LoggedExerciseName)
         });
         return allRows;
     } catch (ex) {

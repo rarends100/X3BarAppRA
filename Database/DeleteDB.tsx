@@ -11,8 +11,6 @@ const databaseName = "RAX3BarData";
 
 export function deleteDatabase(db: SQLiteDatabase){
         console.log("database path: " + db.databasePath);
-
-        let tempdb = db
       
            
         

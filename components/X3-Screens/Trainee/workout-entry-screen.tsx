@@ -41,7 +41,6 @@ const WorkoutEntryScreen = () => {
     const db = useSQLiteContext();
     const [workoutOptionArrData, setWorkoutOptionArrData] = useState([]);
     const [workoutSelected, setWorkoutSelected] = useState("");
-    const [workoutSelectedGood, setWorkoutSelectedGood] = useState();
 
     const [enterWorkoutClicked, setEnterWorkoutClicked] = useState(false);
 
@@ -55,27 +54,31 @@ const WorkoutEntryScreen = () => {
           3. use that array in the "Select Workout Type" dropdown at the top of the UI
         */
         let optionsData: any = [];
-        const workoutTypes = fetchJSONArrAvailableWorkoutTypes(db);
-        workoutTypes
+        const fetchData = async () => {await fetchJSONArrAvailableWorkoutTypes(db)
             .then(data => data?.map((value_obj, index, row) => {
                 //console.log(value_obj);
                 optionsData.push({ label: row[index].WorkoutID, value: row[index].WorkoutID }); //finally got my JS object
                 setWorkoutOptionArrData(optionsData);
             }))
-            .catch(error => console.log("Error retrieving workout options. \nError: " + error));
+            .catch(error => console.log("Error retrieving workout options. \nError: " + error));}
+
+            fetchData().catch(console.error);//https://devtrium.com/posts/async-functions-useeffect
     }, []);
 
-    useEffect(() => {
+    useEffect(() => { 
         console.log("workoutSelectedEffect fired");
         let arr: string[] = [];
-        fetchArrOfExercises(db, workoutSelected)
+        const fetchData = async () => {await fetchArrOfExercises(db, workoutSelected)
             .then(data => data?.map((value, index, row) => {
                 //console.log(row[index].ExerciseName);
                 arr.push(row[index].ExerciseName); //populate array
                 arr.map(value => console.log("value: " + value)); //show array
                 setExNamesArr(arr); //set array to state obj
             }))
-            .catch(err => console.error("Issue retrieving exercises. \nError: " + err));
+            .catch(err => console.error("Issue retrieving exercises. \nError: " + err));}
+
+            const result = fetchData().catch(console.error);//https://devtrium.com/posts/async-functions-useeffect
+            
     }, [workoutSelected]); // anytime this value changes, the effect will fire
 
     //Values state
@@ -301,7 +304,7 @@ const WorkoutEntryScreen = () => {
                         buttonTextColor="orange"
                         buttonRadius={10}
                         style={WorkoutScreenStyles.enterWorkoutButton}
-                        onPress={() => {
+                        onPress={async() => {
                             //ensure validation is processed - done
                             setEnterWorkoutClicked(true);
                             if (!Validation.isBlank(ex1BandColor) && !Validation.isBlank(ex2BandColor)
@@ -336,10 +339,24 @@ const WorkoutEntryScreen = () => {
                                     workoutLog4.setPartialReps(ex4PartialReps);
 
                                     try {
-                                        insertWorkoutAsync(db, workoutSelected, userID,
+                                        await insertWorkoutAsync(db, workoutSelected, userID,
                                             workoutLog1, workoutLog2, workoutLog3, workoutLog4);
-
+                                        
                                         setEnterWorkoutClicked(false); //do this at the end
+                                        //Resetting state
+                                        setWorkoutSelected("");
+                                        setEx1Reps("0");
+                                        setEx1PartialReps("0");
+                                        setEx1BandColor("");
+                                        setEx2Reps("0");
+                                        setEx2PartialReps("0");
+                                        setEx2BandColor("");
+                                        setEx3Reps("0");
+                                        setEx3PartialReps("0");
+                                        setEx3BandColor("");
+                                        setEx4Reps("0");
+                                        setEx4PartialReps("0");
+                                        setEx4BandColor("");
                                     } catch (ex) {
                                         console.error(ex);
                                     }

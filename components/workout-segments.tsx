@@ -53,7 +53,7 @@ const WorkoutSegments = (props: iWorkoutSegmentProps) => {
                         navigation.navigate('WorkoutInfo', {
                             WorkoutSessionID: props.workoutsessionID
                         });
-                    }, 500); //runs after 2 seconds so animation shows //https://sangwin.medium.com/delays-in-javascript-how-to-make-your-code-wait-the-right-way-0d97522cf8f5
+                    }, 500); //runs enclosed function after 0.5 seconds so animation shows //https://sangwin.medium.com/delays-in-javascript-how-to-make-your-code-wait-the-right-way-0d97522cf8f5
 
                 }}
             >

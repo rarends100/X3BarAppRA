@@ -1,7 +1,7 @@
 export interface iLoggedExercisePerWorkout{
-    LoggedWorkoutSessionID: string;
-    loggedExerciseName: string;
-    loggedBandColor: string;
-    reps: Int32Array;
-    partialReps: Int32Array;
+    LoggedWorkoutSessionID: number;
+    LoggedExerciseName: string;
+    LoggedBandColor: string;
+    reps: number;
+    partialReps: number; //Aha this was the issue all along since SQL doesn't return a typed int32Array and only returns basic js types like number, string, etc
 }
