@@ -28,12 +28,19 @@ export const insertWorkoutAsync = async (db: SQLiteDatabase, workoutID: string, 
         console.log("New workout inserted for user " + userID + "." +
             "\nresult returned for inserted WorkoutSessionLogID: " + result.lastInsertRowId
         );
-        Params.map(value => {
-            value.setLoggedWorkoutSessionID(result.lastInsertRowId);
+        Params.map((value) => {
+            const loggedExercise = new LoggedExercisePerWorkout();
+            loggedExercise.setLoggedWorkoutSessionID(result.lastInsertRowId);
+            loggedExercise.setLoggedExerciseName(value.getLoggedExerciseName());
+            loggedExercise.setLoggedBandcolor(value.getLoggedBandcolor());
+            loggedExercise.setReps(value.getReps());
+            loggedExercise.setPartialReps(value.getPartialReps());
+
+            helperInsertWorkoutExercisesAsync(db, loggedExercise)
+                .then(data => { success = true })
+                .catch(ex => console.error(ex));
         });
-        helperInsertWorkoutExercisesAsync(db, ...Params)
-        .then(data => {success = true})
-        .catch(ex => console.error(ex));
+
     } catch (ex) {
         console.error("WorkoutDB -> .insertWorkout() -> \nError: " + ex);
     } finally {
@@ -49,37 +56,42 @@ export const insertWorkoutAsync = async (db: SQLiteDatabase, workoutID: string, 
  * @param LoggedWorkoutSessionID 
  * @param Params 
  */
-export const helperInsertWorkoutExercisesAsync = async (db: SQLiteDatabase, ...Params: LoggedExercisePerWorkout[]) => {
+export const helperInsertWorkoutExercisesAsync = async (db: SQLiteDatabase, exercise : LoggedExercisePerWorkout) => {
     let success = false;
     //console.log("\n\n\n" + Params);
-    Params.map((value) => {
-        //console.log("helperInserWorkoutExercisesAsync " + value.LoggedExerciseName);
-        const LoggedExerciseName = value.getLoggedExerciseName();
-        const LoggedBandColor = value.getLoggedBandcolor();
-        const reps = parseInt(value.getReps());
-        const partialReps = parseInt(value.getPartialReps());
-        const LoggedWorkoutSessionID = parseInt(value.getLoggedWorkoutSessionID());
+    
 
-        console.log(`LoggedWorkoutSessionID: ${LoggedWorkoutSessionID}\nLoggedExerciseName: ${LoggedExerciseName}\n
-                    LoggedBandColor: ${LoggedBandColor} \nreps: ${reps} \npartialReps: ${partialReps}`);
+        console.log(`.helperInsertWorkoutExercisesAsync() -> \n\t\tLoggedWorkoutSessionID: ${exercise.getLoggedWorkoutSessionID()}
+            \n\t\tLoggedExerciseName: ${exercise.getLoggedExerciseName()}\n\t\t
+            LoggedBandColor: ${exercise.getLoggedBandcolor()} \n\t\treps: ${exercise.getReps()} 
+            \n\t\tpartialReps: ${exercise.getPartialReps()}`);
+
+        const loggedWorkoutSessionID = exercise.getLoggedWorkoutSessionID();
+        const loggedExerciseName = exercise.getLoggedExerciseName();
+        const loggedBandColor = exercise.getLoggedBandcolor();
+        const reps = exercise.getReps();
+        const partialReps = exercise.getPartialReps();
+
         try {
-            async () => {
-                await db.runAsync(
-                    `INSERT INTO LoggedExercisesPerWorkout
-                    (LoggedWorkoutSessionID, LoggedExerciseName, LoggedBandColor, reps, partialReps)
-                     VALUES
-                    (?, ?, ?, ?, ?)`,
-                    [LoggedWorkoutSessionID, LoggedExerciseName, LoggedBandColor, reps, partialReps]
-                );}
-                success = true;
-            }catch(ex){
-                console.log(".helperInsertWorkoutExercisesAsync() -> \n\tError: " + ex);
-                success = false;
-            }
-    });
+            
+            const result = await db.runAsync(
+                `INSERT INTO LoggedExercisesPerWorkout
+                (LoggedWorkoutSessionID, LoggedExerciseName, LoggedBandColor, Reps, PartialReps)
+                    VALUES
+                (?, ?, ?, ?, ?)`,
+                [loggedWorkoutSessionID, loggedExerciseName, loggedBandColor, reps, partialReps]
+            );
+            console.log('.helperInsertWorkoutExercisesAsync() -> result value -> ' + result);
+            
+            success = true;
+            
+        } catch (ex) {
+            console.log(".helperInsertWorkoutExercisesAsync() -> \n\tError: " + ex);
+            success = false;
+        }
     console.log(success);
     return success;
-   
+
 }
 
 /**
@@ -116,17 +128,17 @@ export const fetchJSONArrAvailableWorkoutTypes = async (db: SQLiteDatabase) => {
  */
 export const fetchWorkoutSessionsByUserIDAsync = async (db: SQLiteDatabase, userID: any) => {
     //TODO: fill in functionalty
-    
+
     try {
         const allRows = await db.getAllAsync<iWorkoutSession>(
             `SELECT LoggedWorkoutSessionID , WorkoutID, UserID, WorkoutDate 
              FROM WorkoutSessionLog 
              WHERE userID = 2;`,
-             userID
+            userID
         );
 
         allRows.map((value) => {
-            console.log(".fetchWorkoutSessionsAsync() -> \nworkoutSessionID: " 
+            console.log(".fetchWorkoutSessionsAsync() -> \nworkoutSessionID: "
                 + value.LoggedWorkoutSessionID + " workout date: " + value.WorkoutDate);
         });
         return allRows;

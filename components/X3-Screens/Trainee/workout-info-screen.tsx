@@ -24,6 +24,7 @@ const WorkoutInfoScreen = ({ route }: any) => {
     useEffect(() => {
             console.log("in effect");
             const arr: LoggedExercisePerWorkout[] = [];
+            try{
             const fetchData = async () => await fetchExercisesByWorkoutSessionIDAsync(db, WorkoutSessionID)
                 .then(data => {
                     if (data != null || data != undefined) {
@@ -39,18 +40,21 @@ const WorkoutInfoScreen = ({ route }: any) => {
                             arr.push(exercise);
                             console.log(arr.length);
                         });
-
+                        setLoggedExercisesForWorkoutArr(arr);
                     }
                 })
                 .catch(ex => console.error(ex));
             fetchData();
-            setLoggedExercisesForWorkoutArr(arr);
+            }catch(ex){
+                console.log(ex);
+            }
             
-        },[]);
+            
+        },[WorkoutSessionID, []]); //fire on initial access and every time WorkoutSessionID changes
 
         useEffect(() => {
             console.log("exercise array length is -> " + loggedExercisesForWorkoutArr.length);
-        },[])
+        },[loggedExercisesForWorkoutArr, []]);
 
     return (
         <SafeAreaView>

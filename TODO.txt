@@ -1,4 +1,5 @@
-- Design a function to retrieve the workout and the exercises associated to it.
+- Fix error where exercises are not being inserted for workout entry
+- Design a function to retrieve the workout and the exercises associated to it. - Done
 - code a class that stores workout values and using an array to store Loggedexercise objects. - Done
 - Customize WorkoutScreen CSS - Done
 - Write functions to pull needed data from the database for exercises -Done
