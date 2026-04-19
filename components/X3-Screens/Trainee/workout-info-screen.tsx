@@ -1,4 +1,4 @@
-import { Animated, KeyboardAvoidingView, Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useEffect, useState } from "react";
@@ -6,10 +6,12 @@ import { useEffect, useState } from "react";
 import { useSQLiteContext } from 'expo-sqlite';
 
 import LoggedExercisePerWorkout from "@/business/LoggedExercisePerWorkout";
+import ExerciseSegments from "@/components/exercise-segments";
 import { fetchExercisesByWorkoutSessionIDAsync } from "@/database/ExerciseDB";
 import { RootState } from '@/utilities/store';
 import { useSelector } from 'react-redux';
 
+import { WorkoutInfoScreenStyles } from "@/styles";
 
 const WorkoutInfoScreen = ({ route }: any) => {
     const db = useSQLiteContext();
@@ -22,9 +24,9 @@ const WorkoutInfoScreen = ({ route }: any) => {
     const { WorkoutSessionID } = route.params;
 
     useEffect(() => {
-            console.log("in effect");
-            const arr: LoggedExercisePerWorkout[] = [];
-            try{
+        console.log("in effect");
+        const arr: LoggedExercisePerWorkout[] = [];
+        try {
             const fetchData = async () => await fetchExercisesByWorkoutSessionIDAsync(db, WorkoutSessionID)
                 .then(data => {
                     if (data != null || data != undefined) {
@@ -45,30 +47,45 @@ const WorkoutInfoScreen = ({ route }: any) => {
                 })
                 .catch(ex => console.error(ex));
             fetchData();
-            }catch(ex){
-                console.log(ex);
-            }
-            
-            
-        },[WorkoutSessionID, []]); //fire on initial access and every time WorkoutSessionID changes
+        } catch (ex) {
+            console.log(ex);
+        }
 
-        useEffect(() => {
-            console.log("exercise array length is -> " + loggedExercisesForWorkoutArr.length);
-        },[loggedExercisesForWorkoutArr, []]);
+
+    }, [WorkoutSessionID, []]); //fire on initial access and every time WorkoutSessionID changes
+
+    useEffect(() => {
+        console.log("exercise array length is -> " + loggedExercisesForWorkoutArr.length);
+    }, [loggedExercisesForWorkoutArr, []]);
 
     return (
-        <SafeAreaView>
-            <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20}>
-                <Animated.ScrollView>
-                    <View>
-                        <Text>Workout Information for Workout Session: {WorkoutSessionID} Trainee: {username}</Text>
-                    </View>
-                    <View>
-                        
-                    </View>
-                </Animated.ScrollView>
-            </KeyboardAvoidingView>
+        <SafeAreaView style={WorkoutInfoScreenStyles.container}>
+
+            <Text>Workout Information {"\n"}Workout Session: {WorkoutSessionID} {"\n"}Trainee: {username} {"\n\n"}</Text>
+            <View>
+                <Text style={WorkoutInfoScreenStyles.header}>Workout Sessions</Text>
+            </View>
+            <FlatList
+                data={Array.from(loggedExercisesForWorkoutArr.values())}
+                keyExtractor={(item) => item.getLoggedExerciseName()}
+
+
+
+
+                renderItem={({ item }) => (
+                    <ExerciseSegments
+                        LoggedWorkoutSessionID={WorkoutSessionID}
+                        LoggedExerciseName={item.getLoggedExerciseName()}
+                        LoggedBandColor={item.getLoggedBandcolor()}
+                        Reps={item.getReps()}
+                        PartialReps={item.getPartialReps()}
+                    />
+
+                )} />
+
+
         </SafeAreaView>
+
     )
 }
 

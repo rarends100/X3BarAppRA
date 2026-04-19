@@ -176,4 +176,51 @@ export const WorkoutScreenStyles = StyleSheet.create({
         marginLeft: 20
     }
     
+});
+
+export const WorkoutInfoScreenStyles = StyleSheet.create({
+    container: { 
+        padding: 1,
+        backgroundColor: 'orange',
+        flex: 1
+    },
+    listContainer: { 
+        flex: 4/5,
+        color: '#eee894'
+    },
+    header: {
+        fontSize: 24,
+        textAlign: 'center',
+        backgroundColor: 'black',
+        color: 'orange'
+    }
+});
+
+export const ExerciseSegmentsStyle = StyleSheet.create({
+    container: {
+        borderWidth: 2,
+        borderColor: 'black',
+        padding: 1,
+        width: 400,
+        marginLeft: 15
+    },
+    exerciseName: {
+        backgroundColor: 'white',
+        fontSize: 24,
+        textAlign: 'center',
+        borderBottomWidth: 1,
+        borderColor: 'black'
+    },
+    exerciseInfoContainer: {
+        backgroundColor: '#f8c453',
+
+    },
+    exerciseInfoText: {
+        fontSize: 18,
+        textAlign: 'left',
+    },
+    header: {
+        backgroundColor: '#f7eb49',
+    }
 })
+    

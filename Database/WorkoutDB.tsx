@@ -72,8 +72,7 @@ export const helperInsertWorkoutExercisesAsync = async (db: SQLiteDatabase, exer
         const reps = exercise.getReps();
         const partialReps = exercise.getPartialReps();
 
-        try {
-            
+        try { //removed inner anon async function I made here, it caused NIGHTMARES
             const result = await db.runAsync(
                 `INSERT INTO LoggedExercisesPerWorkout
                 (LoggedWorkoutSessionID, LoggedExerciseName, LoggedBandColor, Reps, PartialReps)

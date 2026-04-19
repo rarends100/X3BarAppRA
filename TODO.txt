@@ -1,4 +1,8 @@
-- Fix error where exercises are not being inserted for workout entry
+- Fix bug where even if password wrong notified it is wrong but the app still logs you in as long as the    
+        profile username is correct... -
+- Style the workout-entry, workout-info, trainee-home, and workout-list screens -
+- Poppulate workout-info-screen with retrieved exercise values from array. - Done
+- Fix error where exercises are not being inserted for workout entry - Done
 - Design a function to retrieve the workout and the exercises associated to it. - Done
 - code a class that stores workout values and using an array to store Loggedexercise objects. - Done
 - Customize WorkoutScreen CSS - Done
