@@ -13,11 +13,11 @@ import { iWorkoutSession } from "@/Interfaces/iWorkoutSession";
  * @param Params rest operator type LoggedExercisesPerWorkout[]
  * @returns boolean -> true successful, false otherwise
  */
-export const insertWorkoutAsync = async (db: SQLiteDatabase, workoutID: string, userID: any, ...Params: LoggedExercisePerWorkout[]) => {
+export const insertWorkoutSync =  (db: SQLiteDatabase, workoutID: string, userID: any, ...Params: LoggedExercisePerWorkout[]) => {
     let success = false;
     const now = new Date().toISOString(); //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
     try {
-        const result = await db.runAsync(
+        const result =  db.runSync(
             `INSERT INTO WorkoutSessionLog
              (WorkoutID, UserID, WorkoutDate)
              VALUES
@@ -36,15 +36,13 @@ export const insertWorkoutAsync = async (db: SQLiteDatabase, workoutID: string, 
             loggedExercise.setReps(value.getReps());
             loggedExercise.setPartialReps(value.getPartialReps());
 
-            helperInsertWorkoutExercisesAsync(db, loggedExercise)
+            helperInsertWorkoutExercisesSync(db, loggedExercise)
                 .then(data => { success = true })
                 .catch(ex => console.error(ex));
         });
 
     } catch (ex) {
         console.error("WorkoutDB -> .insertWorkout() -> \nError: " + ex);
-    } finally {
-        return success;
     }
 
 }
@@ -56,38 +54,38 @@ export const insertWorkoutAsync = async (db: SQLiteDatabase, workoutID: string, 
  * @param LoggedWorkoutSessionID 
  * @param Params 
  */
-export const helperInsertWorkoutExercisesAsync = async (db: SQLiteDatabase, exercise : LoggedExercisePerWorkout) => {
+export const helperInsertWorkoutExercisesSync = (db: SQLiteDatabase, exercise: LoggedExercisePerWorkout) => {
     let success = false;
     //console.log("\n\n\n" + Params);
-    
 
-        console.log(`.helperInsertWorkoutExercisesAsync() -> \n\t\tLoggedWorkoutSessionID: ${exercise.getLoggedWorkoutSessionID()}
+
+    console.log(`.helperInsertWorkoutExercisesAsync() -> \n\t\tLoggedWorkoutSessionID: ${exercise.getLoggedWorkoutSessionID()}
             \n\t\tLoggedExerciseName: ${exercise.getLoggedExerciseName()}\n\t\t
             LoggedBandColor: ${exercise.getLoggedBandcolor()} \n\t\treps: ${exercise.getReps()} 
             \n\t\tpartialReps: ${exercise.getPartialReps()}`);
 
-        const loggedWorkoutSessionID = exercise.getLoggedWorkoutSessionID();
-        const loggedExerciseName = exercise.getLoggedExerciseName();
-        const loggedBandColor = exercise.getLoggedBandcolor();
-        const reps = exercise.getReps();
-        const partialReps = exercise.getPartialReps();
+    const loggedWorkoutSessionID = exercise.getLoggedWorkoutSessionID();
+    const loggedExerciseName = exercise.getLoggedExerciseName();
+    const loggedBandColor = exercise.getLoggedBandcolor();
+    const reps = exercise.getReps();
+    const partialReps = exercise.getPartialReps();
 
-        try { //removed inner anon async function I made here, it caused NIGHTMARES
-            const result = await db.runAsync(
-                `INSERT INTO LoggedExercisesPerWorkout
+    try { //removed inner anon async function I made here, it caused NIGHTMARES
+        const result = db.runSync(
+            `INSERT INTO LoggedExercisesPerWorkout
                 (LoggedWorkoutSessionID, LoggedExerciseName, LoggedBandColor, Reps, PartialReps)
                     VALUES
                 (?, ?, ?, ?, ?)`,
-                [loggedWorkoutSessionID, loggedExerciseName, loggedBandColor, reps, partialReps]
-            );
-            console.log('.helperInsertWorkoutExercisesAsync() -> result value -> ' + result);
-            
-            success = true;
-            
-        } catch (ex) {
-            console.log(".helperInsertWorkoutExercisesAsync() -> \n\tError: " + ex);
-            success = false;
-        }
+            [loggedWorkoutSessionID, loggedExerciseName, loggedBandColor, reps, partialReps]
+        );
+        console.log('.helperInsertWorkoutExercisesAsync() -> result value -> ' + result);
+
+        success = true;
+
+    } catch (ex) {
+        console.log(".helperInsertWorkoutExercisesAsync() -> \n\tError: " + ex);
+        success = false;
+    } 
     console.log(success);
     return success;
 

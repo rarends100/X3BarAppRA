@@ -3,6 +3,8 @@
 import Button from '@/components/Button/button';
 import { Text, View } from 'react-native';
 
+import Logout from '@/components/logout';
+
 import { useNavigation } from '@react-navigation/native';
 
 const TraineeHome = () =>{
@@ -21,6 +23,7 @@ const TraineeHome = () =>{
                 text="View Workouts"
                  onPress={async () => {navigation.navigate("workoutList");}}
             />
+            <Logout/>
         </View>
     )
 }

@@ -222,7 +222,7 @@ export async function getAllUsers(db: SQLiteDatabase): Promise<iUser[] | null> {
         //  the structure of the iUser interface i.e. {"userID: 1, Username: "Geralt", role: "ADMIN"}
         //3. Now I should be able to call .map, filter(), or .forEach without any extra parsing since it is returning an array of JSON objects in the calling code
         console.log('.getAllUsers() -> ' + allRows.map((elem) => elem.UserName + "\n" + elem.Role));
- 
+        
         return allRows; //Array of JSON objects containing user values or null
     } catch (ex) {
         console.log('Failed to get users from the database', ex);
