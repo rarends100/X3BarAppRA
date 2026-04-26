@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Animated, KeyboardAvoidingView, Text, TextInput, View } from 'react-native';
+import { Animated, Image, KeyboardAvoidingView, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 //Custom components
@@ -19,7 +19,7 @@ import { login } from '@/utilities/LoginHelper';
 import { useDispatch } from 'react-redux';
 
 //import { isAdminContext, isLoggedInContext, isTraineeContext } from '@/context/RA_user-Auth-context';
-import { globalStyles } from '@/styles';
+import { globalStyle, loginPageStyle } from '@/styles';
 import { loginSuccess } from '@/utilities/AuthSlice';
 import { useSQLiteContext } from 'expo-sqlite';
 
@@ -40,14 +40,13 @@ const LoginScreen = (props: any) => {
 
     const handleLoginPress = async () => {
         try {
-            let user = null; 
-            user = await login(username.trim(), password.trim(), db);
+            const user = await login(username.trim(), password.trim(), db);
 
             if (user !== null) {
                 setLoginButtonPressed(false);
-                const userID = user.getUserID();
-                const role = user.getRole();
-                const username = user.getUsername();
+                const userID = user?.getUserID();
+                const role = user?.getRole();
+                const username = user?.getUsername();
 
                 dispatch(loginSuccess({ userID: userID, role : role, username: username }))
                 setShowError(false);
@@ -65,21 +64,24 @@ const LoginScreen = (props: any) => {
     //################################################View##########################################################################
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={loginPageStyle.container}>
             <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20}>
                 <View>
                     <Animated.ScrollView>
-                        <View>
-                            <Text style={globalStyles.errors}
+                        
+                        <View style={loginPageStyle.inputContainer}>
+                            <Text style={globalStyle.errors}
                             >{loginButtonPressed ? Validation.isBlank(username) ? Validation.blankField('username') : '' : ''}</Text>
-                            <Text>Username</Text>
-                            <TextInput
+                            <Text style={loginPageStyle.headers}>Username</Text>
+                            <TextInput 
+                                style={loginPageStyle.input}
                                 onChangeText={setUsername}
                                 value={username}
                                 placeholder='username'
                             />
-                            <Text>Password</Text>
+                            <Text style={loginPageStyle.headers}>Password</Text>
                             <TextInput
+                                style={loginPageStyle.input}
                                 onChangeText={setPassword}
                                 value={password}
                                 placeholder='password'
@@ -95,6 +97,10 @@ const LoginScreen = (props: any) => {
                         <View>
                            <Text>{showError ? error : ""}</Text>
                         </View>
+                        <Image
+                            source={require('@/images/john-jaquish-x3-bicep-curl-3.jpg')}
+                            style={loginPageStyle.image}
+                        />
                     </Animated.ScrollView>
                 </View>
             </KeyboardAvoidingView>

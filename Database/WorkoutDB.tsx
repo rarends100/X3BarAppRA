@@ -13,11 +13,11 @@ import { iWorkoutSession } from "@/Interfaces/iWorkoutSession";
  * @param Params rest operator type LoggedExercisesPerWorkout[]
  * @returns boolean -> true successful, false otherwise
  */
-export const insertWorkoutSync =  (db: SQLiteDatabase, workoutID: string, userID: any, ...Params: LoggedExercisePerWorkout[]) => {
+export const insertWorkoutSync = (db: SQLiteDatabase, workoutID: string, userID: any, ...Params: LoggedExercisePerWorkout[]) => {
     let success = false;
     const now = new Date().toISOString(); //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
     try {
-        const result =  db.runSync(
+        const result = db.runSync(
             `INSERT INTO WorkoutSessionLog
              (WorkoutID, UserID, WorkoutDate)
              VALUES
@@ -36,9 +36,8 @@ export const insertWorkoutSync =  (db: SQLiteDatabase, workoutID: string, userID
             loggedExercise.setReps(value.getReps());
             loggedExercise.setPartialReps(value.getPartialReps());
 
-            helperInsertWorkoutExercisesSync(db, loggedExercise)
-                .then(data => { success = true })
-                .catch(ex => console.error(ex));
+            helperInsertWorkoutExercisesSync(db, loggedExercise);
+
         });
 
     } catch (ex) {
@@ -54,7 +53,7 @@ export const insertWorkoutSync =  (db: SQLiteDatabase, workoutID: string, userID
  * @param LoggedWorkoutSessionID 
  * @param Params 
  */
-export const helperInsertWorkoutExercisesSync = (db: SQLiteDatabase, exercise: LoggedExercisePerWorkout) => {
+const helperInsertWorkoutExercisesSync = (db: SQLiteDatabase, exercise: LoggedExercisePerWorkout) => {
     let success = false;
     //console.log("\n\n\n" + Params);
 
@@ -70,24 +69,18 @@ export const helperInsertWorkoutExercisesSync = (db: SQLiteDatabase, exercise: L
     const reps = exercise.getReps();
     const partialReps = exercise.getPartialReps();
 
-    try { //removed inner anon async function I made here, it caused NIGHTMARES
-        const result = db.runSync(
-            `INSERT INTO LoggedExercisesPerWorkout
+
+    const result = db.runSync(
+        `INSERT INTO LoggedExercisesPerWorkout
                 (LoggedWorkoutSessionID, LoggedExerciseName, LoggedBandColor, Reps, PartialReps)
                     VALUES
                 (?, ?, ?, ?, ?)`,
-            [loggedWorkoutSessionID, loggedExerciseName, loggedBandColor, reps, partialReps]
-        );
-        console.log('.helperInsertWorkoutExercisesAsync() -> result value -> ' + result);
+        [loggedWorkoutSessionID, loggedExerciseName, loggedBandColor, reps, partialReps]
+    );
+    console.log('.helperInsertWorkoutExercisesAsync() -> result value -> ' + result);
 
-        success = true;
-
-    } catch (ex) {
-        console.log(".helperInsertWorkoutExercisesAsync() -> \n\tError: " + ex);
-        success = false;
-    } 
-    console.log(success);
-    return success;
+    success = true;
+    //throw new TypeError(".helpterInserworkoutExersisesSync -> Issue with helper inserting the exercises.");
 
 }
 
@@ -97,7 +90,7 @@ export const helperInsertWorkoutExercisesSync = (db: SQLiteDatabase, exercise: L
  * @returns [][]
  */
 export const fetchJSONArrAvailableWorkoutTypes = async (db: SQLiteDatabase) => { //https://docs.expo.dev/versions/latest/sdk/sqlite/#getallasyncsource-params
-
+    //NOTE to self: If issues persist may need to rework to sync 
     try {
         const allRows = await db.getAllAsync<any>(
             `SELECT w.WorkoutID 
@@ -130,7 +123,7 @@ export const fetchWorkoutSessionsByUserIDAsync = async (db: SQLiteDatabase, user
         const allRows = await db.getAllAsync<iWorkoutSession>(
             `SELECT LoggedWorkoutSessionID , WorkoutID, UserID, WorkoutDate 
              FROM WorkoutSessionLog 
-             WHERE userID = 2;`,
+             WHERE userID = ?;`,
             userID
         );
 

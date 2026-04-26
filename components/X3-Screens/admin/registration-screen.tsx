@@ -38,7 +38,7 @@ import { insertUserSync } from '@/database/UserDB';
 
 import { Role } from '@/utilities/Role';
 
-import { registerPageStyles } from '@/styles';
+import { registerPageStyle } from '@/styles';
 
 const data = [ //Note: I can make this better by compiling it with objects using a for loop and the database role values, though I may or may not depending on time constraints
     { label: `${Role.ADMIN}`, value: '1' },
@@ -78,68 +78,68 @@ const RegistrationScreen = () => {
     console.log("before dropdown selected again value is " + role);
 
     return (
-        <SafeAreaView style={registerPageStyles.SafeMainView}>
+        <SafeAreaView style={registerPageStyle.SafeMainView}>
             <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20}>
                 <Animated.ScrollView>
-                    <Text style={registerPageStyles.banner}
+                    <Text style={registerPageStyle.banner}
                     >X3 Registration</Text>
-                    <View style={registerPageStyles.topView}>
+                    <View style={registerPageStyle.topView}>
                         <Text>Username</Text>
-                        <TextInput style={registerPageStyles.inputs}
+                        <TextInput style={registerPageStyle.inputs}
                             onChangeText={setUsernameText}
                             value={usernameText}
                             placeholder='Username'
                         />
-                        <Text style={registerPageStyles.errors}
+                        <Text style={registerPageStyle.errors}
                         >{registerButtonPressed ? Validation.isBlank(usernameText) ? blankField('username') : '' : ''}</Text>
                         <Text>first Name</Text>
-                        <TextInput style={registerPageStyles.inputs}
+                        <TextInput style={registerPageStyle.inputs}
                             onChangeText={setFirstnameText}
                             value={firstnameText}
                             placeholder='first name'
                         />
-                        <Text style={registerPageStyles.errors}
+                        <Text style={registerPageStyle.errors}
                         >{registerButtonPressed ? Validation.isBlank(firstnameText) ? blankField('firstname') : '' : ''}</Text>
                         <Text>Last Name</Text>
-                        <TextInput style={registerPageStyles.inputs}
+                        <TextInput style={registerPageStyle.inputs}
                             onChangeText={setLastnameText}
                             value={lastnameText}
                             placeholder='last name'
                         />
-                        <Text style={registerPageStyles.errors}
+                        <Text style={registerPageStyle.errors}
                         >{registerButtonPressed ? Validation.isBlank(lastnameText) ? blankField('lastname') : '' : ''}</Text>
                         <Text>Email</Text>
-                        <TextInput style={registerPageStyles.inputs}
+                        <TextInput style={registerPageStyle.inputs}
                             onChangeText={setEmailText}
                             value={emailText}
                             placeholder='email'
                         />
-                        <Text style={registerPageStyles.errors}
+                        <Text style={registerPageStyle.errors}
                         >{registerButtonPressed ? Validation.isEmail(emailText) ? '' : notEmail : ''}</Text>
                         <Text>Password</Text>
-                        <TextInput style={registerPageStyles.inputs}
+                        <TextInput style={registerPageStyle.inputs}
                             onChangeText={setPasswordText}
                             value={passwordText}
                             placeholder='password'
                         />
-                        <Text style={registerPageStyles.errors}
+                        <Text style={registerPageStyle.errors}
                         >{registerButtonPressed ? Validation.passwordRulesFollowed(passwordText) ? '' : badPassword : ''}</Text>
                         <Text>Confirm Password</Text>
-                        <TextInput style={registerPageStyles.inputs}
+                        <TextInput style={registerPageStyle.inputs}
                             onChangeText={setConfPasswordText}
                             value={confPasswordText}
                             placeholder='confirm password'
                         />
                         <Text>{registerButtonPressed ? Validation.passwordsMatch(passwordText, confPasswordText) ? '' : passwordsNotMatch : ''}  </Text>
-                        <Text style={registerPageStyles.errors}
+                        <Text style={registerPageStyle.errors}
                         >{registerButtonPressed ? Validation.isBlank(role) ? blankField('role') : '' : ''}  </Text>
                     </View>
                     <Dropdown
-                        style={registerPageStyles.dropdown}
-                        placeholderStyle={registerPageStyles.placeholderStyle}
-                        selectedTextStyle={registerPageStyles.selectedTextStyle}
-                        inputSearchStyle={registerPageStyles.inputSearchStyle}
-                        iconStyle={registerPageStyles.iconStyle}
+                        style={registerPageStyle.dropdown}
+                        placeholderStyle={registerPageStyle.placeholderStyle}
+                        selectedTextStyle={registerPageStyle.selectedTextStyle}
+                        inputSearchStyle={registerPageStyle.inputSearchStyle}
+                        iconStyle={registerPageStyle.iconStyle}
                         data={data}
                         search
                         maxHeight={300}
@@ -154,12 +154,12 @@ const RegistrationScreen = () => {
                             console.log('at select dropdown delayed value is ' + role);
                         }}
                         renderLeftIcon={() => (
-                            <AntDesign style={registerPageStyles.icon} color="gold" name="thunderbolt" size={30} />
+                            <AntDesign style={registerPageStyle.icon} color="gold" name="thunderbolt" size={30} />
                         )}
                     />
 
                     <Button
-                        style={registerPageStyles.registerButton}
+                        style={registerPageStyle.registerButton}
                         text='Register'
                         buttonColor='#eec972'
                         buttonTextColor='black'

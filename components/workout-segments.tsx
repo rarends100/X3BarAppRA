@@ -7,6 +7,7 @@ interface iWorkoutSegmentProps { //props tracking
     workoutsessionID: number,
     workoutDate: Date | null,
     WorkoutID: string | null
+    textStyle: {}
 }
 
 //https://reactnative.dev/docs/using-a-listview
@@ -58,10 +59,9 @@ const WorkoutSegments = (props: iWorkoutSegmentProps) => {
                 }}
             >
                 <View>
-                    <Text key={props.workoutsessionID}>
+                    <Text key={props.workoutsessionID} style={props.textStyle}>
                         {props.WorkoutID + "\t\t" +
-                            "Date: " + props.workoutDate?.getMonth() + "/" + props.workoutDate?.getDay() + "/" +
-                            props.workoutDate?.getFullYear() + "\t\t" +
+                            "Date: " + props.workoutDate?.toLocaleDateString() +
                             "\t\tTime: " + props.workoutDate?.toLocaleTimeString()}
 
                     </Text>

@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 import WorkoutSession from '@/business/WorkoutSession';
 
-
+import { workoutListStyle } from "@/styles";
 
 import WorkoutSegments from "@/components/workout-segments";
 import { fetchWorkoutSessionsByUserIDAsync } from "@/database/WorkoutDB";
@@ -29,7 +29,7 @@ const workoutListScreen = () => { //https://stackoverflow.com/questions/42261505
         try {
             fetchWorkoutSessionsByUserIDAsync(db, userID)
                 .then(data => {
-                    const map = new Map<number, WorkoutSession>(); https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+                    const workoutSessionMap = new Map<number, WorkoutSession>(); https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
                     data?.forEach((value) => {
                         /*console.log("workouts retrieved -> \n\tWorkoutSessionID: " + value.LoggedWorkoutSessionID
                             + " Date: " + value.WorkoutDate
@@ -43,16 +43,16 @@ const workoutListScreen = () => { //https://stackoverflow.com/questions/42261505
                             const workoutDate: Date = new Date(value.WorkoutDate);
                             const workoutSession = new WorkoutSession(workoutSessionID, workoutID, userID, workoutDate);
                             console.log("workout session object -> " + workoutSession.getWorkoutSessionID());
-                            map.set(workoutSession.getWorkoutSessionID(), workoutSession);
+                            workoutSessionMap.set(workoutSession.getWorkoutSessionID(), workoutSession);
                         } catch (ex) {
                             console.error("workout-list-screen -> \n\t" + ex)
                         }
 
 
                     });
-                    setLoggedWorkoutsMap(map); //https://www.geeksforgeeks.org/reactjs/how-to-use-es6-map-with-react-state-hooks/
-                    console.log(map.size);
-                    map.forEach((value, key) => {
+                    setLoggedWorkoutsMap(workoutSessionMap); //https://www.geeksforgeeks.org/reactjs/how-to-use-es6-map-with-react-state-hooks/
+                    console.log(workoutSessionMap.size);
+                    workoutSessionMap.forEach((value, key) => {
                         console.log("workoutListScreen non state map -> Key is: " + key + "Workout is: " + value.getWorkoutID()); //TODO: solve this bug, not printing key and not working
                     });
                 })
@@ -70,7 +70,7 @@ const workoutListScreen = () => { //https://stackoverflow.com/questions/42261505
     //changed to FlatList component from scroll view so that only the currently in view list items are rendered. 
     // determined Animated.ScrollView wasn't right here because it renders everything at once and would likely later lead to lagging
     return (
-        <SafeAreaView>
+        <SafeAreaView style={workoutListStyle.container}>
             <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20}>
                 <FlatList
                     data={Array.from(loggedWorkoutsMap.values())}
@@ -78,8 +78,8 @@ const workoutListScreen = () => { //https://stackoverflow.com/questions/42261505
 
                     ListHeaderComponent={
                         <View>
-                            <Text>{"Username: " + username + "\n" + "Role: " + role + "\n"}</Text>
-                            <Text>Workout Sessions</Text>
+                            <Text style={workoutListStyle.userInfo}>{"Username: " + username + "\n" + "Role: " + role + "\n"}</Text>
+                            <Text style={workoutListStyle.heading} >Workout Sessions</Text>
                         </View>
                     }
 
@@ -90,6 +90,8 @@ const workoutListScreen = () => { //https://stackoverflow.com/questions/42261505
                                 workoutsessionID={item.getWorkoutSessionID()}
                                 WorkoutID={item.getWorkoutID()}
                                 workoutDate={item.getSessionDate()}
+                                textStyle={workoutListStyle.item}
+        
                             />
                         </View>
                     )}
