@@ -39,11 +39,9 @@ function App() {
   return (
     <SQLiteProvider databaseName={databaseName} onInit={migrateDbIfNeeded} key={authKey}>{/*toplevel SQLite data*/}
       <NavigationIndependentTree key={authKey}>
-
         {!userID && <AuthStack />}
         {userID && role === Role.ADMIN && <AdminStack />}
         {userID && role === Role.TRAINEE && <TraineeStack />}
-
       </NavigationIndependentTree>
     </SQLiteProvider>
   );
