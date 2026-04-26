@@ -21,7 +21,10 @@ const ExerciseSegments = (props: iLoggedExercisePerWorkout) => {
             <View>
                 <DataTable style={ExerciseSegmentsStyle.exerciseInfoContainer}>
                     <DataTable.Header style={ExerciseSegmentsStyle.header}>
-                        <DataTable.Title>Exercise: {props.LoggedExerciseName}</DataTable.Title>
+                        <DataTable.Title 
+                        style={{ justifyContent: 'center' }}
+                        textStyle={ExerciseSegmentsStyle.headerTextStyle}
+                        >{props.LoggedExerciseName}</DataTable.Title>
                     </DataTable.Header>
                     <DataTable.Row>
                         <DataTable.Cell>Band Color: {props.LoggedBandColor}</DataTable.Cell>
