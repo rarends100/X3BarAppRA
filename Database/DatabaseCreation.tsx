@@ -6,18 +6,26 @@ import { SQLiteDatabase } from "expo-sqlite";
 
 export async function migrateDbIfNeeded(db: SQLiteDatabase) {
   const DATABASE_VERSION = 1;
-  let {user_version: currentDbVersion} : any = await db.getFirstAsync<{
+  let { user_version: currentDbVersion }: any = await db.getFirstAsync<{
     user_version: number;
   }>('PRAGMA user_version');
-    if (currentDbVersion >= DATABASE_VERSION){
-      console.log('Database is current and already exists');
-      return;
-    }
-    if (currentDbVersion === 0) {
-      try{
-        await db.execAsync(`
-            	PRAGMA journal_mode = 'wal';
+  if (currentDbVersion >= DATABASE_VERSION) {
+    console.log('Database is current and already exists');
+    return;
+  }
+  if (currentDbVersion === 0) {
+    try {
+
+      // Always ensure WAL + good settings on every migration run
+      await db.execAsync(`
+              PRAGMA journal_mode = WAL;
               PRAGMA foreign_keys = ON;
+              PRAGMA busy_timeout = 20000;     -- Wait up to 20 seconds before failing
+              PRAGMA synchronous = NORMAL;    -- Good balance for WAL (faster + safe)
+            `);
+            
+      await db.execAsync(`
+         
               
               DROP TABLE IF EXISTS LoggedExercisesPerWorkout;
               DROP TABLE IF EXISTS WorkoutSessionLog;
@@ -197,15 +205,15 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
               /*TODO: database creation -> if any 1.indexes, 2.views, or 3.stored procedures are needed designate them here in
                       the order listed. */
           `);
-          // link to query db fast and easy https://sqliteonline.com/
+      // link to query db fast and easy https://sqliteonline.com/
 
-          // To Glenn: All preloaded users have a Plain text Password of: Password_1 
-          currentDbVersion = 1;
-          console.log('Database tables created successfully');
-      }catch(ex){
-          console.log('Database creation failure: ' + ex);
-        }
+      // To Glenn: All preloaded users have a Plain text Password of: Password_1 
+      currentDbVersion = 1;
+      console.log('Database tables created successfully');
+    } catch (ex) {
+      console.log('Database creation failure: ' + ex);
     }
-    await db.execAsync(`PRAGMA user_version = ${DATABASE_VERSION}`);
-    console.log(`Database upgraded to version ${DATABASE_VERSION}`);
+  }
+  await db.execAsync(`PRAGMA user_version = ${DATABASE_VERSION}`);
+  console.log(`Database upgraded to version ${DATABASE_VERSION}`);
 }

@@ -22,7 +22,7 @@ export function deleteDatabase(db: SQLiteDatabase){
             },
             {
                 text: 'Delete', 
-                onPress: async () => 
+                onPress: () => 
                     {
                         try{
                             db.closeSync(); //freeup the db by closing it

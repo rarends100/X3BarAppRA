@@ -7,7 +7,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 
 import LoggedExercisePerWorkout from "@/business/LoggedExercisePerWorkout";
 import ExerciseSegments from "@/components/exercise-segments";
-import { fetchExercisesByWorkoutSessionIDAsync } from "@/database/ExerciseDB";
+import { fetchExercisesByWorkoutSessionIDSync } from "@/database/ExerciseDB";
 import { RootState } from '@/utilities/store';
 import { useSelector } from 'react-redux';
 
@@ -27,32 +27,27 @@ const WorkoutInfoScreen = ({ route }: any) => {
         console.log("in effect");
         const arr: LoggedExercisePerWorkout[] = [];
         try {
-            const fetchData = async () => await fetchExercisesByWorkoutSessionIDAsync(db, WorkoutSessionID)
-                .then(data => {
-                    if (data != null || data != undefined) {
-                        data.forEach((value) => {
-                            console.log(value.LoggedExerciseName);
-                            const exercise = new LoggedExercisePerWorkout();
-                            exercise.setLoggedExerciseName(value.LoggedExerciseName);
-                            exercise.setLoggedBandcolor(value.LoggedBandColor);
-                            exercise.setReps(value.Reps);
-                            exercise.setPartialReps(value.PartialReps);
-                            console.log(exercise.getLoggedExerciseName());
-                            //add item
-                            arr.push(exercise);
-                            console.log(arr.length);
-                        });
-                        setLoggedExercisesForWorkoutArr(arr);
-                    }
-                })
-                .catch(ex => console.error(ex));
-            fetchData();
+            const exerciseData = fetchExercisesByWorkoutSessionIDSync(db, WorkoutSessionID);
+            exerciseData?.forEach((value) => {
+                console.log(value.LoggedExerciseName);
+                const exercise = new LoggedExercisePerWorkout();
+                exercise.setLoggedExerciseName(value.LoggedExerciseName);
+                exercise.setLoggedBandcolor(value.LoggedBandColor);
+                exercise.setReps(value.Reps);
+                exercise.setPartialReps(value.PartialReps);
+                console.log(exercise.getLoggedExerciseName());
+                //add item
+                arr.push(exercise);
+                console.log(arr.length);
+            });
+            setLoggedExercisesForWorkoutArr(arr);
+
         } catch (ex) {
             console.log(ex);
         }
 
 
-    }, [WorkoutSessionID, []]); //fire on initial access and every time WorkoutSessionID changes
+    }, []); //fire on initial access and every time WorkoutSessionID changes
 
     useEffect(() => {
         console.log("exercise array length is -> " + loggedExercisesForWorkoutArr.length);
