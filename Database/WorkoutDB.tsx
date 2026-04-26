@@ -90,7 +90,7 @@ const helperInsertWorkoutExercisesSync = (db: SQLiteDatabase, exercise: LoggedEx
  * @returns [][]
  */
 export const fetchJSONArrAvailableWorkoutTypes = async (db: SQLiteDatabase) => { //https://docs.expo.dev/versions/latest/sdk/sqlite/#getallasyncsource-params
-
+    //NOTE to self: If issues persist may need to rework to sync 
     try {
         const allRows = await db.getAllAsync<any>(
             `SELECT w.WorkoutID 

@@ -61,8 +61,7 @@ const WorkoutSegments = (props: iWorkoutSegmentProps) => {
                 <View>
                     <Text key={props.workoutsessionID} style={props.textStyle}>
                         {props.WorkoutID + "\t\t" +
-                            "Date: " + props.workoutDate?.getMonth() + "/" + props.workoutDate?.getDay() + "/" +
-                            props.workoutDate?.getFullYear() + "\t\t" +
+                            "Date: " + props.workoutDate?.toLocaleDateString() +
                             "\t\tTime: " + props.workoutDate?.toLocaleTimeString()}
 
                     </Text>
