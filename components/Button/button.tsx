@@ -20,7 +20,7 @@ import { Animated, Pressable, StyleSheet, Text, View } from "react-native";
  */
 const Button = (props: any) => {
     const { style = {}, text, onPress, buttonColor = 'orange', fontSize = 24, buttonSideSize = 50, buttonRadius = 0,
-        buttonTextColor = 'black', borderColor = 'black', fontWeight = 'normal' } = props;
+        buttonTextColor = 'black', borderColor = 'black', fontWeight = 'normal', marginBottom = 0, width = "auto" } = props;
 
     const fadeAnim = useRef(new Animated.Value(1)).current
 
@@ -46,7 +46,8 @@ const Button = (props: any) => {
                     style={[styles.ButtonText, style, {
                         backgroundColor: buttonColor,
                         paddingLeft: buttonSideSize, paddingRight: buttonSideSize,
-                        borderRadius: buttonRadius, borderColor: borderColor
+                        borderRadius: buttonRadius, borderColor: borderColor,
+                        marginBottom: marginBottom, width: width,
                     }]}
 
                 >

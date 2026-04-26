@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-export const globalStyles = StyleSheet.create({
+export const globalStyle = StyleSheet.create({
        //General Text Styling
     errors: {
         color: 'red',
@@ -13,12 +13,40 @@ export const globalStyles = StyleSheet.create({
 });
 
 
-export const loginPageStyles = StyleSheet.create({
-
+export const loginPageStyle = StyleSheet.create({
+    container: {
+        backgroundColor: '#000000',
+        flex: 1,
+        flexDirection: 'column'
+    },
+    headers: { 
+        color: 'orange',
+        fontSize: 20,
+        fontWeight: '500',
+        marginLeft: 180
+    },
+    input: {
+        color: 'orange',
+        backgroundColor: 'black',
+        borderColor: 'orange',
+        borderWidth: 5,
+        marginLeft: 120,
+        marginBottom: 3,
+        padding: 10,
+        width: 200,
+        fontSize: 20,
+    },
+    inputContainer: { 
+      marginBottom: 10  
+    },
+    image: {
+        width: 400,
+        height: 430
+    }
 });
 
 
-export const registerPageStyles = StyleSheet.create({
+export const registerPageStyle = StyleSheet.create({
     //Dropdown styling
     dropdown: {
         marginRight: 82,
@@ -96,7 +124,7 @@ export const registerPageStyles = StyleSheet.create({
 
 });
 
-export const WorkoutScreenStyles = StyleSheet.create({
+export const WorkoutScreenStyle = StyleSheet.create({
     container: {
         backgroundColor: "orange",
         padding: 2,
@@ -178,7 +206,7 @@ export const WorkoutScreenStyles = StyleSheet.create({
     
 });
 
-export const WorkoutInfoScreenStyles = StyleSheet.create({
+export const WorkoutInfoScreenStyle = StyleSheet.create({
     container: { 
         padding: 1,
         backgroundColor: 'orange',
@@ -255,8 +283,27 @@ export const workoutListStyle = StyleSheet.create({
         fontFamily: 'sans-serif',
         marginLeft: 30,
     }
-
-    
-
 });
-    
+
+export const traineeHomeStyle = StyleSheet.create({
+    container: {
+        backgroundColor: '#fd7403ef',
+        flex: 1,
+    },
+    header: {
+        fontSize: 40,
+        fontWeight: 'bold',
+        borderWidth: 5,
+        borderColor: 'black',
+        backgroundColor: 'orange',
+        padding: 30,
+        textAlign: 'center',
+        marginBottom: 50,
+        
+
+    },
+    image: {
+        width: 400,
+        height: 400
+    }
+});

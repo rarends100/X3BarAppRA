@@ -11,7 +11,7 @@ import { fetchExercisesByWorkoutSessionIDSync } from "@/database/ExerciseDB";
 import { RootState } from '@/utilities/store';
 import { useSelector } from 'react-redux';
 
-import { WorkoutInfoScreenStyles } from "@/styles";
+import { WorkoutInfoScreenStyle } from "@/styles";
 
 const WorkoutInfoScreen = ({ route }: any) => {
     const db = useSQLiteContext();
@@ -54,11 +54,11 @@ const WorkoutInfoScreen = ({ route }: any) => {
     }, [loggedExercisesForWorkoutArr, []]);
 
     return (
-        <SafeAreaView style={WorkoutInfoScreenStyles.container}>
+        <SafeAreaView style={WorkoutInfoScreenStyle.container}>
 
             <Text>Workout Information {"\n"}Workout Session: {WorkoutSessionID} {"\n"}Trainee: {username} {"\n\n"}</Text>
             <View>
-                <Text style={WorkoutInfoScreenStyles.header}>Exercises</Text>
+                <Text style={WorkoutInfoScreenStyle.header}>Exercises</Text>
             </View>
             <FlatList
                 data={Array.from(loggedExercisesForWorkoutArr.values())}
