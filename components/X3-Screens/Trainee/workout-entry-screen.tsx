@@ -54,31 +54,31 @@ const WorkoutEntryScreen = () => {
           3. use that array in the "Select Workout Type" dropdown at the top of the UI
         */
         let optionsData: any = [];
-        const fetchData = async () => {await fetchJSONArrAvailableWorkoutTypes(db)
-            .then(data => data?.map((value_obj, index, row) => {
-                //console.log(value_obj);
-                optionsData.push({ label: row[index].WorkoutID, value: row[index].WorkoutID }); //finally got my JS object
-                setWorkoutOptionArrData(optionsData);
-            }))
-            .catch(error => console.log("Error retrieving workout options. \nError: " + error));}
+        const fetchData = async () => {
+            await fetchJSONArrAvailableWorkoutTypes(db)
+                .then(data => data?.map((value_obj, index, row) => {
+                    //console.log(value_obj);
+                    optionsData.push({ label: row[index].WorkoutID, value: row[index].WorkoutID }); //finally got my JS object
+                    setWorkoutOptionArrData(optionsData);
+                }))
+                .catch(error => console.log("Error retrieving workout options. \nError: " + error));
+        }
 
-            fetchData().catch(console.error);//https://devtrium.com/posts/async-functions-useeffect
+        fetchData().catch(console.error);//https://devtrium.com/posts/async-functions-useeffect
     }, []);
 
-    useEffect(() => { 
+    useEffect(() => {
         console.log("workoutSelectedEffect fired");
         let arr: string[] = [];
-        const fetchData = async () => {await fetchArrOfExercises(db, workoutSelected)
-            .then(data => data?.map((value, index, row) => {
-                //console.log(row[index].ExerciseName);
-                arr.push(row[index].ExerciseName); //populate array
-                arr.map(value => console.log("value: " + value)); //show array
-                setExNamesArr(arr); //set array to state obj
-            }))
-            .catch(err => console.error("Issue retrieving exercises. \nError: " + err));}
+        const exercisesForWorkoutArr = fetchArrOfExercises(db, workoutSelected);
+        exercisesForWorkoutArr?.forEach((elem) => {
+            arr.push(elem.ExerciseName);
+        });
+        arr.map(value => console.log("value: " + value)); //show array
+        setExNamesArr(arr); //set array to state obj
 
-            const result = fetchData().catch(console.error);//https://devtrium.com/posts/async-functions-useeffect
-            
+        //const result = exercisesForWorkoutArr().catch(console.error);//https://devtrium.com/posts/async-functions-useeffect
+
     }, [workoutSelected]); // anytime this value changes, the effect will fire
 
     //Values state
@@ -304,7 +304,7 @@ const WorkoutEntryScreen = () => {
                         buttonTextColor="orange"
                         buttonRadius={10}
                         style={WorkoutScreenStyles.enterWorkoutButton}
-                        onPress={async() => {
+                        onPress={async () => {
                             //ensure validation is processed - done
                             setEnterWorkoutClicked(true);
                             if (!Validation.isBlank(ex1BandColor) && !Validation.isBlank(ex2BandColor)
@@ -341,7 +341,7 @@ const WorkoutEntryScreen = () => {
                                     try {
                                         await insertWorkoutSync(db, workoutSelected, userID,
                                             workoutLog1, workoutLog2, workoutLog3, workoutLog4);
-                                        
+
                                         setEnterWorkoutClicked(false); //do this at the end
                                         //Resetting state
                                         setWorkoutSelected("");

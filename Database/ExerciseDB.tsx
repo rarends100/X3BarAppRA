@@ -12,10 +12,10 @@ import { iLoggedExercisePerWorkout } from "@/Interfaces/iLoggedExercisePerWorkou
  * @param db 
  * @returns iExercise JSON | undefined
  */ 
-export const fetchArrOfExercises = async (db: SQLiteDatabase, workout: string) => { //https://docs.expo.dev/versions/latest/sdk/sqlite/#getallasyncsource-params
+export const fetchArrOfExercises = (db: SQLiteDatabase, workout: string) => { //https://docs.expo.dev/versions/latest/sdk/sqlite/#getallasyncsource-params
     
     try {
-        const allRows = await db.getAllAsync<iExercise>(
+        const allRows = db.getAllSync<iExercise>(
             `SELECT ExerciseName, WorkoutID, ExerciseVideoLink
              FROM Exercise e
              WHERE e.WorkoutID = ?;
@@ -23,10 +23,10 @@ export const fetchArrOfExercises = async (db: SQLiteDatabase, workout: string) =
              [workout]
         );
         
-        allRows.map((notUsed,index,row) => 
-            {
-               console.log("exercise: " + row[index].ExerciseName);
-            })
+        allRows.forEach(element => { 
+           
+               console.log("exercise: " + element.ExerciseName );
+    });
           return allRows;  
     } catch (ex) {
         console.error("Exercise DB -> .fetchArrOfExercises() -> \nException: " + ex);
