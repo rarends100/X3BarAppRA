@@ -63,7 +63,7 @@ const WorkoutInfoScreen = ({ route }: any) => {
 
             <Text>Workout Information {"\n"}Workout Session: {WorkoutSessionID} {"\n"}Trainee: {username} {"\n\n"}</Text>
             <View>
-                <Text style={WorkoutInfoScreenStyles.header}>Workout Sessions</Text>
+                <Text style={WorkoutInfoScreenStyles.header}>Exercises</Text>
             </View>
             <FlatList
                 data={Array.from(loggedExercisesForWorkoutArr.values())}

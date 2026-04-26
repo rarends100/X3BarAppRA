@@ -222,5 +222,41 @@ export const ExerciseSegmentsStyle = StyleSheet.create({
     header: {
         backgroundColor: '#f7eb49',
     }
-})
+});
+
+export const workoutListStyle = StyleSheet.create({
+    container: { 
+        padding: 1,
+        backgroundColor: 'orange',
+        flex: 1
+    },
+    item: {
+        color: 'black',
+        fontSize: 18,
+        marginLeft: 10,
+        marginRight: 10,
+        padding: 2,
+        borderWidth: 1,
+        borderColor: 'black',
+        fontWeight: '500'
+        
+    },
+    heading: {
+        fontSize: 30,
+        fontWeight: 'condensedBold',
+        borderBottomColor: 'black',
+        borderBottomWidth: 2,
+        textAlign: 'center',
+        color: 'orange',
+        backgroundColor: 'black'
+    },  
+    userInfo: { 
+        fontSize: 16,
+        fontFamily: 'sans-serif',
+        marginLeft: 30,
+    }
+
+    
+
+});
     
