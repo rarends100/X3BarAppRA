@@ -46,6 +46,35 @@ export const insertWorkoutSync = (db: SQLiteDatabase, workoutID: string, userID:
 
 }
 
+export const deleteWorkout = (db: SQLiteDatabase, workoutSessionID: number) => {
+    let success = false;
+
+    console.log("workout session id being deleted: " + workoutSessionID);
+
+    try{
+        const result1 = db.runSync(`
+            DELETE FROM
+            LoggedExercisesPerWorkout
+            WHERE LoggedWorkoutSessionID = ?
+            `, [workoutSessionID]);
+
+        const result2 = db.runSync(`
+            DELETE FROM
+            WorkoutSessionLog
+            WHERE LoggedWorkoutSessionID = ?
+            `, [workoutSessionID]);
+        console.log("delete result1: " + result1 + "\ndelete result 2: " + result2 );
+
+        if(result1 && result2){ //if both workouts and exercises belonging to that workout are deleted
+            success = true;
+        }
+    }catch(ex){
+        console.error("Could not delete select workout, reason -> \n\tError -> " + ex);
+    }
+
+    return success;
+}
+
 /**
  * After a workoutSessionLog is entered, this function then inserts all of the exercises to be logged 
  * for that workout.

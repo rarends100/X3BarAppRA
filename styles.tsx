@@ -230,7 +230,8 @@ export const ExerciseSegmentsStyle = StyleSheet.create({
         borderColor: 'black',
         padding: 1,
         width: 400,
-        marginLeft: 15
+        marginLeft: 15,
+        marginTop: 10,
     },
     exerciseName: {
         backgroundColor: 'white',
@@ -247,22 +248,32 @@ export const ExerciseSegmentsStyle = StyleSheet.create({
         fontSize: 18,
         textAlign: 'left',
     },
-    header: {
-        backgroundColor: '#f7eb49',
+    header: { 
+        backgroundColor: 'black',
+    },
+    headerTextStyle: {
+        fontSize: 24,
+        color: 'orange',
+        textAlign: 'center'
     }
 });
 
 export const workoutListStyle = StyleSheet.create({
-    container: { 
+    containerMain: { 
         padding: 1,
         backgroundColor: 'orange',
         flex: 1
+    },
+    containerSecondary: {
+        flexDirection: 'row',
+        marginTop: 20
     },
     item: {
         color: 'black',
         fontSize: 18,
         marginLeft: 10,
-        marginRight: 10,
+        marginRight: 5,
+        marginBottom: 5,
         padding: 2,
         borderWidth: 1,
         borderColor: 'black',
