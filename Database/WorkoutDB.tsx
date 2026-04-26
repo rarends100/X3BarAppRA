@@ -123,7 +123,7 @@ export const fetchWorkoutSessionsByUserIDAsync = async (db: SQLiteDatabase, user
         const allRows = await db.getAllAsync<iWorkoutSession>(
             `SELECT LoggedWorkoutSessionID , WorkoutID, UserID, WorkoutDate 
              FROM WorkoutSessionLog 
-             WHERE userID = 2;`,
+             WHERE userID = ?;`,
             userID
         );
 
