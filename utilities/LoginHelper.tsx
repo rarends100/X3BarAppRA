@@ -20,36 +20,33 @@ export const login = async (username: string, password: string, db: SQLiteDataba
         const email = retrievedUserJSONRecord.Email;
         const employeeID = retrievedUserJSONRecord.EmployeeID;
 
-        if (retrievedUserJSONRecord !== null) {
-
-            user.setUserID(userID);
-            user.setUsername(username);
-            user.setRole(role);
-            user.setPassword(password);
-            user.setHashedPassword(credential);
-            user.setEmail(email);
-            user.setFirstname(firstname);
-            user.setMiddlename(middlename);
-            user.setLastname(lastname);
-            if (user.getEmployeeID !== null){
-                user.setEmployeeID(employeeID);
-            }
-            
-
-            console.log(username +
-                ".login() Has been retrieved from the database and set on the user in .login()");
-
-            if (Auth.checkIfPasswordMatch(password, credential)) {
-
-            } else {
-                Alert.alert("Message", "wrong password");
-
-            }
+        user.setUserID(userID);
+        user.setUsername(username);
+        user.setRole(role);
+        user.setPassword(password);
+        user.setHashedPassword(credential);
+        user.setEmail(email);
+        user.setFirstname(firstname);
+        user.setMiddlename(middlename);
+        user.setLastname(lastname);
+        if (employeeID !== null) {
+            user.setEmployeeID(employeeID);
         }
+
+
+        console.log(username +
+            ".login() Has been retrieved from the database and set on the user in .login()\nAuthenticating user...");
+
+        if (Auth.checkIfPasswordMatch(password, credential)) {
+            return user;
+        } else {
+            Alert.alert("Message", "wrong password");
+            return null;
+        }
+
     } else {
         Alert.alert("Login Attempt Failed", "Username is incorrect or user does not exist.");
         console.log("Username is incorrect or user does not exist.");
 
     }
-    return user;
 }

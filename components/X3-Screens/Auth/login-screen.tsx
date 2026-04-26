@@ -40,14 +40,13 @@ const LoginScreen = (props: any) => {
 
     const handleLoginPress = async () => {
         try {
-            let user = null; 
-            user = await login(username.trim(), password.trim(), db);
+            const user = await login(username.trim(), password.trim(), db);
 
             if (user !== null) {
                 setLoginButtonPressed(false);
-                const userID = user.getUserID();
-                const role = user.getRole();
-                const username = user.getUsername();
+                const userID = user?.getUserID();
+                const role = user?.getRole();
+                const username = user?.getUsername();
 
                 dispatch(loginSuccess({ userID: userID, role : role, username: username }))
                 setShowError(false);
