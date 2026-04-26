@@ -47,7 +47,7 @@ export const fetchArrOfExercises = async (db: SQLiteDatabase, workout: string) =
         partialReps: Int32Array;
     }[]
  */
-export const fetchExercisesByWorkoutSessionIDAsync = async (db: SQLiteDatabase, WorkoutSessionID: number, orderBool: boolean = false) => {
+export const fetchExercisesByWorkoutSessionIDSync = (db: SQLiteDatabase, WorkoutSessionID: number, orderBool: boolean = false) => {
     //TODO: fill in functionalty
     console.log("in .fetchExercisesByWorkoutSessionIDAsync() | sessionID is: " + WorkoutSessionID);
     let order;
@@ -60,12 +60,13 @@ export const fetchExercisesByWorkoutSessionIDAsync = async (db: SQLiteDatabase, 
                         WHERE LoggedWorkoutSessionID = ?
                         ORDER BY LoggedExerciseName ${order};`
              
-        const allRows = await db.getAllAsync<iLoggedExercisePerWorkout>(query, [WorkoutSessionID]);
+        const allRows =  db.getAllSync<iLoggedExercisePerWorkout>(query, [WorkoutSessionID]);
              
         console.log("data rows fetched -> " + allRows.length)
   
         return allRows;
     } catch (ex) {
-        console.error("Exercise DB -> .fetchArrOfExercises() -> \nException: " + ex);
+        //console.error("Exercise DB -> .fetchArrOfExercises() -> \nException: " + ex);
+        throw new TypeError("Exercise DB -> .fetchArrOfExercises() -> \nException: " + ex);
     }
 }

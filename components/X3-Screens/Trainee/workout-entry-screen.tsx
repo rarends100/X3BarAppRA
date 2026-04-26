@@ -17,7 +17,7 @@ import { fetchArrOfExercises } from '@/database/ExerciseDB';
 import { RootState } from '@/utilities/store';
 import { useSelector } from 'react-redux';
 
-import { insertWorkoutAsync } from '@/database/WorkoutDB';
+import { insertWorkoutSync } from '@/database/WorkoutDB';
 
 
 import LoggedExercisePerWorkout from '@/business/LoggedExercisePerWorkout';
@@ -339,7 +339,7 @@ const WorkoutEntryScreen = () => {
                                     workoutLog4.setPartialReps(ex4PartialReps);
 
                                     try {
-                                        await insertWorkoutAsync(db, workoutSelected, userID,
+                                        await insertWorkoutSync(db, workoutSelected, userID,
                                             workoutLog1, workoutLog2, workoutLog3, workoutLog4);
                                         
                                         setEnterWorkoutClicked(false); //do this at the end

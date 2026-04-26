@@ -22,26 +22,30 @@ function App() {
   //Authentication step 3 ->  Root navigator switches stacks based on auth state
   const { userID, role, username } = useSelector((state: RootState) => state.auth);
   const [authKey, setAuthKey] = useState(0);
-  
+
   //force re-render anytime the auth state changes. - What a nightmare, since recalling App() breaks it all
   useEffect(() => {
     //when auth state changes, increment the key
-    if(authKey === 0){
+    if (authKey === 0) {
       setAuthKey(prevKey => prevKey + 1);
-    }else{
+    } else {
       setAuthKey(prevKey => prevKey - 1);
     }
-    
+
+    console.log("\nuser info changed, base of App()\n");
+
   }, [userID, role, username]); //Depedencies -> if any of these change, trigger the authKey to change -> triggers the NavigationIndepenetTree container to re-render and thus switch stacks
-  
+
   return (
-    <NavigationIndependentTree key={authKey}>
-        <SQLiteProvider databaseName={databaseName} onInit={migrateDbIfNeeded}>{/*toplevel SQLite data*/}
-          { !userID && <AuthStack /> }
-          { userID && role === Role.ADMIN && <AdminStack /> }
-          { userID && role === Role.TRAINEE && <TraineeStack /> }
-        </SQLiteProvider>
-    </NavigationIndependentTree>
+    <SQLiteProvider databaseName={databaseName} onInit={migrateDbIfNeeded} key={authKey}>{/*toplevel SQLite data*/}
+      <NavigationIndependentTree key={authKey}>
+
+        {!userID && <AuthStack />}
+        {userID && role === Role.ADMIN && <AdminStack />}
+        {userID && role === Role.TRAINEE && <TraineeStack />}
+
+      </NavigationIndependentTree>
+    </SQLiteProvider>
   );
 }
 
