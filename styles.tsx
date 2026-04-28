@@ -41,7 +41,7 @@ export const loginPageStyle = StyleSheet.create({
     },
     image: {
         width: 400,
-        height: 430
+        height: 480
     }
 });
 
