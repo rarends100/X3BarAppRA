@@ -11,7 +11,10 @@ import { fetchExercisesByWorkoutSessionIDSync } from "@/database/ExerciseDB";
 import { RootState } from '@/utilities/store';
 import { useSelector } from 'react-redux';
 
+import Button from "@/components/Button/button";
 import { WorkoutInfoScreenStyle } from "@/styles";
+
+import { useNavigation } from "@react-navigation/native";
 
 const WorkoutInfoScreen = ({ route }: any) => {
     const db = useSQLiteContext();
@@ -53,10 +56,23 @@ const WorkoutInfoScreen = ({ route }: any) => {
         console.log("exercise array length is -> " + loggedExercisesForWorkoutArr.length);
     }, [loggedExercisesForWorkoutArr, []]);
 
+
+    const navigation: any = useNavigation();
     return (
         <SafeAreaView style={WorkoutInfoScreenStyle.container}>
 
             <Text>Workout Information {"\n"}Workout Session: {WorkoutSessionID} {"\n"}Trainee: {username} {"\n\n"}</Text>
+            <View>
+                <Button
+                    text={"back to workout list"}
+                    onPress={() =>
+                        { navigation.navigate("workoutList"); }
+                    }
+                    buttonRadius={50}
+                    buttonColor={"#fc9d03"}
+                    
+                />
+            </View>
             <View>
                 <Text style={WorkoutInfoScreenStyle.header}>Exercises</Text>
             </View>

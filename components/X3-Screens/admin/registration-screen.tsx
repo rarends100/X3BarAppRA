@@ -130,7 +130,7 @@ const RegistrationScreen = () => {
                             value={confPasswordText}
                             placeholder='confirm password'
                         />
-                        <Text>{registerButtonPressed ? Validation.passwordsMatch(passwordText, confPasswordText) ? '' : passwordsNotMatch : ''}  </Text>
+                        <Text style={registerPageStyle.errors} >{registerButtonPressed ? Validation.passwordsMatch(passwordText, confPasswordText) ? '' : passwordsNotMatch : ''}  </Text>
                         <Text style={registerPageStyle.errors}
                         >{registerButtonPressed ? Validation.isBlank(role) ? blankField('role') : '' : ''}  </Text>
                     </View>
