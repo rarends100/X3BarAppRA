@@ -47,7 +47,7 @@ const WorkoutInfoScreen = ({ route }: any) => {
         }
 
 
-    }, []); //fire on initial access and every time WorkoutSessionID changes
+    }, [WorkoutSessionID]); //fire every time WorkoutSessionID changes, incliding on init
 
     useEffect(() => {
         console.log("exercise array length is -> " + loggedExercisesForWorkoutArr.length);
