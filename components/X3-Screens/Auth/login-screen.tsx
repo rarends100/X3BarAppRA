@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Animated, Image, KeyboardAvoidingView, Text, TextInput, View } from 'react-native';
+import { Image, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 //Custom components
@@ -48,7 +48,7 @@ const LoginScreen = (props: any) => {
                 const role = user?.getRole();
                 const username = user?.getUsername();
 
-                dispatch(loginSuccess({ userID: userID, role : role, username: username }))
+                dispatch(loginSuccess({ userID: userID, role: role, username: username }))
                 setShowError(false);
 
                 db.closeAsync(); //Call this anytime I need to reload the stack after an action,
@@ -73,45 +73,40 @@ const LoginScreen = (props: any) => {
 
     return (
         <SafeAreaView style={loginPageStyle.container}>
-            <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20}>
-                <View>
-                    <Animated.ScrollView>
-                        
-                        <View style={loginPageStyle.inputContainer}>
-                            <Text style={globalStyle.errors}
-                            >{loginButtonPressed ? Validation.isBlank(username) ? Validation.blankField('username') : '' : ''}</Text>
-                            <Text style={loginPageStyle.headers}>Username</Text>
-                            <TextInput 
-                                style={loginPageStyle.input}
-                                onChangeText={setUsername}
-                                value={username}
-                                placeholder='username'
-                            />
-                            <Text style={loginPageStyle.headers}>Password</Text>
-                            <TextInput
-                                style={loginPageStyle.input}
-                                onChangeText={setPassword}
-                                value={password}
-                                placeholder='password'
-                            />
-                        </View>
-
-                        <View>
-                            <Button
-                                text="Login"
-                                onPress={handleLoginPress}
-                            />
-                        </View>
-                        <View>
-                           <Text>{showError ? error : ""}</Text>
-                        </View>
-                        <Image
-                            source={require('@/images/john-jaquish-x3-bicep-curl-3.jpg')}
-                            style={loginPageStyle.image}
-                        />
-                    </Animated.ScrollView>
+            <View>
+                <View style={loginPageStyle.inputContainer}>
+                    <Text style={globalStyle.errors}
+                    >{loginButtonPressed ? Validation.isBlank(username) ? Validation.blankField('username') : '' : ''}</Text>
+                    <Text style={loginPageStyle.headers}>Username</Text>
+                    <TextInput
+                        style={loginPageStyle.input}
+                        onChangeText={setUsername}
+                        value={username}
+                        placeholder='username'
+                    />
+                    <Text style={loginPageStyle.headers}>Password</Text>
+                    <TextInput
+                        style={loginPageStyle.input}
+                        onChangeText={setPassword}
+                        value={password}
+                        placeholder='password'
+                    />
                 </View>
-            </KeyboardAvoidingView>
+
+                <View>
+                    <Button
+                        text="Login"
+                        onPress={handleLoginPress}
+                    />
+                </View>
+                <View>
+                    <Text>{showError ? error : ""}</Text>
+                </View>
+                <Image
+                    source={require('@/images/john-jaquish-x3-bicep-curl-3.jpg')}
+                    style={loginPageStyle.image}
+                />
+            </View>
         </SafeAreaView>
     );
 }

@@ -11,6 +11,7 @@
  * context API was developed to avoid using REDUX and prop drilling
  * REDUX is NOT the best tool for every situation
  *      -> choose the tool that best solves YOUR problem
+ *      -> I cannot rely on contextAPI because I need values independent of React to make roles work
  * state management vs redux vs context API
  * 
  */

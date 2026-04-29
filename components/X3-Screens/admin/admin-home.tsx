@@ -14,40 +14,53 @@ import { deleteDatabase } from '@/database/DeleteDB';
 //db
 import { useSQLiteContext } from 'expo-sqlite';
 
+import { adminHomeStyle } from '@/styles';
+
 const AdminHomeScreen = () => {
     const navigation: any = useNavigation();
 
     const db = useSQLiteContext();
-    
+
     return (
-        <SafeAreaView>
+        <SafeAreaView style={adminHomeStyle.container}>
             <View>
-                <Text>
+                <Text style={adminHomeStyle.banner}>
                     Admin Home
                 </Text>
                 <View>
-                    <Button
-                        text='Register New User'
-                        onPress={() => {
-                            console.log('Registration button pressed');
-                            navigation.navigate('Register');
-                        }}
-                    />
-                    <Button
-                        text='Testing'
-                        onPress={() => {
-                            console.log('Registration button pressed');
-                            navigation.navigate('Testing');
-                        }}
-                    />
-                    <Button
-                        text='Delete Database'
-                        onPress={() => {
-                            console.log('Delete Database Button Pressed');
-                            deleteDatabase(db);
-                        }}
-                    />
-                    <Logout />
+                    <View style={adminHomeStyle.buttonSpacing}>
+                        <Button
+                            text='Register New User'
+                            onPress={() => {
+                                console.log('Registration button pressed');
+                                navigation.navigate('Register');
+                            }}
+                            buttonSideSize={20}
+                        />
+                    </View>
+                    <View  style={adminHomeStyle.buttonSpacing}>
+                        <Button
+                            text='All Users'
+                            onPress={() => {
+                                console.log('All users button pressed');
+                                navigation.navigate('Users');
+                            }}
+                            buttonSideSize={75}
+                        />
+                    </View>
+                    <View  style={adminHomeStyle.buttonSpacing}>
+                        <Button
+                            text='Delete Database'
+                            onPress={() => {
+                                console.log('Delete Database Button Pressed');
+                                deleteDatabase(db);
+                            }}
+                            buttonSideSize={31}
+                        />
+                    </View>
+                    <View  style={adminHomeStyle.buttonSpacing}>
+                        <Logout />
+                    </View>
                 </View>
             </View>
         </SafeAreaView>

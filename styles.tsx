@@ -41,7 +41,7 @@ export const loginPageStyle = StyleSheet.create({
     },
     image: {
         width: 400,
-        height: 430
+        height: 480
     }
 });
 
@@ -316,5 +316,58 @@ export const traineeHomeStyle = StyleSheet.create({
     image: {
         width: 400,
         height: 400
+    }
+});
+
+export const adminHomeStyle = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: "column",
+        backgroundColor: "#fd4a03ef"
+    },
+    banner: {
+        borderColor: 'black',
+        borderWidth: 2,
+        backgroundColor: '#fd7403ef',
+        color: 'black',
+        fontWeight: '900',
+        fontSize: 60,
+        textAlign: 'center',
+        position: 'relative',
+        marginBottom: 50,
+        width: 'auto',
+        height: 200,
+        paddingTop: 50,
+        paddingBottom: 50,
+    },
+    buttonSpacing: {
+        marginBottom: 20
+    }
+});
+
+export const adminViewAllUsersPageStyle = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: "column",
+        backgroundColor: "#fd7403ef"
+    },
+    segmentsText : {
+        fontSize: 20,
+        fontWeight: 'condensedBold',
+        marginRight: 1,
+        marginLeft: 1,
+        paddingLeft: 5,
+        paddingRight: 5,
+    },
+    segementsAlignment: { 
+        flexDirection: "row",
+        justifyContent: 'space-evenly',
+        flexBasis: 'auto',
+        borderWidth: 2,
+        borderColor: 'black',
+        padding: 10
+    },
+    reloadButton: {
+        position: 'sticky'
     }
 });
