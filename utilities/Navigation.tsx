@@ -11,8 +11,11 @@ import workoutListScreen from "@/components/X3-Screens/Trainee/workout-list-scre
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStaticNavigation } from "@react-navigation/native";
 
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 
 const notHideScreens = false;
+
 
 //Authentication step 1 using redux -> create the navigators
 export const AuthStack = createStaticNavigation(
@@ -24,6 +27,10 @@ export const AuthStack = createStaticNavigation(
         options: {
           title: "Login",
           drawerActiveBackgroundColor: 'black',
+          headerLeft: () =>
+              <Ionicons name="barbell-sharp" size={50} color="orange" />
+               
+          , //https://stackoverflow.com/questions/70758201/react-navigation-default-drawer-icon-how-to-change-it})
           drawerLabelStyle: {
             color: "orange",
             fontSize: 20,
@@ -101,9 +108,9 @@ export const TraineeStack = createStaticNavigation(
         screen: WorkoutInfoScreen, //https://reactnavigation.org/docs/nesting-navigators
         options: {
           headerShown: false,
-          drawerItemStyle: {display: 'none'}, //https://stackoverflow.com/questions/60395508/react-navigation-5-hide-drawer-item
+          drawerItemStyle: { display: 'none' }, //https://stackoverflow.com/questions/60395508/react-navigation-5-hide-drawer-item
           title: "Workout Info"
- 
+
         }
       }, //nested
 
@@ -120,7 +127,7 @@ export const TraineeStack = createStaticNavigation(
       drawerActiveTintColor: 'black',
       drawerStyle: {
         backgroundColor: 'orange',
-        width: 200
+        width: 250
       }
     },
   })
@@ -178,7 +185,7 @@ export const AdminStack = createStaticNavigation(
       drawerActiveTintColor: 'black',
       drawerStyle: {
         backgroundColor: 'orange',
-        width: 200
+        width: 250
       }
     },
   })
