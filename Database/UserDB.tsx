@@ -229,8 +229,19 @@ export async function getAllUsers(db: SQLiteDatabase): Promise<iUser[] | null> {
         throw ex; //rethrown out to calling program so it knows it failed
     }
 
-
-
-
-
 }
+
+export function deleteUser(db: SQLiteDatabase, userID: number) {
+    try{
+        const result = db.runSync(
+            `DELETE FROM User
+             WHERE UserID = ?`,
+             [userID]
+        );
+
+        console.log("User Deleted");
+    }catch(ex){
+        throw new Error("UserDB -> Admin -> Failed to delete user -> \n\tReason: " + ex );
+        
+    }
+}   

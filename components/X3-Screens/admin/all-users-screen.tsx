@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, View } from 'react-native';
 
-import User from '@/business/User';
 import { getAllUsers } from '@/database/UserDB';
+import { adminViewAllUsersPageStyle } from '@/styles';
 import { SQLiteDatabase, useSQLiteContext } from 'expo-sqlite';
-import { ScrollView } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-
+import UserSegments from '@/components/user-segments';
+import { iUser } from '@/Interfaces/iUserInterface';
 const allUsersScreen = () => {
 
-    const [userObjArr, setUserObjArr] = useState(Array<User>);
+    const [userObjArr, setUserObjArr] = useState();
 
     useEffect(() => {
         loadUserToArray(db, setUserObjArr); //callback fn p2 alternate
@@ -18,26 +20,34 @@ const allUsersScreen = () => {
     const db = useSQLiteContext();
     return (
         //loading all users
-        <ScrollView>
+        <SafeAreaView style={adminViewAllUsersPageStyle.container}>
             <View>
-                <View>
-                    <Button
+                <Button
                     title="Reload List"
                     onPress={() => {
                         loadUserToArray(db, setUserObjArr); //callback fn p2
                     }}
                     color={"blue"}
-                    
+
                 />
-                </View>
-                <View>
-                    <Text>{userObjArr.map((elem) => (
-                        "\n" + "Username: " + elem.getUsername()
-                       + insertEndSpaces(30, elem.getUsername()) + "Role: " + elem.getRole()
-                    ))}</Text>
-                </View>
             </View>
-        </ScrollView>
+            <FlatList
+                data = {userObjArr}
+                keyExtractor = {(item: any) => item.UserName}
+                
+                renderItem={({item}: {item: iUser}) => ( //dstructuring the item in iUser so the code doesn't think that var item represents ALL of the metadata object provided by the Flatlist, so that I can isolate my user data from it
+                    <UserSegments 
+                        UserName={item.UserName}
+                        UserID={item.UserID}
+                        Role={item.Role}
+                        onPress={() => {
+                            loadUserToArray(db, setUserObjArr);
+                            
+                        }}
+                    />
+                )}
+            />
+        </SafeAreaView>
     )
 }
 
@@ -50,30 +60,23 @@ async function loadUserToArray(db: SQLiteDatabase, func: any) { //1 //callback f
 
     if (usersJSON !== null) {
         for (let i = 0; i < usersJSON.length; i++) {
-            const user = new User();
-
-            user.setUserID(usersJSON[i].UserID);
-            user.setUsername(usersJSON[i].UserName);
-            user.setEmail(usersJSON[i].Email);
-            user.setRole(usersJSON[i].Role);
-
-            tempArr.push(user);
+            tempArr.push(usersJSON[i]);
         }
-        const userObjArr = [...tempArr];
+        const userJSONArr = [...tempArr];
         //callback fn p1
-        func(userObjArr);
+        func(userJSONArr);
     }
 }
 
-function insertEndSpaces(num: number = 0, str: string = "", targetNum: number = 0): string{
-    if(targetNum === 0){
+function insertEndSpaces(num: number = 0, str: string = "", targetNum: number = 0): string {
+    if (targetNum === 0) {
         targetNum = num;
         targetNum = targetNum - (targetNum - str.length);
     }
-    if(num >= targetNum){
+    if (num >= targetNum) {
         num -= 1;
         return " " + insertEndSpaces(num, "", targetNum);
-    }else{
+    } else {
         return "";
     }
 }

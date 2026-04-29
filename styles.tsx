@@ -344,3 +344,22 @@ export const adminHomeStyle = StyleSheet.create({
         marginBottom: 20
     }
 });
+
+export const adminViewAllUsersPageStyle = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: "column",
+        backgroundColor: "#fd7403ef"
+    },
+    segmentsText : {
+        fontSize: 20,
+        fontWeight: 'condensedBold',
+        marginRight: 1,
+        marginLeft: 1,
+        paddingLeft: 5,
+        paddingRight: 5
+    },
+    segementsAlignment: { 
+        flexDirection: "row"
+    }
+});
