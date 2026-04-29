@@ -4,7 +4,7 @@
     "slug": "X3BarAppRA",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./images/john-jaquish-x3-bicep-curl-3.jpg",
     "scheme": "x3barappra",
     "userInterfaceStyle": "automatic",
     "ios": {
@@ -30,10 +30,10 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./images/x3-thumb-2.jpg",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#000000",
           "dark": {
             "backgroundColor": "#000000"
           }
