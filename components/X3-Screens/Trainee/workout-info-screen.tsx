@@ -25,6 +25,7 @@ const WorkoutInfoScreen = ({ route }: any) => {
     const { username } = useSelector((state: RootState) => state.auth);
 
     const { WorkoutSessionID } = route.params;
+    
 
     useEffect(() => {
         console.log("in effect");

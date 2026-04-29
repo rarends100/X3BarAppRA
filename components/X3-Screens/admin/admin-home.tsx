@@ -34,10 +34,10 @@ const AdminHomeScreen = () => {
                         }}
                     />
                     <Button
-                        text='Testing'
+                        text='All Users'
                         onPress={() => {
                             console.log('Registration button pressed');
-                            navigation.navigate('Testing');
+                            navigation.navigate('Users');
                         }}
                     />
                     <Button

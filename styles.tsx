@@ -318,3 +318,14 @@ export const traineeHomeStyle = StyleSheet.create({
         height: 400
     }
 });
+
+const adminHomeStyle = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: "column",
+        backgroundColor: "orange"
+    },
+    banner: {
+
+    }
+});
