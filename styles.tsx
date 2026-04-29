@@ -323,7 +323,7 @@ export const adminHomeStyle = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        backgroundColor: "#fd7403ef"
+        backgroundColor: "#fd4a03ef"
     },
     banner: {
         borderColor: 'black',
@@ -357,9 +357,17 @@ export const adminViewAllUsersPageStyle = StyleSheet.create({
         marginRight: 1,
         marginLeft: 1,
         paddingLeft: 5,
-        paddingRight: 5
+        paddingRight: 5,
     },
     segementsAlignment: { 
-        flexDirection: "row"
+        flexDirection: "row",
+        justifyContent: 'space-evenly',
+        flexBasis: 'auto',
+        borderWidth: 2,
+        borderColor: 'black',
+        padding: 10
+    },
+    reloadButton: {
+        position: 'sticky'
     }
 });

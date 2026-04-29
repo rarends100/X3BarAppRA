@@ -30,9 +30,6 @@ const UserSegments = (props: iUserSegementProps) => {
             <Text style={adminViewAllUsersPageStyle.segmentsText}>
                 {props.UserName} 
             </Text>
-            <Text>
-                {"\t"}
-            </Text>
             <Text style={adminViewAllUsersPageStyle.segmentsText}>
                 {props.Role}
             </Text>
@@ -41,9 +38,11 @@ const UserSegments = (props: iUserSegementProps) => {
                 text={"Delete"}
                 onPress={() => {
                     deleteUser(db, props.UserID); 
-                    props.onPress();
+                    props.onPress(); //Pass callback fn back to nthe allUsersScreen so that other functions outside uersegments scope can be executed
+                    
                 }}
                 fontSize={16}
+                buttonRadius={20}
             />
         </View>
     )

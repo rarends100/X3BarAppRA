@@ -42,7 +42,7 @@ const AdminHomeScreen = () => {
                         <Button
                             text='All Users'
                             onPress={() => {
-                                console.log('Registration button pressed');
+                                console.log('All users button pressed');
                                 navigation.navigate('Users');
                             }}
                             buttonSideSize={75}
