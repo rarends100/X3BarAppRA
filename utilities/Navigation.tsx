@@ -31,6 +31,21 @@ export const AuthStack = createStaticNavigation(
         }
       },
     },
+    screenOptions: { //common styles
+      headerStyle: {
+        backgroundColor: 'black'
+      },
+      headerTintColor: 'orange',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        fontFamily: 'TimeNewRoman',
+      },
+      drawerActiveTintColor: 'black',
+      drawerStyle: {
+        backgroundColor: 'orange',
+        width: 200
+      }
+    },
   })
 );
 
@@ -93,14 +108,24 @@ export const TraineeStack = createStaticNavigation(
       }, //nested
 
     },
+    screenOptions: { //common styles
+      headerStyle: {
+        backgroundColor: 'black'
+      },
+      headerTintColor: 'orange',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        fontFamily: 'TimeNewRoman',
+      },
+      drawerActiveTintColor: 'black',
+      drawerStyle: {
+        backgroundColor: 'orange',
+        width: 200
+      }
+    },
   })
 );
 
-const InfoStack = createDrawerNavigator({
-  screens: {
-    
-  }
-})
 
 export const AdminStack = createStaticNavigation(
   createDrawerNavigator({
@@ -140,6 +165,21 @@ export const AdminStack = createStaticNavigation(
         }
       },
 
+    },
+    screenOptions: { //common styles
+      headerStyle: {
+        backgroundColor: 'black'
+      },
+      headerTintColor: 'orange',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        fontFamily: 'TimeNewRoman',
+      },
+      drawerActiveTintColor: 'black',
+      drawerStyle: {
+        backgroundColor: 'orange',
+        width: 200
+      }
     },
   })
 );
