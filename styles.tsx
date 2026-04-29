@@ -319,13 +319,28 @@ export const traineeHomeStyle = StyleSheet.create({
     }
 });
 
-const adminHomeStyle = StyleSheet.create({
+export const adminHomeStyle = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        backgroundColor: "orange"
+        backgroundColor: "#fd7403ef"
     },
     banner: {
-
+        borderColor: 'black',
+        borderWidth: 2,
+        backgroundColor: '#fd7403ef',
+        color: 'black',
+        fontWeight: '900',
+        fontSize: 60,
+        textAlign: 'center',
+        position: 'relative',
+        marginBottom: 50,
+        width: 'auto',
+        height: 200,
+        paddingTop: 50,
+        paddingBottom: 50,
+    },
+    buttonSpacing: {
+        marginBottom: 20
     }
 });
